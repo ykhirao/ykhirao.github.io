@@ -1,43 +1,60 @@
-# ykhirao.github.io
-
-# Introduction
-
-* [Introduction / https://ykhirao.github.io/](https://ykhirao.github.io/)
-* [Github / ykhirao](https://github.com/ykhirao/)
-* [Qiita / ykhirao](http://qiita.com/ykhirao)
-* [connpass / yk-hirao](https://connpass.com/user/yk-hirao/)
+# Introduction　/　[https://ykhirao.github.io/](https://ykhirao.github.io/)
+2021.11.30 最終更新
 
 ## Who am I
 
-大学・大学院では自然科学・海洋生物学を専攻し生物データの分析などで統計学を日常的に使っていたのでデータが大好き。一研究者として社会へ与える影響力の小ささを考えたときに、ビックデータを扱えることと社会への影響力の大きさを考え、エンジニアとしての人生を志した。プログラミングを始めたのはその頃。
+私がどんな人間か参考になりそうなものを書いてます。
 
-その後紆余曲折を経て、2017年1月からWebエンジニアのアルバイトとして働き、同7月に六本木のベンチャーにJOINして、現在ではフロントエンドからバックエンドまでのミドルウェア中心に開発をして、現在に至る。
+学生時・就職前は以下のような考えでプログラマーを目指し
+
+* 大学・大学院では自然科学・海洋生物学を専攻し生物データの分析などで統計学を日常的に使っていたのでデータが好き
+* 一研究者として社会へ与える影響力が小さいと感じキャリアを考えはじめ、自身でサービスを起こしたりしやすいエンジニアという生き方に興味を持った
+* プログラミングはRubyを使い競プロのソースコードを書くことから始め、Webサービスを本格的に作り始めたのは就職後
+
+エンジニアとしては以下のようにマルチスタックで、課題を解決するために自身の役割変えて常に最適解となるように柔軟に動いてきた
+
+* フロントエンドもバックエンドも自分で書く会社での開発経験が多い。
+* SQLを使った保守管理やSRE/DXチームとしての開発体験の向上の取り組みなども行う。
+* またスクラムマスター・PdMなども経験しており、PMO組織の立ち上げなども経験している。
+
+## 職務経歴
+
+* 2017年01月: Webエンジニアのアルバイトとして、受託案件でPHPを書いたり、python/PaSoRiでFeliCaを利用した出席システムの作成などをする
+* 2017年07月: SaaSのCMSを作成しているベンチャー企業でフロントエンドエンジニアの正社員としてVue.jsやRailsを書く。SaaSを閉じるときに退職
+* 2018年08月: 物流・倉庫のアウトソースベンチャーにジョイン、PHP/LaravelやReactを書く。フリーランスとして解決したい課題・案件ベースでの仕事につくために退職
+* 2020年07月: 広告入札システムの新規開発の引き継ぎ、PHP/Laravelを書く。git・GitHubの導入などSRE作業も含めて一人でリリースし、顧客に納品し退職
+* 2020年11月: スマートロック関連の事業会社でTypeScript/Node.js/Reactなどを書く。開発以外にも組織の立ち上げ等も含めて動くことになり正社員として働く
+* now
 
 ### スキル
 
-* 開発言語：PHP、Python、Ruby、Perl、Ruby
-* フレームワーク：Laravel、FuelPHP、Tornado、jQuery、Rails、Vue.js、、Nuxt.js
-* データベース：MySQL、SQLite3
-* プロジェクト管理：Git(Backlog、Gitlab、GitHub)、Subversion(Backlog)
-* コミュニケーションツール：Slack、Chatwork、Skype
-* サーバ環境：Vagrant + VirtualBox + CentOS、Docker
-* 開発手法：アジャイルなど
-* 開発ジャンル：受託開発（自社内開発）、受託開発（社外常駐）、WEBサイト、自社製品/自社サービス、CMS
-
-現職ではRuby on RailsとVue.jsによるモダンな開発をしているのでMVCやMVVMのアーキテクトの開発はできるのと、Redash/MySQLによるデータの可視化を担当していてデータドリブンで開発をすすめたり、ヘッダーレスブラウザによる統合テストと機能ごとのテストも担当している。
-
-### Contribution Graph
-
-自動更新のGitHubのContributionです。by [Grass-Graph](https://grass-graph.moshimo.works/)
-
-> private <https://github.com/ykhirao>
-
-![ykhirao](https://grass-graph.moshimo.works/images/ykhirao.png)
+* 開発言語: PHP(3年)、TypeScript(2年)、Node.js(2年)、Ruby(1年)、Python(3ヶ月)
+* フレームワーク: Laravel(2年)、React(3年)、Vue.js(3年)、Nuxt.js
+* データベース: MySQL、SQLite3
+* プロジェクト管理: Git(Backlog、Gitlab、GitHub)
+* コミュニケーションツール: Slack、Chatwork
+* 開発環境: Ubuntu(Desktop)、Mac、Docker
+* 開発手法: アジャイル型（スクラムマスター、PdM）
+* 開発ジャンル: WEBサイト、自社サービス、CMS、物流など
 
 ### 興味・関心・志向
 
-また普段どういうコードを書いてアウトプットしているかは [Qiitaへの投稿記事の一覧](https://qiita.com/ykhirao) に載せていて、サーバーレスアーキテクトに関心がある。AWSのStep Functionも触ってみたい。現在(20180303)は18記事、341contributionsでそこそこ真面目に書いている。
+以下のページなどで自分の志向がわかるかと思います。
 
-将来の夢は、OSS活動をやっている人がいて事業内容がわくわくして成長し続けるビジョンを明確に持っているところでのんびり働くこと。謙虚に生きる。技術で尊敬できる人以外にもいろんな人を尊敬できる心でいたい。
+* [Github / ykhirao](https://github.com/ykhirao/)
+    * コントリビュート
+* [Qiita / ykhirao](http://qiita.com/ykhirao)
+    * どういう技術へ興味を持っているか、どんなアウトプットをしているかの確認
+    * 5924コントリビュート（2021.11.30）
+* [connpass / yk-hirao](https://connpass.com/user/yk-hirao/)
+    * どういうインプットをしているか
+* 愛読書
+    * [ハッカーになろう (How To Become A Hacker）](http://cruel.org/freeware/hacker.html)
+    * ハッカーと画家
 
-[ハッカーになろう (How To Become A Hacker）](http://cruel.org/freeware/hacker.html)とかハッカーと画家などに影響されてWeb系の会社に就職。
+### 周りから評価されていること
+
+* 調整・落とし所見つけるのが正確で早い
+* 周りをよく見ていて事業に関する記憶力が異常
+* しゃべる（まとめる）のがうまい、ファシリティ任せられる
+* 雰囲気で伝えてもある程度自分で補完してある一定以上のレベルで出してくる

@@ -9,7 +9,7 @@ const fs = require("fs");
 export default {
   entry: path.join(__dirname, 'src', 'index.tsx'),
   getRoutes: async () => {
-    const { data: qiita } /* :{ data: Post[] } */ = await axios.get(
+    const { data: posts } /* :{ data: Post[] } */ = await axios.get(
       'https://qiita.com/api/v2/users/ykhirao/items?page=1&per_page=100'
     )
     let about;
@@ -20,24 +20,11 @@ export default {
     });
     return [
       {
-        path: '/qiita',
+        path: '/posts',
         getData: () => ({
-          qiita,
+          posts,
         }),
-        children: qiita.map((post /* : Post */) => ({
-          path: `/${post.id}`,
-          template: 'src/containers/QiitaPost',
-          getData: () => ({
-            post,
-          }),
-        })),
-      },
-      {
-        path: '/blog',
-        getData: () => ({
-          qiita,
-        }),
-        children: qiita.map((post /* : Post */) => ({
+        children: posts.map((post /* : Post */) => ({
           path: `/${post.id}`,
           template: 'src/containers/QiitaPost',
           getData: () => ({

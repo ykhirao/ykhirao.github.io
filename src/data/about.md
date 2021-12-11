@@ -1,4 +1,6 @@
-# Introduction　/　[https://ykhirao.github.io/](https://ykhirao.github.io/)
+# Introduction
+
+[ykhirao.github.io](https://github.com/ykhirao/ykhirao.github.io)
 2021.11.30 最終更新
 
 ## Who am I

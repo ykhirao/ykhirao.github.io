@@ -5,16 +5,17 @@ import { Link } from '@reach/router'
 import { QiitaPost } from 'types'
 
 export default () => {
-  const { qiita }: { qiita: QiitaPost[] } = useRouteData()
-
+  const { posts }: { posts: QiitaPost[] } = useRouteData()
+  // console.log(posts)
   return (
     <div>
       <br />
       All Posts:
       <ul>
-        {qiita && qiita.map(post => (
+        {posts && posts.map(post => (
           <li key={post.id}>
-            <Link to={`/qiita/${post.id}/`}>{post.title}</Link>
+            <Link to={`/posts/${post.id}/`}>{post.title}</Link>
+            👍 {post.likes_count}
           </li>
         ))}
       </ul>

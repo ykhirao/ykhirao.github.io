@@ -9,7 +9,7 @@ export default () => {
   // console.log(post)
   return (
     <div>
-      <Link to="/qiita">{'<'} Back</Link>
+      <Link to="/posts">{'<'} Back</Link>
       <br />
       <h3>{post.title}</h3>
       <article

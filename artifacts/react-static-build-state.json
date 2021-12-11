@@ -15,33 +15,33 @@
   "preloadPollInterval": 300,
   "productionSourceMaps": false,
   "silent": false,
-  "entry": "/Users/yk/workspace/skill-mapping-template/src/index.tsx",
+  "entry": "/Users/yk/workspace/ykhirao.github.io/src/index.tsx",
   "plugins": [
     "react-static-plugin-typescript",
     [
-      "/Users/yk/workspace/skill-mapping-template/node_modules/react-static-plugin-source-filesystem/node.api.js",
+      "/Users/yk/workspace/ykhirao.github.io/node_modules/react-static-plugin-source-filesystem/node.api.js",
       {
-        "location": "/Users/yk/workspace/skill-mapping-template/src/pages"
+        "location": "/Users/yk/workspace/ykhirao.github.io/src/pages"
       }
     ],
-    "/Users/yk/workspace/skill-mapping-template/node_modules/react-static-plugin-reach-router/browser.api.js",
-    "/Users/yk/workspace/skill-mapping-template/node_modules/react-static-plugin-sitemap/dist/node.api.js",
-    "/Users/yk/workspace/skill-mapping-template"
+    "/Users/yk/workspace/ykhirao.github.io/node_modules/react-static-plugin-reach-router/browser.api.js",
+    "/Users/yk/workspace/ykhirao.github.io/node_modules/react-static-plugin-sitemap/dist/node.api.js",
+    "/Users/yk/workspace/ykhirao.github.io"
   ],
   "paths": {
-    "ROOT": "/Users/yk/workspace/skill-mapping-template",
-    "SRC": "/Users/yk/workspace/skill-mapping-template/src",
-    "DIST": "/Users/yk/workspace/skill-mapping-template/dist",
-    "ASSETS": "/Users/yk/workspace/skill-mapping-template/dist",
-    "PLUGINS": "/Users/yk/workspace/skill-mapping-template/plugins",
-    "TEMP": "/Users/yk/workspace/skill-mapping-template/tmp",
-    "ARTIFACTS": "/Users/yk/workspace/skill-mapping-template/artifacts",
-    "PUBLIC": "/Users/yk/workspace/skill-mapping-template/public",
-    "NODE_MODULES": "/Users/yk/workspace/skill-mapping-template/node_modules",
-    "EXCLUDE_MODULES": "/Users/yk/workspace/skill-mapping-template/node_modules",
-    "PACKAGE": "/Users/yk/workspace/skill-mapping-template/package.json",
-    "HTML_TEMPLATE": "/Users/yk/workspace/skill-mapping-template/dist/index.html",
-    "STATIC_DATA": "/Users/yk/workspace/skill-mapping-template/dist/staticData"
+    "ROOT": "/Users/yk/workspace/ykhirao.github.io",
+    "SRC": "/Users/yk/workspace/ykhirao.github.io/src",
+    "DIST": "/Users/yk/workspace/ykhirao.github.io/dist",
+    "ASSETS": "/Users/yk/workspace/ykhirao.github.io/dist",
+    "PLUGINS": "/Users/yk/workspace/ykhirao.github.io/plugins",
+    "TEMP": "/Users/yk/workspace/ykhirao.github.io/tmp",
+    "ARTIFACTS": "/Users/yk/workspace/ykhirao.github.io/artifacts",
+    "PUBLIC": "/Users/yk/workspace/ykhirao.github.io/public",
+    "NODE_MODULES": "/Users/yk/workspace/ykhirao.github.io/node_modules",
+    "EXCLUDE_MODULES": "/Users/yk/workspace/ykhirao.github.io/node_modules",
+    "PACKAGE": "/Users/yk/workspace/ykhirao.github.io/package.json",
+    "HTML_TEMPLATE": "/Users/yk/workspace/ykhirao.github.io/dist/index.html",
+    "STATIC_DATA": "/Users/yk/workspace/ykhirao.github.io/dist/staticData"
   },
   "siteRoot": "/",
   "basePath": "",

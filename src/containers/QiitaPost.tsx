@@ -6,7 +6,7 @@ import { QiitaPost } from 'types'
 
 export default () => {
   const { post }: { post: QiitaPost } = useRouteData()
-  console.log(post)
+  // console.log(post)
   return (
     <div>
       <Link to="/qiita">{'<'} Back</Link>

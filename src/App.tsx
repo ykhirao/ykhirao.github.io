@@ -16,7 +16,7 @@ function App() {
       <nav>
         <Link to="/">Home</Link>
         {/* <Link to="/about">About</Link> */}
-        <Link to="/qiita">Qiita</Link>
+        <Link to="/blog">Qiita</Link>
         {/* <Link to="/dynamic">Dynamic</Link> */}
       </nav>
       <div className="content">

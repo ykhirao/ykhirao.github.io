@@ -5,7 +5,7 @@ import remarkGfm from 'remark-gfm'
 
 export default () => {
   const { about }: { about: string } = useRouteData()
-  console.log(about);
+  // console.log(about);
   return (
     <>
       <ReactMarkdown children={about} className={'md-body'} remarkPlugins={[remarkGfm]} />

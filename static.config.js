@@ -15,12 +15,25 @@ export default {
     let about;
     fs.readFile("src/data/about.md", "utf-8", (err, data) => {
       if (err) throw err;
-      console.log(data);
+      // console.log(data);
       about = data;
     });
     return [
       {
         path: '/qiita',
+        getData: () => ({
+          qiita,
+        }),
+        children: qiita.map((post /* : Post */) => ({
+          path: `/${post.id}`,
+          template: 'src/containers/QiitaPost',
+          getData: () => ({
+            post,
+          }),
+        })),
+      },
+      {
+        path: '/blog',
         getData: () => ({
           qiita,
         }),

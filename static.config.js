@@ -9,11 +9,16 @@ const fs = require("fs").promises;
 export default {
   entry: path.join(__dirname, 'src', 'index.tsx'),
   getRoutes: async () => {
-    const posts = getQiitaPosts();
-    const about = getAboutData();
+    const posts = await getQiitaPosts();
+    const about = await getAboutData();
+    const events = await getConnpassEvents();
+    // const events = [];
+    console.log('#################')
+    // console.log(events)
 
     const routes = [];
     if (posts) {
+      console.log('[routes] posts push');
       routes.push({
         path: '/posts',
         getData: () => ({
@@ -29,6 +34,7 @@ export default {
       })
     }
     if (about) {
+      console.log('[routes] about push');
       routes.push({
         path: '/about',
         getData: () => ({
@@ -41,6 +47,15 @@ export default {
           about,
         }),
       })
+    }
+    if (events) {
+      console.log('[routes] events push');
+      routes.push({
+        path: '/events',
+        getData: () => ({
+          events: events.events,
+        }),
+      });
     }
 
     return routes;
@@ -59,13 +74,49 @@ export default {
 }
 
 async function getQiitaPosts() {
-  const { data: posts } /* :{ data: QiitaPost[] } */ = await axios.get(
-      'https://qiita.com/api/v2/users/ykhirao/items?page=1&per_page=100'
+  const cachePath = 'cache.qiita.json';
+  if (await fileExists(cachePath)) {
+    console.log('[getQiitaPosts] GET Cache Data')
+    return JSON.parse((await fs.readFile(cachePath, "utf-8")));
+  }
+  const { data } /* :{ data: QiitaPost[] } */ = await axios.get(
+    'https://qiita.com/api/v2/users/ykhirao/items?page=1&per_page=100'
   )
+  if (process.env.DEBUG === "TRUE") {
+    await fs.writeFile(cachePath, JSON.stringify(data, null, 4), 'utf-8')
+  }
 
-  return posts;
+  return data;
+}
+
+async function getConnpassEvents() {
+  const connpassUsers = 'yk-hirao';
+  const connpassAPI = "https://connpass.com/api/v1/event/?order=2&count=40&nickname=" + connpassUsers + "&owner_nickname=" + connpassUsers
+
+  const cachePath = 'cache.connpass.json';
+  if (await fileExists(cachePath)) {
+    console.log('[getConnpassEvents] GET Cache Data')
+    return JSON.parse((await fs.readFile(cachePath, "utf-8")));
+  }
+
+  console.log('[getConnpassEvents] DEBUG FALSE')
+  const { data } /* :{ data: QiitaPost[] } */ = await axios.get(connpassAPI)
+    .catch(e => {
+      console.log(e);
+      throw new Error(e.message);
+    })
+
+  if (process.env.DEBUG === "TRUE") {
+    await fs.writeFile(cachePath, JSON.stringify(data, null, 4), 'utf-8')
+  }
+  return data;
 }
 
 async function getAboutData() {
   return await fs.readFile("src/data/about.md", "utf-8");
 }
+
+async function fileExists(filepath) {
+  return !!(await fs.lstat(filepath).catch(() => false));
+}
+

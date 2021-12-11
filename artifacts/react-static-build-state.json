@@ -1,0 +1,65 @@
+{
+  "prefetchRate": 5,
+  "maxThreads": null,
+  "disableRoutePrefixing": false,
+  "outputFileRate": 100,
+  "extensions": [
+    ".js",
+    ".jsx",
+    ".ts",
+    ".tsx"
+  ],
+  "minLoadTime": 200,
+  "disablePreload": false,
+  "disableRuntime": false,
+  "preloadPollInterval": 300,
+  "productionSourceMaps": false,
+  "silent": false,
+  "entry": "/Users/yk/workspace/skill-mapping-template/src/index.tsx",
+  "plugins": [
+    "react-static-plugin-typescript",
+    [
+      "/Users/yk/workspace/skill-mapping-template/node_modules/react-static-plugin-source-filesystem/node.api.js",
+      {
+        "location": "/Users/yk/workspace/skill-mapping-template/src/pages"
+      }
+    ],
+    "/Users/yk/workspace/skill-mapping-template/node_modules/react-static-plugin-reach-router/browser.api.js",
+    "/Users/yk/workspace/skill-mapping-template/node_modules/react-static-plugin-sitemap/dist/node.api.js",
+    "/Users/yk/workspace/skill-mapping-template"
+  ],
+  "paths": {
+    "ROOT": "/Users/yk/workspace/skill-mapping-template",
+    "SRC": "/Users/yk/workspace/skill-mapping-template/src",
+    "DIST": "/Users/yk/workspace/skill-mapping-template/dist",
+    "ASSETS": "/Users/yk/workspace/skill-mapping-template/dist",
+    "PLUGINS": "/Users/yk/workspace/skill-mapping-template/plugins",
+    "TEMP": "/Users/yk/workspace/skill-mapping-template/tmp",
+    "ARTIFACTS": "/Users/yk/workspace/skill-mapping-template/artifacts",
+    "PUBLIC": "/Users/yk/workspace/skill-mapping-template/public",
+    "NODE_MODULES": "/Users/yk/workspace/skill-mapping-template/node_modules",
+    "EXCLUDE_MODULES": "/Users/yk/workspace/skill-mapping-template/node_modules",
+    "PACKAGE": "/Users/yk/workspace/skill-mapping-template/package.json",
+    "HTML_TEMPLATE": "/Users/yk/workspace/skill-mapping-template/dist/index.html",
+    "STATIC_DATA": "/Users/yk/workspace/skill-mapping-template/dist/staticData"
+  },
+  "siteRoot": "/",
+  "basePath": "",
+  "publicPath": "/",
+  "assetsPath": "",
+  "extractCssChunks": false,
+  "inlineCss": false,
+  "babelExcludes": [],
+  "devServer": {
+    "host": "localhost",
+    "port": 3000
+  },
+  "terser": {
+    "terserOptions": {
+      "mangle": {},
+      "parse": {},
+      "compress": {},
+      "output": {}
+    }
+  }
+}

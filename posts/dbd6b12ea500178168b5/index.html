@@ -1,0 +1,347 @@
+<!DOCTYPE html><html lang="en"><head><meta name="generator" content="React Static"/><meta charSet="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, shrink-to-fit=no"/><link rel="preload" as="script" href="/templates/styles.eff7551f.js"/><link rel="preload" as="script" href="/templates/vendors~main.572a3c6d.js"/><link rel="preload" as="script" href="/main.aadafa90.js"/><link rel="preload" as="style" href="/styles.7f763494.css"/><link rel="stylesheet" href="/styles.7f763494.css"/></head><body><div id="root"><div style="outline:none" tabindex="-1"><nav><a href="/">Home</a><a href="/posts">Posts</a></nav><div class="content"><div><div style="outline:none" tabindex="-1"><div><a href="/posts">&lt;<!-- --> Back</a><br/><h3>そろそろlockファイルを理解するための最初のページ【composer.lock/package-lock.json】</h3><article class="md-body">
+<h1>
+<span id="lockファイルって邪魔だよねって思っている人いたら校舎裏来てください優しく解説します" class="fragment"></span><a href="#lock%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%81%A3%E3%81%A6%E9%82%AA%E9%AD%94%E3%81%A0%E3%82%88%E3%81%AD%E3%81%A3%E3%81%A6%E6%80%9D%E3%81%A3%E3%81%A6%E3%81%84%E3%82%8B%E4%BA%BA%E3%81%84%E3%81%9F%E3%82%89%E6%A0%A1%E8%88%8E%E8%A3%8F%E6%9D%A5%E3%81%A6%E3%81%8F%E3%81%A0%E3%81%95%E3%81%84%E5%84%AA%E3%81%97%E3%81%8F%E8%A7%A3%E8%AA%AC%E3%81%97%E3%81%BE%E3%81%99"><i class="fa fa-link"></i></a>.lockファイルって邪魔だよね。って思っている人いたら校舎裏来てください。優しく解説します。</h1>
+
+<p>こんにちは！ <a href="/ykhirao" class="user-mention js-hovercard" title="ykhirao" data-hovercard-target-type="user" data-hovercard-target-name="ykhirao">@ykhirao</a> です。最近ジョインさせていただいた案件で <code>composer.lock</code> のバージョンが本番が一番新しくて、ローカルが一番古い素敵な状況を発見しました <img alt=":relaxed:" class="emoji" height="20" src="https://cdn.qiita.com/emoji/twemoji/unicode/263a-fe0f.png" title=":relaxed:" width="20" loading="lazy"></p>
+
+<p>本番環境でSSHして <code>composer update</code> かけたんだなあーー。そっかーーー、バグ起きたらどないすんねん、。。。。。。</p>
+
+<p>というのが私の感想で、実際にnpmパッケージを使ってバグを再現しながら<br>
+ゆっくり解説していこうと思います。どうぞ最後までよろしくお願いします。！！！</p>
+
+<blockquote>
+<p>このQiitaを呼んで得ること</p>
+</blockquote>
+
+<ul>
+<li>あーー、ほんとだ。バグが入る可能性があるんだ！</li>
+<li>lockファイルはちゃんとコミットするね！</li>
+</ul>
+
+<p>というお気持ちになれると思います。</p>
+
+<blockquote>
+<p>このQiitaで解説しないこと</p>
+</blockquote>
+
+<ul>
+<li>詳しい依存関係の解消法</li>
+<li>packageの公開の仕方</li>
+<li>むずかしいはなし</li>
+</ul>
+
+<p>です！</p>
+
+<h2>
+<span id="さて時系列を見てみよう" class="fragment"></span><a href="#%E3%81%95%E3%81%A6%E6%99%82%E7%B3%BB%E5%88%97%E3%82%92%E8%A6%8B%E3%81%A6%E3%81%BF%E3%82%88%E3%81%86"><i class="fa fa-link"></i></a>さて時系列を見てみよう！</h2>
+
+<p>こんな事故が起こる可能性がありますよって話をします。</p>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: center">時系列</th>
+<th style="text-align: center">OSSのmypackage.js</th>
+<th style="text-align: center">ローカル</th>
+<th style="text-align: center">本番サーバー</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center">1日目</td>
+<td style="text-align: center">v1.0.0公開</td>
+<td style="text-align: center">動いている</td>
+<td style="text-align: center">動いている</td>
+</tr>
+<tr>
+<td style="text-align: center">2日目</td>
+<td style="text-align: center"></td>
+<td style="text-align: center">ローカルでmypackage.jsをinstall<br>動作確認OK、明後日本番に適応させる</td>
+<td style="text-align: center"></td>
+</tr>
+<tr>
+<td style="text-align: center">3日目</td>
+<td style="text-align: center">v1.0.1公開 バグあり</td>
+<td style="text-align: center"></td>
+<td style="text-align: center"></td>
+</tr>
+<tr>
+<td style="text-align: center">4日目</td>
+<td style="text-align: center"></td>
+<td style="text-align: center"></td>
+<td style="text-align: center">本番サーバーで新しいコードを反映、install。本番が動かなくなってしまった。ぴえん<br>もちろんソースコードはローカルと同じだし、ローカルで動いていたのになんで…？<img alt=":flushed:" class="emoji" height="20" src="https://cdn.qiita.com/emoji/twemoji/unicode/1f633.png" title=":flushed:" width="20" loading="lazy">
+</td>
+</tr>
+<tr>
+<td style="text-align: center">5日目</td>
+<td style="text-align: center">v1.0.2公開 バグ修正された</td>
+<td style="text-align: center"></td>
+<td style="text-align: center"></td>
+</tr>
+<tr>
+<td style="text-align: center">6日目</td>
+<td style="text-align: center"></td>
+<td style="text-align: center">v1.0.2を適応ローカル確認OK<br> 今度はlockファイルを本番にアップロードする予定！</td>
+<td style="text-align: center"></td>
+</tr>
+<tr>
+<td style="text-align: center">7日目</td>
+<td style="text-align: center"></td>
+<td style="text-align: center"></td>
+<td style="text-align: center">package-lock.jsonを使ってinstallする！今度は動いた！</td>
+</tr>
+</tbody>
+</table>
+
+<h2>
+<span id="npmでパッケージを作りながら説明する" class="fragment"></span><a href="#npm%E3%81%A7%E3%83%91%E3%83%83%E3%82%B1%E3%83%BC%E3%82%B8%E3%82%92%E4%BD%9C%E3%82%8A%E3%81%AA%E3%81%8C%E3%82%89%E8%AA%AC%E6%98%8E%E3%81%99%E3%82%8B"><i class="fa fa-link"></i></a>npmでパッケージを作りながら説明する</h2>
+
+<p>OSSっぽい動作をするpackageフォルダと、ローカル環境と本番環境っぽいフォルダを作る。</p>
+
+<div class="code-frame" data-lang="bash"><div class="highlight"><pre><code>yk@yk ~ % <span class="nb">cd </span>qiita 
+yk@yk qiita % <span class="nb">mkdir </span>package
+yk@yk qiita % <span class="nb">mkdir local
+</span>yk@yk qiita % <span class="nb">mkdir </span>production
+yk@yk qiita % ll
+total 0
+drwxr-xr-x   5 yk  staff   160  7 11 00:34 <span class="nb">.</span>
+drwxr-xr-x+ 83 yk  staff  2656  7 11 00:33 ..
+drwxr-xr-x   2 yk  staff    64  7 11 00:34 <span class="nb">local
+</span>drwxr-xr-x   2 yk  staff    64  7 11 00:34 package
+drwxr-xr-x   2 yk  staff    64  7 11 00:34 production
+</code></pre></div></div>
+
+<div class="code-frame" data-lang="bash"><div class="highlight"><pre><code>yk@yk qiita % <span class="nb">cd </span>package 
+yk@yk package % npm init <span class="nt">-y</span>
+Wrote to /Users/yk/qiita/package/package.json:
+
+<span class="o">{</span>
+  <span class="s2">"name"</span>: <span class="s2">"package"</span>,
+  <span class="s2">"version"</span>: <span class="s2">"1.0.0"</span>,
+  <span class="s2">"description"</span>: <span class="s2">""</span>,
+  <span class="s2">"main"</span>: <span class="s2">"index.js"</span>,
+  <span class="s2">"scripts"</span>: <span class="o">{</span>
+    <span class="s2">"test"</span>: <span class="s2">"echo </span><span class="se">\"</span><span class="s2">Error: no test specified</span><span class="se">\"</span><span class="s2"> &amp;&amp; exit 1"</span>
+  <span class="o">}</span>,
+  <span class="s2">"keywords"</span>: <span class="o">[]</span>,
+  <span class="s2">"author"</span>: <span class="s2">""</span>,
+  <span class="s2">"license"</span>: <span class="s2">"ISC"</span>
+<span class="o">}</span>
+
+
+yk@yk package % vim package.json
+yk@yk package % vim index.js
+yk@yk package % npm publish <span class="nt">--access</span><span class="o">=</span>public
+npm notice created a lockfile as package-lock.json. You should commit this file.
+npm WARN package@1.0.0 No description
+npm WARN package@1.0.0 No repository field.
+
+up to <span class="nb">date </span><span class="k">in </span>0.429s
+found 0 vulnerabilities
+
+/Users/yk/.nodebrew/node/v13.8.0/lib/node_modules/package -&gt; /Users/yk/qiita/package
+
+yk@yk package % <span class="nb">cat </span>index.js 
+const text <span class="o">=</span> <span class="s2">"sample"</span>
+
+module.exports <span class="o">=</span> text<span class="p">;</span>
+</code></pre></div></div>
+
+<p>index.jsにただただ "sample" という文字列を返す動作を記述して、パッケージとして認識させる。 <br>
+<code>@y_hirao/mypackage</code> というパッケージをnpmに公開した。</p>
+
+<p>localフォルダでいろいろゴリゴリしてみる。</p>
+
+<div class="code-frame" data-lang="bash"><div class="highlight"><pre><code>yk@yk <span class="nb">local</span> % npm init <span class="nt">-y</span>
+Wrote to /Users/yk/qiita/local/package.json:
+
+<span class="o">{</span>
+  <span class="s2">"name"</span>: <span class="s2">"local"</span>,
+  <span class="s2">"version"</span>: <span class="s2">"1.0.0"</span>,
+  <span class="s2">"main"</span>: <span class="s2">"index.js"</span>,
+  <span class="s2">"scripts"</span>: <span class="o">{</span>
+    <span class="s2">"test"</span>: <span class="s2">"echo </span><span class="se">\"</span><span class="s2">Error: no test specified</span><span class="se">\"</span><span class="s2"> &amp;&amp; exit 1"</span>
+  <span class="o">}</span>,
+  <span class="s2">"keywords"</span>: <span class="o">[]</span>,
+  <span class="s2">"author"</span>: <span class="s2">""</span>,
+  <span class="s2">"license"</span>: <span class="s2">"ISC"</span>,
+  <span class="s2">"dependencies"</span>: <span class="o">{</span>
+    <span class="s2">"@y_hirao/mypackage"</span>: <span class="s2">"^1.0.0"</span>
+  <span class="o">}</span>,
+  <span class="s2">"devDependencies"</span>: <span class="o">{}</span>,
+  <span class="s2">"description"</span>: <span class="s2">""</span>
+<span class="o">}</span>
+
+
+yk@yk <span class="nb">local</span> % <span class="nb">cat </span>index.js 
+const text <span class="o">=</span> require<span class="o">(</span><span class="s2">"@y_hirao/mypackage"</span><span class="o">)</span><span class="p">;</span>
+console.log<span class="o">(</span>text<span class="o">)</span>
+
+yk@yk <span class="nb">local</span> % node index.js 
+sample
+</code></pre></div></div>
+
+<p>sampleという文字列が返却されました。！！！！！！！！！</p>
+
+<p>このときpackage.jsonを見ると <code>^</code> キャレット指定なのでバージョンアップは <code>1.系</code> は守られるけど残りはすべてアップデートされます。</p>
+
+<div class="code-frame" data-lang="text"><div class="highlight"><pre><code>  "dependencies": {
+    "@y_hirao/mypackage": "^1.0.0"
+  },
+</code></pre></div></div>
+
+<p>さてパッケージの方を更新します。 <code>v1.0.2</code> にしましょう！</p>
+
+<div class="code-frame" data-lang="bash"><div class="highlight"><pre><code>yk@yk package % <span class="nb">cat </span>package.json 
+<span class="o">{</span>
+  <span class="s2">"name"</span>: <span class="s2">"@y_hirao/mypackage"</span>,
+  <span class="s2">"version"</span>: <span class="s2">"1.0.2"</span>,
+  <span class="s2">"description"</span>: <span class="s2">""</span>,
+  <span class="s2">"main"</span>: <span class="s2">"index.js"</span>,
+  <span class="s2">"scripts"</span>: <span class="o">{</span>
+    <span class="s2">"test"</span>: <span class="s2">"echo </span><span class="se">\"</span><span class="s2">Error: no test specified</span><span class="se">\"</span><span class="s2"> &amp;&amp; exit 1"</span>
+  <span class="o">}</span>,
+  <span class="s2">"keywords"</span>: <span class="o">[]</span>,
+  <span class="s2">"author"</span>: <span class="s2">""</span>,
+  <span class="s2">"license"</span>: <span class="s2">"ISC"</span>
+<span class="o">}</span>
+
+yk@yk package % <span class="nb">cat </span>index.js    
+const text <span class="o">=</span> <span class="s2">"sample2"</span>
+throw <span class="s1">'エラーを出したい気分'</span><span class="p">;</span>
+
+module.exports <span class="o">=</span> text<span class="p">;</span>
+yk@yk package % npm publish   
+</code></pre></div></div>
+
+<p>このパッケージをそのまま使うとthrowされます。</p>
+
+<p>さてローカルでinstallしてみましょう！</p>
+
+<div class="code-frame" data-lang="text"><div class="highlight"><pre><code>yk@yk local % npm install
+npm WARN local@1.0.0 No description
+npm WARN local@1.0.0 No repository field.
+
+audited 1 package in 0.411s
+found 0 vulnerabilities
+
+yk@yk
+</code></pre></div></div>
+
+<p>あれ、エラーが起きませんね。<br>
+これは 一度ダウンロードしたパッケージはlockファイルというものでバージョン指定されているので、新しく勝手にバージョンがあがったりしないのです。</p>
+
+<p>さてローカルから本番環境に package.json と index.js をコピーしてnpm installして動かしてみましょう！</p>
+
+<div class="code-frame" data-lang="bash"><div class="highlight"><pre><code>yk@yk production % <span class="nb">cp</span> ../local/package.json package.json
+yk@yk production % <span class="nb">cp</span> ../local/index.js index.js        
+yk@yk production % npm i
+npm notice created a lockfile as package-lock.json. You should commit this file.
+npm WARN <span class="nb">local</span>@1.0.0 No description
+npm WARN <span class="nb">local</span>@1.0.0 No repository field.
+
+added 1 package and audited 1 package <span class="k">in </span>2.811s
+found 0 vulnerabilities
+
+yk@yk production % node index.js 
+
+/Users/yk/qiita/production/node_modules/@y_hirao/mypackage/index.js:2
+throw <span class="s1">'エラーを出したい気分'</span><span class="p">;</span>
+^
+エラーを出したい気分
+<span class="o">(</span>Use <span class="sb">`</span>node <span class="nt">--trace-uncaught</span> ...<span class="sb">`</span> to show where the exception was thrown<span class="o">)</span>
+</code></pre></div></div>
+
+<p>さて、、、本番環境でinstallを走らせるとエラーがおきました。。。。</p>
+
+<p><code>npm install</code> したときに <code>package-lock.json</code> がないと <code>package.json</code> を使って <code>^1.0.0</code> が指定されているので <code>1.系で一番新しいもの</code> つまり今回だとバグが混入している <code>v1.0.2</code> がインストールされたことになります。</p>
+
+<p>lockファイルを見てみましょう。</p>
+
+<div class="code-frame" data-lang="bash"><div class="highlight"><pre><code>yk@yk production % <span class="nb">cat </span>package-lock.json 
+<span class="o">{</span>
+  <span class="s2">"name"</span>: <span class="s2">"local"</span>,
+  <span class="s2">"version"</span>: <span class="s2">"1.0.0"</span>,
+  <span class="s2">"lockfileVersion"</span>: 1,
+  <span class="s2">"requires"</span>: <span class="nb">true</span>,
+  <span class="s2">"dependencies"</span>: <span class="o">{</span>
+    <span class="s2">"@y_hirao/mypackage"</span>: <span class="o">{</span>
+      <span class="s2">"version"</span>: <span class="s2">"1.0.2"</span>,
+      <span class="s2">"resolved"</span>: <span class="s2">"https://registry.npmjs.org/@y_hirao/mypackage/-/mypackage-1.0.2.tgz"</span>,
+      <span class="s2">"integrity"</span>: <span class="s2">"sha512-W2RoQsC1FVnHxximVJMovEvfl/3WNI95EjGxPbMlmyuDZ+0SImS76dOII/0AiP4cVVjXZUbFzaLs9h6l8TrrFQ=="</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>まさしく <code>v1.0.2</code> が指定されていますね！localだともちろん最初に <code>npm install</code> したときに最新だった <code>@y_hirao/mypackage</code> の <code>v1.0.0</code> が使われています。</p>
+
+<div class="code-frame" data-lang="bash"><div class="highlight"><pre><code>yk@yk <span class="nb">local</span> % <span class="nb">cat </span>package-lock.json 
+<span class="o">{</span>
+  <span class="s2">"name"</span>: <span class="s2">"local"</span>,
+  <span class="s2">"version"</span>: <span class="s2">"1.0.0"</span>,
+  <span class="s2">"lockfileVersion"</span>: 1,
+  <span class="s2">"requires"</span>: <span class="nb">true</span>,
+  <span class="s2">"dependencies"</span>: <span class="o">{</span>
+    <span class="s2">"@y_hirao/mypackage"</span>: <span class="o">{</span>
+      <span class="s2">"version"</span>: <span class="s2">"1.0.0"</span>,
+      <span class="s2">"resolved"</span>: <span class="s2">"https://registry.npmjs.org/@y_hirao/mypackage/-/mypackage-1.0.0.tgz"</span>,
+      <span class="s2">"integrity"</span>: <span class="s2">"sha512-auQ5grIpWd0IRkMR3rn6xRjIhGZqBu/Q/g1lDkS5AWakAysrZ3iQAIRngbgBGBAFlPZxQ/LCVYdAW+3VLxeSEw=="</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>更にインストールされているフォルダを確認しても</p>
+
+<div class="code-frame" data-lang="bash"><div class="highlight"><pre><code>yk@yk production % <span class="nb">cat </span>node_modules/@y_hirao/mypackage/index.js
+const text <span class="o">=</span> <span class="s2">"sample2"</span>
+throw <span class="s1">'エラーを出したい気分'</span><span class="p">;</span>
+
+module.exports <span class="o">=</span> text<span class="p">;</span>
+yk@yk production % 
+</code></pre></div></div>
+
+<p>どう見てもエラーが起きそうです。</p>
+
+<p>package-lock.jsonをlocalからコピーしてきましょう。</p>
+
+<div class="code-frame" data-lang="bash"><div class="highlight"><pre><code>yk@yk production % <span class="nb">cp</span> ../local/package-lock.json package-lock.json
+yk@yk production % npm i
+npm WARN <span class="nb">local</span>@1.0.0 No description
+npm WARN <span class="nb">local</span>@1.0.0 No repository field.
+
+updated 1 package and audited 1 package <span class="k">in </span>0.45s
+found 0 vulnerabilities
+
+yk@yk production % <span class="nb">cat </span>node_modules/@y_hirao/mypackage/index.js
+const text <span class="o">=</span> <span class="s2">"sample"</span>
+
+module.exports <span class="o">=</span> text<span class="p">;</span>
+yk@yk production % node index.js 
+sample
+yk@yk production % 
+</code></pre></div></div>
+
+<p>lockファイルを持ってきてインストールするだけで、エラーが起きなくなりました！ <img alt=":clap:" class="emoji" height="20" src="https://cdn.qiita.com/emoji/twemoji/unicode/1f44f.png" title=":clap:" width="20" loading="lazy"><img alt=":clap:" class="emoji" height="20" src="https://cdn.qiita.com/emoji/twemoji/unicode/1f44f.png" title=":clap:" width="20" loading="lazy"><img alt=":clap:" class="emoji" height="20" src="https://cdn.qiita.com/emoji/twemoji/unicode/1f44f.png" title=":clap:" width="20" loading="lazy"><img alt=":clap:" class="emoji" height="20" src="https://cdn.qiita.com/emoji/twemoji/unicode/1f44f.png" title=":clap:" width="20" loading="lazy"><img alt=":clap:" class="emoji" height="20" src="https://cdn.qiita.com/emoji/twemoji/unicode/1f44f.png" title=":clap:" width="20" loading="lazy"> </p>
+
+<h2>
+<span id="まとめ" class="fragment"></span><a href="#%E3%81%BE%E3%81%A8%E3%82%81"><i class="fa fa-link"></i></a>まとめ</h2>
+
+<p>本番環境で lockファイルごと更新する <code>composer update</code> とかlockファイルの存在しない状態での <code>npm install</code> とか、そんなことはやめましょう。ってことを主張したいです！！！！！</p>
+
+<p>ローカルでしっかり確認してlockファイルを作り、それを本番にアップロードして、lockファイルの状態で依存パッケージをインストールしちゃってください。。 <img alt=":pray:" class="emoji" height="20" src="https://cdn.qiita.com/emoji/twemoji/unicode/1f64f.png" title=":pray:" width="20" loading="lazy"> </p>
+
+<p>インストールする時期によって最新のバージョンが使われるので、もしそのバージョンにバグがあるのなら本番死んじゃいますよ。。</p>
+
+<h2>
+<span id="終わりに" class="fragment"></span><a href="#%E7%B5%82%E3%82%8F%E3%82%8A%E3%81%AB"><i class="fa fa-link"></i></a>終わりに</h2>
+
+<p>新しい会社に入って色々根本的に変えたいところがあるので、最近はdevopsの領域をごりごり触らせていただいてます。環境構築、開発フローの策定とかもろもろやらせてもらっているのでかなり楽しいです <img alt=":muscle:" class="emoji" height="20" src="https://cdn.qiita.com/emoji/twemoji/unicode/1f4aa.png" title=":muscle:" width="20" loading="lazy"> </p>
+
+<p>読んでいただきありがとうございました。lockファイル入門したい方、事故りそうな不安があるかたは同僚と一緒に「弊社のパッケージ依存関係の運用どうする…？」と一度話し合ってみてください。</p>
+
+<p>ありがとうございました。</p>
+
+<p>.</p>
+</article></div></div></div></div></div></div><script type="text/javascript">window.__routeInfo = JSON.parse("{\"template\":\"__react_static_root__/src/containers/QiitaPost\",\"sharedHashesByProp\":{},\"data\":{\"post\":{\"rendered_body\":\"\\n<h1>\\n<span id=\\\"lock\u30D5\u30A1\u30A4\u30EB\u3063\u3066\u90AA\u9B54\u3060\u3088\u306D\u3063\u3066\u601D\u3063\u3066\u3044\u308B\u4EBA\u3044\u305F\u3089\u6821\u820E\u88CF\u6765\u3066\u304F\u3060\u3055\u3044\u512A\u3057\u304F\u89E3\u8AAC\u3057\u307E\u3059\\\" class=\\\"fragment\\\"></span><a href=\\\"#lock%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%81%A3%E3%81%A6%E9%82%AA%E9%AD%94%E3%81%A0%E3%82%88%E3%81%AD%E3%81%A3%E3%81%A6%E6%80%9D%E3%81%A3%E3%81%A6%E3%81%84%E3%82%8B%E4%BA%BA%E3%81%84%E3%81%9F%E3%82%89%E6%A0%A1%E8%88%8E%E8%A3%8F%E6%9D%A5%E3%81%A6%E3%81%8F%E3%81%A0%E3%81%95%E3%81%84%E5%84%AA%E3%81%97%E3%81%8F%E8%A7%A3%E8%AA%AC%E3%81%97%E3%81%BE%E3%81%99\\\"><i class=\\\"fa fa-link\\\"></i></a>.lock\u30D5\u30A1\u30A4\u30EB\u3063\u3066\u90AA\u9B54\u3060\u3088\u306D\u3002\u3063\u3066\u601D\u3063\u3066\u3044\u308B\u4EBA\u3044\u305F\u3089\u6821\u820E\u88CF\u6765\u3066\u304F\u3060\u3055\u3044\u3002\u512A\u3057\u304F\u89E3\u8AAC\u3057\u307E\u3059\u3002</h1>\\n\\n<p>\u3053\u3093\u306B\u3061\u306F\uFF01 <a href=\\\"/ykhirao\\\" class=\\\"user-mention js-hovercard\\\" title=\\\"ykhirao\\\" data-hovercard-target-type=\\\"user\\\" data-hovercard-target-name=\\\"ykhirao\\\">@ykhirao</a> \u3067\u3059\u3002\u6700\u8FD1\u30B8\u30E7\u30A4\u30F3\u3055\u305B\u3066\u3044\u305F\u3060\u3044\u305F\u6848\u4EF6\u3067 <code>composer.lock</code> \u306E\u30D0\u30FC\u30B8\u30E7\u30F3\u304C\u672C\u756A\u304C\u4E00\u756A\u65B0\u3057\u304F\u3066\u3001\u30ED\u30FC\u30AB\u30EB\u304C\u4E00\u756A\u53E4\u3044\u7D20\u6575\u306A\u72B6\u6CC1\u3092\u767A\u898B\u3057\u307E\u3057\u305F <img alt=\\\":relaxed:\\\" class=\\\"emoji\\\" height=\\\"20\\\" src=\\\"https://cdn.qiita.com/emoji/twemoji/unicode/263a-fe0f.png\\\" title=\\\":relaxed:\\\" width=\\\"20\\\" loading=\\\"lazy\\\"></p>\\n\\n<p>\u672C\u756A\u74B0\u5883\u3067SSH\u3057\u3066 <code>composer update</code> \u304B\u3051\u305F\u3093\u3060\u306A\u3042\u30FC\u30FC\u3002\u305D\u3063\u304B\u30FC\u30FC\u30FC\u3001\u30D0\u30B0\u8D77\u304D\u305F\u3089\u3069\u306A\u3044\u3059\u3093\u306D\u3093\u3001\u3002\u3002\u3002\u3002\u3002\u3002</p>\\n\\n<p>\u3068\u3044\u3046\u306E\u304C\u79C1\u306E\u611F\u60F3\u3067\u3001\u5B9F\u969B\u306Bnpm\u30D1\u30C3\u30B1\u30FC\u30B8\u3092\u4F7F\u3063\u3066\u30D0\u30B0\u3092\u518D\u73FE\u3057\u306A\u304C\u3089<br>\\n\u3086\u3063\u304F\u308A\u89E3\u8AAC\u3057\u3066\u3044\u3053\u3046\u3068\u601D\u3044\u307E\u3059\u3002\u3069\u3046\u305E\u6700\u5F8C\u307E\u3067\u3088\u308D\u3057\u304F\u304A\u9858\u3044\u3057\u307E\u3059\u3002\uFF01\uFF01\uFF01</p>\\n\\n<blockquote>\\n<p>\u3053\u306EQiita\u3092\u547C\u3093\u3067\u5F97\u308B\u3053\u3068</p>\\n</blockquote>\\n\\n<ul>\\n<li>\u3042\u30FC\u30FC\u3001\u307B\u3093\u3068\u3060\u3002\u30D0\u30B0\u304C\u5165\u308B\u53EF\u80FD\u6027\u304C\u3042\u308B\u3093\u3060\uFF01</li>\\n<li>lock\u30D5\u30A1\u30A4\u30EB\u306F\u3061\u3083\u3093\u3068\u30B3\u30DF\u30C3\u30C8\u3059\u308B\u306D\uFF01</li>\\n</ul>\\n\\n<p>\u3068\u3044\u3046\u304A\u6C17\u6301\u3061\u306B\u306A\u308C\u308B\u3068\u601D\u3044\u307E\u3059\u3002</p>\\n\\n<blockquote>\\n<p>\u3053\u306EQiita\u3067\u89E3\u8AAC\u3057\u306A\u3044\u3053\u3068</p>\\n</blockquote>\\n\\n<ul>\\n<li>\u8A73\u3057\u3044\u4F9D\u5B58\u95A2\u4FC2\u306E\u89E3\u6D88\u6CD5</li>\\n<li>package\u306E\u516C\u958B\u306E\u4ED5\u65B9</li>\\n<li>\u3080\u305A\u304B\u3057\u3044\u306F\u306A\u3057</li>\\n</ul>\\n\\n<p>\u3067\u3059\uFF01</p>\\n\\n<h2>\\n<span id=\\\"\u3055\u3066\u6642\u7CFB\u5217\u3092\u898B\u3066\u307F\u3088\u3046\\\" class=\\\"fragment\\\"></span><a href=\\\"#%E3%81%95%E3%81%A6%E6%99%82%E7%B3%BB%E5%88%97%E3%82%92%E8%A6%8B%E3%81%A6%E3%81%BF%E3%82%88%E3%81%86\\\"><i class=\\\"fa fa-link\\\"></i></a>\u3055\u3066\u6642\u7CFB\u5217\u3092\u898B\u3066\u307F\u3088\u3046\uFF01</h2>\\n\\n<p>\u3053\u3093\u306A\u4E8B\u6545\u304C\u8D77\u3053\u308B\u53EF\u80FD\u6027\u304C\u3042\u308A\u307E\u3059\u3088\u3063\u3066\u8A71\u3092\u3057\u307E\u3059\u3002</p>\\n\\n<table>\\n<thead>\\n<tr>\\n<th style=\\\"text-align: center\\\">\u6642\u7CFB\u5217</th>\\n<th style=\\\"text-align: center\\\">OSS\u306Emypackage.js</th>\\n<th style=\\\"text-align: center\\\">\u30ED\u30FC\u30AB\u30EB</th>\\n<th style=\\\"text-align: center\\\">\u672C\u756A\u30B5\u30FC\u30D0\u30FC</th>\\n</tr>\\n</thead>\\n<tbody>\\n<tr>\\n<td style=\\\"text-align: center\\\">1\u65E5\u76EE</td>\\n<td style=\\\"text-align: center\\\">v1.0.0\u516C\u958B</td>\\n<td style=\\\"text-align: center\\\">\u52D5\u3044\u3066\u3044\u308B</td>\\n<td style=\\\"text-align: center\\\">\u52D5\u3044\u3066\u3044\u308B</td>\\n</tr>\\n<tr>\\n<td style=\\\"text-align: center\\\">2\u65E5\u76EE</td>\\n<td style=\\\"text-align: center\\\"></td>\\n<td style=\\\"text-align: center\\\">\u30ED\u30FC\u30AB\u30EB\u3067mypackage.js\u3092install<br>\u52D5\u4F5C\u78BA\u8A8DOK\u3001\u660E\u5F8C\u65E5\u672C\u756A\u306B\u9069\u5FDC\u3055\u305B\u308B</td>\\n<td style=\\\"text-align: center\\\"></td>\\n</tr>\\n<tr>\\n<td style=\\\"text-align: center\\\">3\u65E5\u76EE</td>\\n<td style=\\\"text-align: center\\\">v1.0.1\u516C\u958B \u30D0\u30B0\u3042\u308A</td>\\n<td style=\\\"text-align: center\\\"></td>\\n<td style=\\\"text-align: center\\\"></td>\\n</tr>\\n<tr>\\n<td style=\\\"text-align: center\\\">4\u65E5\u76EE</td>\\n<td style=\\\"text-align: center\\\"></td>\\n<td style=\\\"text-align: center\\\"></td>\\n<td style=\\\"text-align: center\\\">\u672C\u756A\u30B5\u30FC\u30D0\u30FC\u3067\u65B0\u3057\u3044\u30B3\u30FC\u30C9\u3092\u53CD\u6620\u3001install\u3002\u672C\u756A\u304C\u52D5\u304B\u306A\u304F\u306A\u3063\u3066\u3057\u307E\u3063\u305F\u3002\u3074\u3048\u3093<br>\u3082\u3061\u308D\u3093\u30BD\u30FC\u30B9\u30B3\u30FC\u30C9\u306F\u30ED\u30FC\u30AB\u30EB\u3068\u540C\u3058\u3060\u3057\u3001\u30ED\u30FC\u30AB\u30EB\u3067\u52D5\u3044\u3066\u3044\u305F\u306E\u306B\u306A\u3093\u3067\u2026\uFF1F<img alt=\\\":flushed:\\\" class=\\\"emoji\\\" height=\\\"20\\\" src=\\\"https://cdn.qiita.com/emoji/twemoji/unicode/1f633.png\\\" title=\\\":flushed:\\\" width=\\\"20\\\" loading=\\\"lazy\\\">\\n</td>\\n</tr>\\n<tr>\\n<td style=\\\"text-align: center\\\">5\u65E5\u76EE</td>\\n<td style=\\\"text-align: center\\\">v1.0.2\u516C\u958B \u30D0\u30B0\u4FEE\u6B63\u3055\u308C\u305F</td>\\n<td style=\\\"text-align: center\\\"></td>\\n<td style=\\\"text-align: center\\\"></td>\\n</tr>\\n<tr>\\n<td style=\\\"text-align: center\\\">6\u65E5\u76EE</td>\\n<td style=\\\"text-align: center\\\"></td>\\n<td style=\\\"text-align: center\\\">v1.0.2\u3092\u9069\u5FDC\u30ED\u30FC\u30AB\u30EB\u78BA\u8A8DOK<br> \u4ECA\u5EA6\u306Flock\u30D5\u30A1\u30A4\u30EB\u3092\u672C\u756A\u306B\u30A2\u30C3\u30D7\u30ED\u30FC\u30C9\u3059\u308B\u4E88\u5B9A\uFF01</td>\\n<td style=\\\"text-align: center\\\"></td>\\n</tr>\\n<tr>\\n<td style=\\\"text-align: center\\\">7\u65E5\u76EE</td>\\n<td style=\\\"text-align: center\\\"></td>\\n<td style=\\\"text-align: center\\\"></td>\\n<td style=\\\"text-align: center\\\">package-lock.json\u3092\u4F7F\u3063\u3066install\u3059\u308B\uFF01\u4ECA\u5EA6\u306F\u52D5\u3044\u305F\uFF01</td>\\n</tr>\\n</tbody>\\n</table>\\n\\n<h2>\\n<span id=\\\"npm\u3067\u30D1\u30C3\u30B1\u30FC\u30B8\u3092\u4F5C\u308A\u306A\u304C\u3089\u8AAC\u660E\u3059\u308B\\\" class=\\\"fragment\\\"></span><a href=\\\"#npm%E3%81%A7%E3%83%91%E3%83%83%E3%82%B1%E3%83%BC%E3%82%B8%E3%82%92%E4%BD%9C%E3%82%8A%E3%81%AA%E3%81%8C%E3%82%89%E8%AA%AC%E6%98%8E%E3%81%99%E3%82%8B\\\"><i class=\\\"fa fa-link\\\"></i></a>npm\u3067\u30D1\u30C3\u30B1\u30FC\u30B8\u3092\u4F5C\u308A\u306A\u304C\u3089\u8AAC\u660E\u3059\u308B</h2>\\n\\n<p>OSS\u3063\u307D\u3044\u52D5\u4F5C\u3092\u3059\u308Bpackage\u30D5\u30A9\u30EB\u30C0\u3068\u3001\u30ED\u30FC\u30AB\u30EB\u74B0\u5883\u3068\u672C\u756A\u74B0\u5883\u3063\u307D\u3044\u30D5\u30A9\u30EB\u30C0\u3092\u4F5C\u308B\u3002</p>\\n\\n<div class=\\\"code-frame\\\" data-lang=\\\"bash\\\"><div class=\\\"highlight\\\"><pre><code>yk@yk ~ % <span class=\\\"nb\\\">cd </span>qiita \\nyk@yk qiita % <span class=\\\"nb\\\">mkdir </span>package\\nyk@yk qiita % <span class=\\\"nb\\\">mkdir local\\n</span>yk@yk qiita % <span class=\\\"nb\\\">mkdir </span>production\\nyk@yk qiita % ll\\ntotal 0\\ndrwxr-xr-x   5 yk  staff   160  7 11 00:34 <span class=\\\"nb\\\">.</span>\\ndrwxr-xr-x+ 83 yk  staff  2656  7 11 00:33 ..\\ndrwxr-xr-x   2 yk  staff    64  7 11 00:34 <span class=\\\"nb\\\">local\\n</span>drwxr-xr-x   2 yk  staff    64  7 11 00:34 package\\ndrwxr-xr-x   2 yk  staff    64  7 11 00:34 production\\n</code></pre></div></div>\\n\\n<div class=\\\"code-frame\\\" data-lang=\\\"bash\\\"><div class=\\\"highlight\\\"><pre><code>yk@yk qiita % <span class=\\\"nb\\\">cd </span>package \\nyk@yk package % npm init <span class=\\\"nt\\\">-y</span>\\nWrote to /Users/yk/qiita/package/package.json:\\n\\n<span class=\\\"o\\\">{</span>\\n  <span class=\\\"s2\\\">\\\"name\\\"</span>: <span class=\\\"s2\\\">\\\"package\\\"</span>,\\n  <span class=\\\"s2\\\">\\\"version\\\"</span>: <span class=\\\"s2\\\">\\\"1.0.0\\\"</span>,\\n  <span class=\\\"s2\\\">\\\"description\\\"</span>: <span class=\\\"s2\\\">\\\"\\\"</span>,\\n  <span class=\\\"s2\\\">\\\"main\\\"</span>: <span class=\\\"s2\\\">\\\"index.js\\\"</span>,\\n  <span class=\\\"s2\\\">\\\"scripts\\\"</span>: <span class=\\\"o\\\">{</span>\\n    <span class=\\\"s2\\\">\\\"test\\\"</span>: <span class=\\\"s2\\\">\\\"echo </span><span class=\\\"se\\\">\\\\\\\"</span><span class=\\\"s2\\\">Error: no test specified</span><span class=\\\"se\\\">\\\\\\\"</span><span class=\\\"s2\\\"> &amp;&amp; exit 1\\\"</span>\\n  <span class=\\\"o\\\">}</span>,\\n  <span class=\\\"s2\\\">\\\"keywords\\\"</span>: <span class=\\\"o\\\">[]</span>,\\n  <span class=\\\"s2\\\">\\\"author\\\"</span>: <span class=\\\"s2\\\">\\\"\\\"</span>,\\n  <span class=\\\"s2\\\">\\\"license\\\"</span>: <span class=\\\"s2\\\">\\\"ISC\\\"</span>\\n<span class=\\\"o\\\">}</span>\\n\\n\\nyk@yk package % vim package.json\\nyk@yk package % vim index.js\\nyk@yk package % npm publish <span class=\\\"nt\\\">--access</span><span class=\\\"o\\\">=</span>public\\nnpm notice created a lockfile as package-lock.json. You should commit this file.\\nnpm WARN package@1.0.0 No description\\nnpm WARN package@1.0.0 No repository field.\\n\\nup to <span class=\\\"nb\\\">date </span><span class=\\\"k\\\">in </span>0.429s\\nfound 0 vulnerabilities\\n\\n/Users/yk/.nodebrew/node/v13.8.0/lib/node_modules/package -&gt; /Users/yk/qiita/package\\n\\nyk@yk package % <span class=\\\"nb\\\">cat </span>index.js \\nconst text <span class=\\\"o\\\">=</span> <span class=\\\"s2\\\">\\\"sample\\\"</span>\\n\\nmodule.exports <span class=\\\"o\\\">=</span> text<span class=\\\"p\\\">;</span>\\n</code></pre></div></div>\\n\\n<p>index.js\u306B\u305F\u3060\u305F\u3060 \\\"sample\\\" \u3068\u3044\u3046\u6587\u5B57\u5217\u3092\u8FD4\u3059\u52D5\u4F5C\u3092\u8A18\u8FF0\u3057\u3066\u3001\u30D1\u30C3\u30B1\u30FC\u30B8\u3068\u3057\u3066\u8A8D\u8B58\u3055\u305B\u308B\u3002 <br>\\n<code>@y_hirao/mypackage</code> \u3068\u3044\u3046\u30D1\u30C3\u30B1\u30FC\u30B8\u3092npm\u306B\u516C\u958B\u3057\u305F\u3002</p>\\n\\n<p>local\u30D5\u30A9\u30EB\u30C0\u3067\u3044\u308D\u3044\u308D\u30B4\u30EA\u30B4\u30EA\u3057\u3066\u307F\u308B\u3002</p>\\n\\n<div class=\\\"code-frame\\\" data-lang=\\\"bash\\\"><div class=\\\"highlight\\\"><pre><code>yk@yk <span class=\\\"nb\\\">local</span> % npm init <span class=\\\"nt\\\">-y</span>\\nWrote to /Users/yk/qiita/local/package.json:\\n\\n<span class=\\\"o\\\">{</span>\\n  <span class=\\\"s2\\\">\\\"name\\\"</span>: <span class=\\\"s2\\\">\\\"local\\\"</span>,\\n  <span class=\\\"s2\\\">\\\"version\\\"</span>: <span class=\\\"s2\\\">\\\"1.0.0\\\"</span>,\\n  <span class=\\\"s2\\\">\\\"main\\\"</span>: <span class=\\\"s2\\\">\\\"index.js\\\"</span>,\\n  <span class=\\\"s2\\\">\\\"scripts\\\"</span>: <span class=\\\"o\\\">{</span>\\n    <span class=\\\"s2\\\">\\\"test\\\"</span>: <span class=\\\"s2\\\">\\\"echo </span><span class=\\\"se\\\">\\\\\\\"</span><span class=\\\"s2\\\">Error: no test specified</span><span class=\\\"se\\\">\\\\\\\"</span><span class=\\\"s2\\\"> &amp;&amp; exit 1\\\"</span>\\n  <span class=\\\"o\\\">}</span>,\\n  <span class=\\\"s2\\\">\\\"keywords\\\"</span>: <span class=\\\"o\\\">[]</span>,\\n  <span class=\\\"s2\\\">\\\"author\\\"</span>: <span class=\\\"s2\\\">\\\"\\\"</span>,\\n  <span class=\\\"s2\\\">\\\"license\\\"</span>: <span class=\\\"s2\\\">\\\"ISC\\\"</span>,\\n  <span class=\\\"s2\\\">\\\"dependencies\\\"</span>: <span class=\\\"o\\\">{</span>\\n    <span class=\\\"s2\\\">\\\"@y_hirao/mypackage\\\"</span>: <span class=\\\"s2\\\">\\\"^1.0.0\\\"</span>\\n  <span class=\\\"o\\\">}</span>,\\n  <span class=\\\"s2\\\">\\\"devDependencies\\\"</span>: <span class=\\\"o\\\">{}</span>,\\n  <span class=\\\"s2\\\">\\\"description\\\"</span>: <span class=\\\"s2\\\">\\\"\\\"</span>\\n<span class=\\\"o\\\">}</span>\\n\\n\\nyk@yk <span class=\\\"nb\\\">local</span> % <span class=\\\"nb\\\">cat </span>index.js \\nconst text <span class=\\\"o\\\">=</span> require<span class=\\\"o\\\">(</span><span class=\\\"s2\\\">\\\"@y_hirao/mypackage\\\"</span><span class=\\\"o\\\">)</span><span class=\\\"p\\\">;</span>\\nconsole.log<span class=\\\"o\\\">(</span>text<span class=\\\"o\\\">)</span>\\n\\nyk@yk <span class=\\\"nb\\\">local</span> % node index.js \\nsample\\n</code></pre></div></div>\\n\\n<p>sample\u3068\u3044\u3046\u6587\u5B57\u5217\u304C\u8FD4\u5374\u3055\u308C\u307E\u3057\u305F\u3002\uFF01\uFF01\uFF01\uFF01\uFF01\uFF01\uFF01\uFF01\uFF01</p>\\n\\n<p>\u3053\u306E\u3068\u304Dpackage.json\u3092\u898B\u308B\u3068 <code>^</code> \u30AD\u30E3\u30EC\u30C3\u30C8\u6307\u5B9A\u306A\u306E\u3067\u30D0\u30FC\u30B8\u30E7\u30F3\u30A2\u30C3\u30D7\u306F <code>1.\u7CFB</code> \u306F\u5B88\u3089\u308C\u308B\u3051\u3069\u6B8B\u308A\u306F\u3059\u3079\u3066\u30A2\u30C3\u30D7\u30C7\u30FC\u30C8\u3055\u308C\u307E\u3059\u3002</p>\\n\\n<div class=\\\"code-frame\\\" data-lang=\\\"text\\\"><div class=\\\"highlight\\\"><pre><code>  \\\"dependencies\\\": {\\n    \\\"@y_hirao/mypackage\\\": \\\"^1.0.0\\\"\\n  },\\n</code></pre></div></div>\\n\\n<p>\u3055\u3066\u30D1\u30C3\u30B1\u30FC\u30B8\u306E\u65B9\u3092\u66F4\u65B0\u3057\u307E\u3059\u3002 <code>v1.0.2</code> \u306B\u3057\u307E\u3057\u3087\u3046\uFF01</p>\\n\\n<div class=\\\"code-frame\\\" data-lang=\\\"bash\\\"><div class=\\\"highlight\\\"><pre><code>yk@yk package % <span class=\\\"nb\\\">cat </span>package.json \\n<span class=\\\"o\\\">{</span>\\n  <span class=\\\"s2\\\">\\\"name\\\"</span>: <span class=\\\"s2\\\">\\\"@y_hirao/mypackage\\\"</span>,\\n  <span class=\\\"s2\\\">\\\"version\\\"</span>: <span class=\\\"s2\\\">\\\"1.0.2\\\"</span>,\\n  <span class=\\\"s2\\\">\\\"description\\\"</span>: <span class=\\\"s2\\\">\\\"\\\"</span>,\\n  <span class=\\\"s2\\\">\\\"main\\\"</span>: <span class=\\\"s2\\\">\\\"index.js\\\"</span>,\\n  <span class=\\\"s2\\\">\\\"scripts\\\"</span>: <span class=\\\"o\\\">{</span>\\n    <span class=\\\"s2\\\">\\\"test\\\"</span>: <span class=\\\"s2\\\">\\\"echo </span><span class=\\\"se\\\">\\\\\\\"</span><span class=\\\"s2\\\">Error: no test specified</span><span class=\\\"se\\\">\\\\\\\"</span><span class=\\\"s2\\\"> &amp;&amp; exit 1\\\"</span>\\n  <span class=\\\"o\\\">}</span>,\\n  <span class=\\\"s2\\\">\\\"keywords\\\"</span>: <span class=\\\"o\\\">[]</span>,\\n  <span class=\\\"s2\\\">\\\"author\\\"</span>: <span class=\\\"s2\\\">\\\"\\\"</span>,\\n  <span class=\\\"s2\\\">\\\"license\\\"</span>: <span class=\\\"s2\\\">\\\"ISC\\\"</span>\\n<span class=\\\"o\\\">}</span>\\n\\nyk@yk package % <span class=\\\"nb\\\">cat </span>index.js    \\nconst text <span class=\\\"o\\\">=</span> <span class=\\\"s2\\\">\\\"sample2\\\"</span>\\nthrow <span class=\\\"s1\\\">'\u30A8\u30E9\u30FC\u3092\u51FA\u3057\u305F\u3044\u6C17\u5206'</span><span class=\\\"p\\\">;</span>\\n\\nmodule.exports <span class=\\\"o\\\">=</span> text<span class=\\\"p\\\">;</span>\\nyk@yk package % npm publish   \\n</code></pre></div></div>\\n\\n<p>\u3053\u306E\u30D1\u30C3\u30B1\u30FC\u30B8\u3092\u305D\u306E\u307E\u307E\u4F7F\u3046\u3068throw\u3055\u308C\u307E\u3059\u3002</p>\\n\\n<p>\u3055\u3066\u30ED\u30FC\u30AB\u30EB\u3067install\u3057\u3066\u307F\u307E\u3057\u3087\u3046\uFF01</p>\\n\\n<div class=\\\"code-frame\\\" data-lang=\\\"text\\\"><div class=\\\"highlight\\\"><pre><code>yk@yk local % npm install\\nnpm WARN local@1.0.0 No description\\nnpm WARN local@1.0.0 No repository field.\\n\\naudited 1 package in 0.411s\\nfound 0 vulnerabilities\\n\\nyk@yk\\n</code></pre></div></div>\\n\\n<p>\u3042\u308C\u3001\u30A8\u30E9\u30FC\u304C\u8D77\u304D\u307E\u305B\u3093\u306D\u3002<br>\\n\u3053\u308C\u306F \u4E00\u5EA6\u30C0\u30A6\u30F3\u30ED\u30FC\u30C9\u3057\u305F\u30D1\u30C3\u30B1\u30FC\u30B8\u306Flock\u30D5\u30A1\u30A4\u30EB\u3068\u3044\u3046\u3082\u306E\u3067\u30D0\u30FC\u30B8\u30E7\u30F3\u6307\u5B9A\u3055\u308C\u3066\u3044\u308B\u306E\u3067\u3001\u65B0\u3057\u304F\u52DD\u624B\u306B\u30D0\u30FC\u30B8\u30E7\u30F3\u304C\u3042\u304C\u3063\u305F\u308A\u3057\u306A\u3044\u306E\u3067\u3059\u3002</p>\\n\\n<p>\u3055\u3066\u30ED\u30FC\u30AB\u30EB\u304B\u3089\u672C\u756A\u74B0\u5883\u306B package.json \u3068 index.js \u3092\u30B3\u30D4\u30FC\u3057\u3066npm install\u3057\u3066\u52D5\u304B\u3057\u3066\u307F\u307E\u3057\u3087\u3046\uFF01</p>\\n\\n<div class=\\\"code-frame\\\" data-lang=\\\"bash\\\"><div class=\\\"highlight\\\"><pre><code>yk@yk production % <span class=\\\"nb\\\">cp</span> ../local/package.json package.json\\nyk@yk production % <span class=\\\"nb\\\">cp</span> ../local/index.js index.js        \\nyk@yk production % npm i\\nnpm notice created a lockfile as package-lock.json. You should commit this file.\\nnpm WARN <span class=\\\"nb\\\">local</span>@1.0.0 No description\\nnpm WARN <span class=\\\"nb\\\">local</span>@1.0.0 No repository field.\\n\\nadded 1 package and audited 1 package <span class=\\\"k\\\">in </span>2.811s\\nfound 0 vulnerabilities\\n\\nyk@yk production % node index.js \\n\\n/Users/yk/qiita/production/node_modules/@y_hirao/mypackage/index.js:2\\nthrow <span class=\\\"s1\\\">'\u30A8\u30E9\u30FC\u3092\u51FA\u3057\u305F\u3044\u6C17\u5206'</span><span class=\\\"p\\\">;</span>\\n^\\n\u30A8\u30E9\u30FC\u3092\u51FA\u3057\u305F\u3044\u6C17\u5206\\n<span class=\\\"o\\\">(</span>Use <span class=\\\"sb\\\">`</span>node <span class=\\\"nt\\\">--trace-uncaught</span> ...<span class=\\\"sb\\\">`</span> to show where the exception was thrown<span class=\\\"o\\\">)</span>\\n</code></pre></div></div>\\n\\n<p>\u3055\u3066\u3001\u3001\u3001\u672C\u756A\u74B0\u5883\u3067install\u3092\u8D70\u3089\u305B\u308B\u3068\u30A8\u30E9\u30FC\u304C\u304A\u304D\u307E\u3057\u305F\u3002\u3002\u3002\u3002</p>\\n\\n<p><code>npm install</code> \u3057\u305F\u3068\u304D\u306B <code>package-lock.json</code> \u304C\u306A\u3044\u3068 <code>package.json</code> \u3092\u4F7F\u3063\u3066 <code>^1.0.0</code> \u304C\u6307\u5B9A\u3055\u308C\u3066\u3044\u308B\u306E\u3067 <code>1.\u7CFB\u3067\u4E00\u756A\u65B0\u3057\u3044\u3082\u306E</code> \u3064\u307E\u308A\u4ECA\u56DE\u3060\u3068\u30D0\u30B0\u304C\u6DF7\u5165\u3057\u3066\u3044\u308B <code>v1.0.2</code> \u304C\u30A4\u30F3\u30B9\u30C8\u30FC\u30EB\u3055\u308C\u305F\u3053\u3068\u306B\u306A\u308A\u307E\u3059\u3002</p>\\n\\n<p>lock\u30D5\u30A1\u30A4\u30EB\u3092\u898B\u3066\u307F\u307E\u3057\u3087\u3046\u3002</p>\\n\\n<div class=\\\"code-frame\\\" data-lang=\\\"bash\\\"><div class=\\\"highlight\\\"><pre><code>yk@yk production % <span class=\\\"nb\\\">cat </span>package-lock.json \\n<span class=\\\"o\\\">{</span>\\n  <span class=\\\"s2\\\">\\\"name\\\"</span>: <span class=\\\"s2\\\">\\\"local\\\"</span>,\\n  <span class=\\\"s2\\\">\\\"version\\\"</span>: <span class=\\\"s2\\\">\\\"1.0.0\\\"</span>,\\n  <span class=\\\"s2\\\">\\\"lockfileVersion\\\"</span>: 1,\\n  <span class=\\\"s2\\\">\\\"requires\\\"</span>: <span class=\\\"nb\\\">true</span>,\\n  <span class=\\\"s2\\\">\\\"dependencies\\\"</span>: <span class=\\\"o\\\">{</span>\\n    <span class=\\\"s2\\\">\\\"@y_hirao/mypackage\\\"</span>: <span class=\\\"o\\\">{</span>\\n      <span class=\\\"s2\\\">\\\"version\\\"</span>: <span class=\\\"s2\\\">\\\"1.0.2\\\"</span>,\\n      <span class=\\\"s2\\\">\\\"resolved\\\"</span>: <span class=\\\"s2\\\">\\\"https://registry.npmjs.org/@y_hirao/mypackage/-/mypackage-1.0.2.tgz\\\"</span>,\\n      <span class=\\\"s2\\\">\\\"integrity\\\"</span>: <span class=\\\"s2\\\">\\\"sha512-W2RoQsC1FVnHxximVJMovEvfl/3WNI95EjGxPbMlmyuDZ+0SImS76dOII/0AiP4cVVjXZUbFzaLs9h6l8TrrFQ==\\\"</span>\\n    <span class=\\\"o\\\">}</span>\\n  <span class=\\\"o\\\">}</span>\\n<span class=\\\"o\\\">}</span>\\n</code></pre></div></div>\\n\\n<p>\u307E\u3055\u3057\u304F <code>v1.0.2</code> \u304C\u6307\u5B9A\u3055\u308C\u3066\u3044\u307E\u3059\u306D\uFF01local\u3060\u3068\u3082\u3061\u308D\u3093\u6700\u521D\u306B <code>npm install</code> \u3057\u305F\u3068\u304D\u306B\u6700\u65B0\u3060\u3063\u305F <code>@y_hirao/mypackage</code> \u306E <code>v1.0.0</code> \u304C\u4F7F\u308F\u308C\u3066\u3044\u307E\u3059\u3002</p>\\n\\n<div class=\\\"code-frame\\\" data-lang=\\\"bash\\\"><div class=\\\"highlight\\\"><pre><code>yk@yk <span class=\\\"nb\\\">local</span> % <span class=\\\"nb\\\">cat </span>package-lock.json \\n<span class=\\\"o\\\">{</span>\\n  <span class=\\\"s2\\\">\\\"name\\\"</span>: <span class=\\\"s2\\\">\\\"local\\\"</span>,\\n  <span class=\\\"s2\\\">\\\"version\\\"</span>: <span class=\\\"s2\\\">\\\"1.0.0\\\"</span>,\\n  <span class=\\\"s2\\\">\\\"lockfileVersion\\\"</span>: 1,\\n  <span class=\\\"s2\\\">\\\"requires\\\"</span>: <span class=\\\"nb\\\">true</span>,\\n  <span class=\\\"s2\\\">\\\"dependencies\\\"</span>: <span class=\\\"o\\\">{</span>\\n    <span class=\\\"s2\\\">\\\"@y_hirao/mypackage\\\"</span>: <span class=\\\"o\\\">{</span>\\n      <span class=\\\"s2\\\">\\\"version\\\"</span>: <span class=\\\"s2\\\">\\\"1.0.0\\\"</span>,\\n      <span class=\\\"s2\\\">\\\"resolved\\\"</span>: <span class=\\\"s2\\\">\\\"https://registry.npmjs.org/@y_hirao/mypackage/-/mypackage-1.0.0.tgz\\\"</span>,\\n      <span class=\\\"s2\\\">\\\"integrity\\\"</span>: <span class=\\\"s2\\\">\\\"sha512-auQ5grIpWd0IRkMR3rn6xRjIhGZqBu/Q/g1lDkS5AWakAysrZ3iQAIRngbgBGBAFlPZxQ/LCVYdAW+3VLxeSEw==\\\"</span>\\n    <span class=\\\"o\\\">}</span>\\n  <span class=\\\"o\\\">}</span>\\n<span class=\\\"o\\\">}</span>\\n</code></pre></div></div>\\n\\n<p>\u66F4\u306B\u30A4\u30F3\u30B9\u30C8\u30FC\u30EB\u3055\u308C\u3066\u3044\u308B\u30D5\u30A9\u30EB\u30C0\u3092\u78BA\u8A8D\u3057\u3066\u3082</p>\\n\\n<div class=\\\"code-frame\\\" data-lang=\\\"bash\\\"><div class=\\\"highlight\\\"><pre><code>yk@yk production % <span class=\\\"nb\\\">cat </span>node_modules/@y_hirao/mypackage/index.js\\nconst text <span class=\\\"o\\\">=</span> <span class=\\\"s2\\\">\\\"sample2\\\"</span>\\nthrow <span class=\\\"s1\\\">'\u30A8\u30E9\u30FC\u3092\u51FA\u3057\u305F\u3044\u6C17\u5206'</span><span class=\\\"p\\\">;</span>\\n\\nmodule.exports <span class=\\\"o\\\">=</span> text<span class=\\\"p\\\">;</span>\\nyk@yk production % \\n</code></pre></div></div>\\n\\n<p>\u3069\u3046\u898B\u3066\u3082\u30A8\u30E9\u30FC\u304C\u8D77\u304D\u305D\u3046\u3067\u3059\u3002</p>\\n\\n<p>package-lock.json\u3092local\u304B\u3089\u30B3\u30D4\u30FC\u3057\u3066\u304D\u307E\u3057\u3087\u3046\u3002</p>\\n\\n<div class=\\\"code-frame\\\" data-lang=\\\"bash\\\"><div class=\\\"highlight\\\"><pre><code>yk@yk production % <span class=\\\"nb\\\">cp</span> ../local/package-lock.json package-lock.json\\nyk@yk production % npm i\\nnpm WARN <span class=\\\"nb\\\">local</span>@1.0.0 No description\\nnpm WARN <span class=\\\"nb\\\">local</span>@1.0.0 No repository field.\\n\\nupdated 1 package and audited 1 package <span class=\\\"k\\\">in </span>0.45s\\nfound 0 vulnerabilities\\n\\nyk@yk production % <span class=\\\"nb\\\">cat </span>node_modules/@y_hirao/mypackage/index.js\\nconst text <span class=\\\"o\\\">=</span> <span class=\\\"s2\\\">\\\"sample\\\"</span>\\n\\nmodule.exports <span class=\\\"o\\\">=</span> text<span class=\\\"p\\\">;</span>\\nyk@yk production % node index.js \\nsample\\nyk@yk production % \\n</code></pre></div></div>\\n\\n<p>lock\u30D5\u30A1\u30A4\u30EB\u3092\u6301\u3063\u3066\u304D\u3066\u30A4\u30F3\u30B9\u30C8\u30FC\u30EB\u3059\u308B\u3060\u3051\u3067\u3001\u30A8\u30E9\u30FC\u304C\u8D77\u304D\u306A\u304F\u306A\u308A\u307E\u3057\u305F\uFF01 <img alt=\\\":clap:\\\" class=\\\"emoji\\\" height=\\\"20\\\" src=\\\"https://cdn.qiita.com/emoji/twemoji/unicode/1f44f.png\\\" title=\\\":clap:\\\" width=\\\"20\\\" loading=\\\"lazy\\\"><img alt=\\\":clap:\\\" class=\\\"emoji\\\" height=\\\"20\\\" src=\\\"https://cdn.qiita.com/emoji/twemoji/unicode/1f44f.png\\\" title=\\\":clap:\\\" width=\\\"20\\\" loading=\\\"lazy\\\"><img alt=\\\":clap:\\\" class=\\\"emoji\\\" height=\\\"20\\\" src=\\\"https://cdn.qiita.com/emoji/twemoji/unicode/1f44f.png\\\" title=\\\":clap:\\\" width=\\\"20\\\" loading=\\\"lazy\\\"><img alt=\\\":clap:\\\" class=\\\"emoji\\\" height=\\\"20\\\" src=\\\"https://cdn.qiita.com/emoji/twemoji/unicode/1f44f.png\\\" title=\\\":clap:\\\" width=\\\"20\\\" loading=\\\"lazy\\\"><img alt=\\\":clap:\\\" class=\\\"emoji\\\" height=\\\"20\\\" src=\\\"https://cdn.qiita.com/emoji/twemoji/unicode/1f44f.png\\\" title=\\\":clap:\\\" width=\\\"20\\\" loading=\\\"lazy\\\"> </p>\\n\\n<h2>\\n<span id=\\\"\u307E\u3068\u3081\\\" class=\\\"fragment\\\"></span><a href=\\\"#%E3%81%BE%E3%81%A8%E3%82%81\\\"><i class=\\\"fa fa-link\\\"></i></a>\u307E\u3068\u3081</h2>\\n\\n<p>\u672C\u756A\u74B0\u5883\u3067 lock\u30D5\u30A1\u30A4\u30EB\u3054\u3068\u66F4\u65B0\u3059\u308B <code>composer update</code> \u3068\u304Block\u30D5\u30A1\u30A4\u30EB\u306E\u5B58\u5728\u3057\u306A\u3044\u72B6\u614B\u3067\u306E <code>npm install</code> \u3068\u304B\u3001\u305D\u3093\u306A\u3053\u3068\u306F\u3084\u3081\u307E\u3057\u3087\u3046\u3002\u3063\u3066\u3053\u3068\u3092\u4E3B\u5F35\u3057\u305F\u3044\u3067\u3059\uFF01\uFF01\uFF01\uFF01\uFF01</p>\\n\\n<p>\u30ED\u30FC\u30AB\u30EB\u3067\u3057\u3063\u304B\u308A\u78BA\u8A8D\u3057\u3066lock\u30D5\u30A1\u30A4\u30EB\u3092\u4F5C\u308A\u3001\u305D\u308C\u3092\u672C\u756A\u306B\u30A2\u30C3\u30D7\u30ED\u30FC\u30C9\u3057\u3066\u3001lock\u30D5\u30A1\u30A4\u30EB\u306E\u72B6\u614B\u3067\u4F9D\u5B58\u30D1\u30C3\u30B1\u30FC\u30B8\u3092\u30A4\u30F3\u30B9\u30C8\u30FC\u30EB\u3057\u3061\u3083\u3063\u3066\u304F\u3060\u3055\u3044\u3002\u3002 <img alt=\\\":pray:\\\" class=\\\"emoji\\\" height=\\\"20\\\" src=\\\"https://cdn.qiita.com/emoji/twemoji/unicode/1f64f.png\\\" title=\\\":pray:\\\" width=\\\"20\\\" loading=\\\"lazy\\\"> </p>\\n\\n<p>\u30A4\u30F3\u30B9\u30C8\u30FC\u30EB\u3059\u308B\u6642\u671F\u306B\u3088\u3063\u3066\u6700\u65B0\u306E\u30D0\u30FC\u30B8\u30E7\u30F3\u304C\u4F7F\u308F\u308C\u308B\u306E\u3067\u3001\u3082\u3057\u305D\u306E\u30D0\u30FC\u30B8\u30E7\u30F3\u306B\u30D0\u30B0\u304C\u3042\u308B\u306E\u306A\u3089\u672C\u756A\u6B7B\u3093\u3058\u3083\u3044\u307E\u3059\u3088\u3002\u3002</p>\\n\\n<h2>\\n<span id=\\\"\u7D42\u308F\u308A\u306B\\\" class=\\\"fragment\\\"></span><a href=\\\"#%E7%B5%82%E3%82%8F%E3%82%8A%E3%81%AB\\\"><i class=\\\"fa fa-link\\\"></i></a>\u7D42\u308F\u308A\u306B</h2>\\n\\n<p>\u65B0\u3057\u3044\u4F1A\u793E\u306B\u5165\u3063\u3066\u8272\u3005\u6839\u672C\u7684\u306B\u5909\u3048\u305F\u3044\u3068\u3053\u308D\u304C\u3042\u308B\u306E\u3067\u3001\u6700\u8FD1\u306Fdevops\u306E\u9818\u57DF\u3092\u3054\u308A\u3054\u308A\u89E6\u3089\u305B\u3066\u3044\u305F\u3060\u3044\u3066\u307E\u3059\u3002\u74B0\u5883\u69CB\u7BC9\u3001\u958B\u767A\u30D5\u30ED\u30FC\u306E\u7B56\u5B9A\u3068\u304B\u3082\u308D\u3082\u308D\u3084\u3089\u305B\u3066\u3082\u3089\u3063\u3066\u3044\u308B\u306E\u3067\u304B\u306A\u308A\u697D\u3057\u3044\u3067\u3059 <img alt=\\\":muscle:\\\" class=\\\"emoji\\\" height=\\\"20\\\" src=\\\"https://cdn.qiita.com/emoji/twemoji/unicode/1f4aa.png\\\" title=\\\":muscle:\\\" width=\\\"20\\\" loading=\\\"lazy\\\"> </p>\\n\\n<p>\u8AAD\u3093\u3067\u3044\u305F\u3060\u304D\u3042\u308A\u304C\u3068\u3046\u3054\u3056\u3044\u307E\u3057\u305F\u3002lock\u30D5\u30A1\u30A4\u30EB\u5165\u9580\u3057\u305F\u3044\u65B9\u3001\u4E8B\u6545\u308A\u305D\u3046\u306A\u4E0D\u5B89\u304C\u3042\u308B\u304B\u305F\u306F\u540C\u50DA\u3068\u4E00\u7DD2\u306B\u300C\u5F0A\u793E\u306E\u30D1\u30C3\u30B1\u30FC\u30B8\u4F9D\u5B58\u95A2\u4FC2\u306E\u904B\u7528\u3069\u3046\u3059\u308B\u2026\uFF1F\u300D\u3068\u4E00\u5EA6\u8A71\u3057\u5408\u3063\u3066\u307F\u3066\u304F\u3060\u3055\u3044\u3002</p>\\n\\n<p>\u3042\u308A\u304C\u3068\u3046\u3054\u3056\u3044\u307E\u3057\u305F\u3002</p>\\n\\n<p>.</p>\\n\",\"body\":\"# .lock\u30D5\u30A1\u30A4\u30EB\u3063\u3066\u90AA\u9B54\u3060\u3088\u306D\u3002\u3063\u3066\u601D\u3063\u3066\u3044\u308B\u4EBA\u3044\u305F\u3089\u6821\u820E\u88CF\u6765\u3066\u304F\u3060\u3055\u3044\u3002\u512A\u3057\u304F\u89E3\u8AAC\u3057\u307E\u3059\u3002\\n\\n\u3053\u3093\u306B\u3061\u306F\uFF01 @ykhirao \u3067\u3059\u3002\u6700\u8FD1\u30B8\u30E7\u30A4\u30F3\u3055\u305B\u3066\u3044\u305F\u3060\u3044\u305F\u6848\u4EF6\u3067 `composer.lock` \u306E\u30D0\u30FC\u30B8\u30E7\u30F3\u304C\u672C\u756A\u304C\u4E00\u756A\u65B0\u3057\u304F\u3066\u3001\u30ED\u30FC\u30AB\u30EB\u304C\u4E00\u756A\u53E4\u3044\u7D20\u6575\u306A\u72B6\u6CC1\u3092\u767A\u898B\u3057\u307E\u3057\u305F :relaxed:\\n\\n\u672C\u756A\u74B0\u5883\u3067SSH\u3057\u3066 `composer update` \u304B\u3051\u305F\u3093\u3060\u306A\u3042\u30FC\u30FC\u3002\u305D\u3063\u304B\u30FC\u30FC\u30FC\u3001\u30D0\u30B0\u8D77\u304D\u305F\u3089\u3069\u306A\u3044\u3059\u3093\u306D\u3093\u3001\u3002\u3002\u3002\u3002\u3002\u3002\\n\\n\u3068\u3044\u3046\u306E\u304C\u79C1\u306E\u611F\u60F3\u3067\u3001\u5B9F\u969B\u306Bnpm\u30D1\u30C3\u30B1\u30FC\u30B8\u3092\u4F7F\u3063\u3066\u30D0\u30B0\u3092\u518D\u73FE\u3057\u306A\u304C\u3089\\n\u3086\u3063\u304F\u308A\u89E3\u8AAC\u3057\u3066\u3044\u3053\u3046\u3068\u601D\u3044\u307E\u3059\u3002\u3069\u3046\u305E\u6700\u5F8C\u307E\u3067\u3088\u308D\u3057\u304F\u304A\u9858\u3044\u3057\u307E\u3059\u3002\uFF01\uFF01\uFF01\\n\\n> \u3053\u306EQiita\u3092\u547C\u3093\u3067\u5F97\u308B\u3053\u3068\\n\\n- \u3042\u30FC\u30FC\u3001\u307B\u3093\u3068\u3060\u3002\u30D0\u30B0\u304C\u5165\u308B\u53EF\u80FD\u6027\u304C\u3042\u308B\u3093\u3060\uFF01\\n- lock\u30D5\u30A1\u30A4\u30EB\u306F\u3061\u3083\u3093\u3068\u30B3\u30DF\u30C3\u30C8\u3059\u308B\u306D\uFF01\\n\\n\u3068\u3044\u3046\u304A\u6C17\u6301\u3061\u306B\u306A\u308C\u308B\u3068\u601D\u3044\u307E\u3059\u3002\\n\\n> \u3053\u306EQiita\u3067\u89E3\u8AAC\u3057\u306A\u3044\u3053\u3068\\n\\n- \u8A73\u3057\u3044\u4F9D\u5B58\u95A2\u4FC2\u306E\u89E3\u6D88\u6CD5\\n- package\u306E\u516C\u958B\u306E\u4ED5\u65B9\\n- \u3080\u305A\u304B\u3057\u3044\u306F\u306A\u3057\\n\\n\u3067\u3059\uFF01\\n\\n## \u3055\u3066\u6642\u7CFB\u5217\u3092\u898B\u3066\u307F\u3088\u3046\uFF01\\n\\n\u3053\u3093\u306A\u4E8B\u6545\u304C\u8D77\u3053\u308B\u53EF\u80FD\u6027\u304C\u3042\u308A\u307E\u3059\u3088\u3063\u3066\u8A71\u3092\u3057\u307E\u3059\u3002\\n\\n\u6642\u7CFB\u5217 | OSS\u306Emypackage.js| \u30ED\u30FC\u30AB\u30EB | \u672C\u756A\u30B5\u30FC\u30D0\u30FC\\n:---:|:---:|:---:|:---:\\n 1\u65E5\u76EE | v1.0.0\u516C\u958B | \u52D5\u3044\u3066\u3044\u308B | \u52D5\u3044\u3066\u3044\u308B\\n 2\u65E5\u76EE |  | \u30ED\u30FC\u30AB\u30EB\u3067mypackage.js\u3092install<br>\u52D5\u4F5C\u78BA\u8A8DOK\u3001\u660E\u5F8C\u65E5\u672C\u756A\u306B\u9069\u5FDC\u3055\u305B\u308B | \\n 3\u65E5\u76EE | v1.0.1\u516C\u958B \u30D0\u30B0\u3042\u308A |  | \\n 4\u65E5\u76EE |  |  | \u672C\u756A\u30B5\u30FC\u30D0\u30FC\u3067\u65B0\u3057\u3044\u30B3\u30FC\u30C9\u3092\u53CD\u6620\u3001install\u3002\u672C\u756A\u304C\u52D5\u304B\u306A\u304F\u306A\u3063\u3066\u3057\u307E\u3063\u305F\u3002\u3074\u3048\u3093<br>\u3082\u3061\u308D\u3093\u30BD\u30FC\u30B9\u30B3\u30FC\u30C9\u306F\u30ED\u30FC\u30AB\u30EB\u3068\u540C\u3058\u3060\u3057\u3001\u30ED\u30FC\u30AB\u30EB\u3067\u52D5\u3044\u3066\u3044\u305F\u306E\u306B\u306A\u3093\u3067\u2026\uFF1F:flushed:\\n 5\u65E5\u76EE | v1.0.2\u516C\u958B \u30D0\u30B0\u4FEE\u6B63\u3055\u308C\u305F |  | \\n 6\u65E5\u76EE | | v1.0.2\u3092\u9069\u5FDC\u30ED\u30FC\u30AB\u30EB\u78BA\u8A8DOK<br> \u4ECA\u5EA6\u306Flock\u30D5\u30A1\u30A4\u30EB\u3092\u672C\u756A\u306B\u30A2\u30C3\u30D7\u30ED\u30FC\u30C9\u3059\u308B\u4E88\u5B9A\uFF01 | \\n 7\u65E5\u76EE | |  | package-lock.json\u3092\u4F7F\u3063\u3066install\u3059\u308B\uFF01\u4ECA\u5EA6\u306F\u52D5\u3044\u305F\uFF01\\n\\n## npm\u3067\u30D1\u30C3\u30B1\u30FC\u30B8\u3092\u4F5C\u308A\u306A\u304C\u3089\u8AAC\u660E\u3059\u308B\\n\\nOSS\u3063\u307D\u3044\u52D5\u4F5C\u3092\u3059\u308Bpackage\u30D5\u30A9\u30EB\u30C0\u3068\u3001\u30ED\u30FC\u30AB\u30EB\u74B0\u5883\u3068\u672C\u756A\u74B0\u5883\u3063\u307D\u3044\u30D5\u30A9\u30EB\u30C0\u3092\u4F5C\u308B\u3002\\n\\n```bash\\nyk@yk ~ % cd qiita \\nyk@yk qiita % mkdir package\\nyk@yk qiita % mkdir local\\nyk@yk qiita % mkdir production\\nyk@yk qiita % ll\\ntotal 0\\ndrwxr-xr-x   5 yk  staff   160  7 11 00:34 .\\ndrwxr-xr-x+ 83 yk  staff  2656  7 11 00:33 ..\\ndrwxr-xr-x   2 yk  staff    64  7 11 00:34 local\\ndrwxr-xr-x   2 yk  staff    64  7 11 00:34 package\\ndrwxr-xr-x   2 yk  staff    64  7 11 00:34 production\\n```\\n\\n\\n\\n```bash\\nyk@yk qiita % cd package \\nyk@yk package % npm init -y\\nWrote to /Users/yk/qiita/package/package.json:\\n\\n{\\n  \\\"name\\\": \\\"package\\\",\\n  \\\"version\\\": \\\"1.0.0\\\",\\n  \\\"description\\\": \\\"\\\",\\n  \\\"main\\\": \\\"index.js\\\",\\n  \\\"scripts\\\": {\\n    \\\"test\\\": \\\"echo \\\\\\\"Error: no test specified\\\\\\\" && exit 1\\\"\\n  },\\n  \\\"keywords\\\": [],\\n  \\\"author\\\": \\\"\\\",\\n  \\\"license\\\": \\\"ISC\\\"\\n}\\n\\n\\nyk@yk package % vim package.json\\nyk@yk package % vim index.js\\nyk@yk package % npm publish --access=public\\nnpm notice created a lockfile as package-lock.json. You should commit this file.\\nnpm WARN package@1.0.0 No description\\nnpm WARN package@1.0.0 No repository field.\\n\\nup to date in 0.429s\\nfound 0 vulnerabilities\\n\\n/Users/yk/.nodebrew/node/v13.8.0/lib/node_modules/package -> /Users/yk/qiita/package\\n\\nyk@yk package % cat index.js \\nconst text = \\\"sample\\\"\\n\\nmodule.exports = text;\\n```\\n\\nindex.js\u306B\u305F\u3060\u305F\u3060 \\\"sample\\\" \u3068\u3044\u3046\u6587\u5B57\u5217\u3092\u8FD4\u3059\u52D5\u4F5C\u3092\u8A18\u8FF0\u3057\u3066\u3001\u30D1\u30C3\u30B1\u30FC\u30B8\u3068\u3057\u3066\u8A8D\u8B58\u3055\u305B\u308B\u3002 \\n`@y_hirao/mypackage` \u3068\u3044\u3046\u30D1\u30C3\u30B1\u30FC\u30B8\u3092npm\u306B\u516C\u958B\u3057\u305F\u3002\\n\\n\\nlocal\u30D5\u30A9\u30EB\u30C0\u3067\u3044\u308D\u3044\u308D\u30B4\u30EA\u30B4\u30EA\u3057\u3066\u307F\u308B\u3002\\n\\n```bash\\nyk@yk local % npm init -y\\nWrote to /Users/yk/qiita/local/package.json:\\n\\n{\\n  \\\"name\\\": \\\"local\\\",\\n  \\\"version\\\": \\\"1.0.0\\\",\\n  \\\"main\\\": \\\"index.js\\\",\\n  \\\"scripts\\\": {\\n    \\\"test\\\": \\\"echo \\\\\\\"Error: no test specified\\\\\\\" && exit 1\\\"\\n  },\\n  \\\"keywords\\\": [],\\n  \\\"author\\\": \\\"\\\",\\n  \\\"license\\\": \\\"ISC\\\",\\n  \\\"dependencies\\\": {\\n    \\\"@y_hirao/mypackage\\\": \\\"^1.0.0\\\"\\n  },\\n  \\\"devDependencies\\\": {},\\n  \\\"description\\\": \\\"\\\"\\n}\\n\\n\\nyk@yk local % cat index.js \\nconst text = require(\\\"@y_hirao/mypackage\\\");\\nconsole.log(text)\\n\\nyk@yk local % node index.js \\nsample\\n```\\n\\nsample\u3068\u3044\u3046\u6587\u5B57\u5217\u304C\u8FD4\u5374\u3055\u308C\u307E\u3057\u305F\u3002\uFF01\uFF01\uFF01\uFF01\uFF01\uFF01\uFF01\uFF01\uFF01\\n\\n\u3053\u306E\u3068\u304Dpackage.json\u3092\u898B\u308B\u3068 `^` \u30AD\u30E3\u30EC\u30C3\u30C8\u6307\u5B9A\u306A\u306E\u3067\u30D0\u30FC\u30B8\u30E7\u30F3\u30A2\u30C3\u30D7\u306F `1.\u7CFB` \u306F\u5B88\u3089\u308C\u308B\u3051\u3069\u6B8B\u308A\u306F\u3059\u3079\u3066\u30A2\u30C3\u30D7\u30C7\u30FC\u30C8\u3055\u308C\u307E\u3059\u3002\\n\\n```\\n  \\\"dependencies\\\": {\\n    \\\"@y_hirao/mypackage\\\": \\\"^1.0.0\\\"\\n  },\\n```\\n\\n\u3055\u3066\u30D1\u30C3\u30B1\u30FC\u30B8\u306E\u65B9\u3092\u66F4\u65B0\u3057\u307E\u3059\u3002 `v1.0.2` \u306B\u3057\u307E\u3057\u3087\u3046\uFF01\\n\\n```bash\\nyk@yk package % cat package.json \\n{\\n  \\\"name\\\": \\\"@y_hirao/mypackage\\\",\\n  \\\"version\\\": \\\"1.0.2\\\",\\n  \\\"description\\\": \\\"\\\",\\n  \\\"main\\\": \\\"index.js\\\",\\n  \\\"scripts\\\": {\\n    \\\"test\\\": \\\"echo \\\\\\\"Error: no test specified\\\\\\\" && exit 1\\\"\\n  },\\n  \\\"keywords\\\": [],\\n  \\\"author\\\": \\\"\\\",\\n  \\\"license\\\": \\\"ISC\\\"\\n}\\n\\nyk@yk package % cat index.js    \\nconst text = \\\"sample2\\\"\\nthrow '\u30A8\u30E9\u30FC\u3092\u51FA\u3057\u305F\u3044\u6C17\u5206';\\n\\nmodule.exports = text;\\nyk@yk package % npm publish   \\n```\\n\\n\u3053\u306E\u30D1\u30C3\u30B1\u30FC\u30B8\u3092\u305D\u306E\u307E\u307E\u4F7F\u3046\u3068throw\u3055\u308C\u307E\u3059\u3002\\n\\n\u3055\u3066\u30ED\u30FC\u30AB\u30EB\u3067install\u3057\u3066\u307F\u307E\u3057\u3087\u3046\uFF01\\n\\n```\\nyk@yk local % npm install\\nnpm WARN local@1.0.0 No description\\nnpm WARN local@1.0.0 No repository field.\\n\\naudited 1 package in 0.411s\\nfound 0 vulnerabilities\\n\\nyk@yk\\n```\\n\\n\u3042\u308C\u3001\u30A8\u30E9\u30FC\u304C\u8D77\u304D\u307E\u305B\u3093\u306D\u3002\\n\u3053\u308C\u306F \u4E00\u5EA6\u30C0\u30A6\u30F3\u30ED\u30FC\u30C9\u3057\u305F\u30D1\u30C3\u30B1\u30FC\u30B8\u306Flock\u30D5\u30A1\u30A4\u30EB\u3068\u3044\u3046\u3082\u306E\u3067\u30D0\u30FC\u30B8\u30E7\u30F3\u6307\u5B9A\u3055\u308C\u3066\u3044\u308B\u306E\u3067\u3001\u65B0\u3057\u304F\u52DD\u624B\u306B\u30D0\u30FC\u30B8\u30E7\u30F3\u304C\u3042\u304C\u3063\u305F\u308A\u3057\u306A\u3044\u306E\u3067\u3059\u3002\\n\\n\u3055\u3066\u30ED\u30FC\u30AB\u30EB\u304B\u3089\u672C\u756A\u74B0\u5883\u306B package.json \u3068 index.js \u3092\u30B3\u30D4\u30FC\u3057\u3066npm install\u3057\u3066\u52D5\u304B\u3057\u3066\u307F\u307E\u3057\u3087\u3046\uFF01\\n\\n```bash\\nyk@yk production % cp ../local/package.json package.json\\nyk@yk production % cp ../local/index.js index.js        \\nyk@yk production % npm i\\nnpm notice created a lockfile as package-lock.json. You should commit this file.\\nnpm WARN local@1.0.0 No description\\nnpm WARN local@1.0.0 No repository field.\\n\\nadded 1 package and audited 1 package in 2.811s\\nfound 0 vulnerabilities\\n\\nyk@yk production % node index.js \\n\\n/Users/yk/qiita/production/node_modules/@y_hirao/mypackage/index.js:2\\nthrow '\u30A8\u30E9\u30FC\u3092\u51FA\u3057\u305F\u3044\u6C17\u5206';\\n^\\n\u30A8\u30E9\u30FC\u3092\u51FA\u3057\u305F\u3044\u6C17\u5206\\n(Use `node --trace-uncaught ...` to show where the exception was thrown)\\n```\\n\\n\u3055\u3066\u3001\u3001\u3001\u672C\u756A\u74B0\u5883\u3067install\u3092\u8D70\u3089\u305B\u308B\u3068\u30A8\u30E9\u30FC\u304C\u304A\u304D\u307E\u3057\u305F\u3002\u3002\u3002\u3002\\n\\n`npm install` \u3057\u305F\u3068\u304D\u306B `package-lock.json` \u304C\u306A\u3044\u3068 `package.json` \u3092\u4F7F\u3063\u3066 `^1.0.0` \u304C\u6307\u5B9A\u3055\u308C\u3066\u3044\u308B\u306E\u3067 `1.\u7CFB\u3067\u4E00\u756A\u65B0\u3057\u3044\u3082\u306E` \u3064\u307E\u308A\u4ECA\u56DE\u3060\u3068\u30D0\u30B0\u304C\u6DF7\u5165\u3057\u3066\u3044\u308B `v1.0.2` \u304C\u30A4\u30F3\u30B9\u30C8\u30FC\u30EB\u3055\u308C\u305F\u3053\u3068\u306B\u306A\u308A\u307E\u3059\u3002\\n\\nlock\u30D5\u30A1\u30A4\u30EB\u3092\u898B\u3066\u307F\u307E\u3057\u3087\u3046\u3002\\n\\n```bash\\nyk@yk production % cat package-lock.json \\n{\\n  \\\"name\\\": \\\"local\\\",\\n  \\\"version\\\": \\\"1.0.0\\\",\\n  \\\"lockfileVersion\\\": 1,\\n  \\\"requires\\\": true,\\n  \\\"dependencies\\\": {\\n    \\\"@y_hirao/mypackage\\\": {\\n      \\\"version\\\": \\\"1.0.2\\\",\\n      \\\"resolved\\\": \\\"https://registry.npmjs.org/@y_hirao/mypackage/-/mypackage-1.0.2.tgz\\\",\\n      \\\"integrity\\\": \\\"sha512-W2RoQsC1FVnHxximVJMovEvfl/3WNI95EjGxPbMlmyuDZ+0SImS76dOII/0AiP4cVVjXZUbFzaLs9h6l8TrrFQ==\\\"\\n    }\\n  }\\n}\\n```\\n\\n\u307E\u3055\u3057\u304F `v1.0.2` \u304C\u6307\u5B9A\u3055\u308C\u3066\u3044\u307E\u3059\u306D\uFF01local\u3060\u3068\u3082\u3061\u308D\u3093\u6700\u521D\u306B `npm install` \u3057\u305F\u3068\u304D\u306B\u6700\u65B0\u3060\u3063\u305F `@y_hirao/mypackage` \u306E `v1.0.0` \u304C\u4F7F\u308F\u308C\u3066\u3044\u307E\u3059\u3002\\n\\n```bash\\nyk@yk local % cat package-lock.json \\n{\\n  \\\"name\\\": \\\"local\\\",\\n  \\\"version\\\": \\\"1.0.0\\\",\\n  \\\"lockfileVersion\\\": 1,\\n  \\\"requires\\\": true,\\n  \\\"dependencies\\\": {\\n    \\\"@y_hirao/mypackage\\\": {\\n      \\\"version\\\": \\\"1.0.0\\\",\\n      \\\"resolved\\\": \\\"https://registry.npmjs.org/@y_hirao/mypackage/-/mypackage-1.0.0.tgz\\\",\\n      \\\"integrity\\\": \\\"sha512-auQ5grIpWd0IRkMR3rn6xRjIhGZqBu/Q/g1lDkS5AWakAysrZ3iQAIRngbgBGBAFlPZxQ/LCVYdAW+3VLxeSEw==\\\"\\n    }\\n  }\\n}\\n```\\n\\n\u66F4\u306B\u30A4\u30F3\u30B9\u30C8\u30FC\u30EB\u3055\u308C\u3066\u3044\u308B\u30D5\u30A9\u30EB\u30C0\u3092\u78BA\u8A8D\u3057\u3066\u3082\\n\\n```bash\\nyk@yk production % cat node_modules/@y_hirao/mypackage/index.js\\nconst text = \\\"sample2\\\"\\nthrow '\u30A8\u30E9\u30FC\u3092\u51FA\u3057\u305F\u3044\u6C17\u5206';\\n\\nmodule.exports = text;\\nyk@yk production % \\n```\\n\\n\u3069\u3046\u898B\u3066\u3082\u30A8\u30E9\u30FC\u304C\u8D77\u304D\u305D\u3046\u3067\u3059\u3002\\n\\npackage-lock.json\u3092local\u304B\u3089\u30B3\u30D4\u30FC\u3057\u3066\u304D\u307E\u3057\u3087\u3046\u3002\\n\\n```bash\\nyk@yk production % cp ../local/package-lock.json package-lock.json\\nyk@yk production % npm i\\nnpm WARN local@1.0.0 No description\\nnpm WARN local@1.0.0 No repository field.\\n\\nupdated 1 package and audited 1 package in 0.45s\\nfound 0 vulnerabilities\\n\\nyk@yk production % cat node_modules/@y_hirao/mypackage/index.js\\nconst text = \\\"sample\\\"\\n\\nmodule.exports = text;\\nyk@yk production % node index.js \\nsample\\nyk@yk production % \\n```\\n\\nlock\u30D5\u30A1\u30A4\u30EB\u3092\u6301\u3063\u3066\u304D\u3066\u30A4\u30F3\u30B9\u30C8\u30FC\u30EB\u3059\u308B\u3060\u3051\u3067\u3001\u30A8\u30E9\u30FC\u304C\u8D77\u304D\u306A\u304F\u306A\u308A\u307E\u3057\u305F\uFF01 :clap::clap::clap::clap::clap: \\n\\n\\n## \u307E\u3068\u3081\\n\\n\u672C\u756A\u74B0\u5883\u3067 lock\u30D5\u30A1\u30A4\u30EB\u3054\u3068\u66F4\u65B0\u3059\u308B `composer update` \u3068\u304Block\u30D5\u30A1\u30A4\u30EB\u306E\u5B58\u5728\u3057\u306A\u3044\u72B6\u614B\u3067\u306E `npm install` \u3068\u304B\u3001\u305D\u3093\u306A\u3053\u3068\u306F\u3084\u3081\u307E\u3057\u3087\u3046\u3002\u3063\u3066\u3053\u3068\u3092\u4E3B\u5F35\u3057\u305F\u3044\u3067\u3059\uFF01\uFF01\uFF01\uFF01\uFF01\\n\\n\u30ED\u30FC\u30AB\u30EB\u3067\u3057\u3063\u304B\u308A\u78BA\u8A8D\u3057\u3066lock\u30D5\u30A1\u30A4\u30EB\u3092\u4F5C\u308A\u3001\u305D\u308C\u3092\u672C\u756A\u306B\u30A2\u30C3\u30D7\u30ED\u30FC\u30C9\u3057\u3066\u3001lock\u30D5\u30A1\u30A4\u30EB\u306E\u72B6\u614B\u3067\u4F9D\u5B58\u30D1\u30C3\u30B1\u30FC\u30B8\u3092\u30A4\u30F3\u30B9\u30C8\u30FC\u30EB\u3057\u3061\u3083\u3063\u3066\u304F\u3060\u3055\u3044\u3002\u3002 :pray: \\n\\n\u30A4\u30F3\u30B9\u30C8\u30FC\u30EB\u3059\u308B\u6642\u671F\u306B\u3088\u3063\u3066\u6700\u65B0\u306E\u30D0\u30FC\u30B8\u30E7\u30F3\u304C\u4F7F\u308F\u308C\u308B\u306E\u3067\u3001\u3082\u3057\u305D\u306E\u30D0\u30FC\u30B8\u30E7\u30F3\u306B\u30D0\u30B0\u304C\u3042\u308B\u306E\u306A\u3089\u672C\u756A\u6B7B\u3093\u3058\u3083\u3044\u307E\u3059\u3088\u3002\u3002\\n\\n\\n## \u7D42\u308F\u308A\u306B\\n\\n\\n\u65B0\u3057\u3044\u4F1A\u793E\u306B\u5165\u3063\u3066\u8272\u3005\u6839\u672C\u7684\u306B\u5909\u3048\u305F\u3044\u3068\u3053\u308D\u304C\u3042\u308B\u306E\u3067\u3001\u6700\u8FD1\u306Fdevops\u306E\u9818\u57DF\u3092\u3054\u308A\u3054\u308A\u89E6\u3089\u305B\u3066\u3044\u305F\u3060\u3044\u3066\u307E\u3059\u3002\u74B0\u5883\u69CB\u7BC9\u3001\u958B\u767A\u30D5\u30ED\u30FC\u306E\u7B56\u5B9A\u3068\u304B\u3082\u308D\u3082\u308D\u3084\u3089\u305B\u3066\u3082\u3089\u3063\u3066\u3044\u308B\u306E\u3067\u304B\u306A\u308A\u697D\u3057\u3044\u3067\u3059 :muscle: \\n\\n\u8AAD\u3093\u3067\u3044\u305F\u3060\u304D\u3042\u308A\u304C\u3068\u3046\u3054\u3056\u3044\u307E\u3057\u305F\u3002lock\u30D5\u30A1\u30A4\u30EB\u5165\u9580\u3057\u305F\u3044\u65B9\u3001\u4E8B\u6545\u308A\u305D\u3046\u306A\u4E0D\u5B89\u304C\u3042\u308B\u304B\u305F\u306F\u540C\u50DA\u3068\u4E00\u7DD2\u306B\u300C\u5F0A\u793E\u306E\u30D1\u30C3\u30B1\u30FC\u30B8\u4F9D\u5B58\u95A2\u4FC2\u306E\u904B\u7528\u3069\u3046\u3059\u308B\u2026\uFF1F\u300D\u3068\u4E00\u5EA6\u8A71\u3057\u5408\u3063\u3066\u307F\u3066\u304F\u3060\u3055\u3044\u3002\\n\\n\u3042\u308A\u304C\u3068\u3046\u3054\u3056\u3044\u307E\u3057\u305F\u3002\\n\\n\\n.\\n\",\"coediting\":false,\"comments_count\":0,\"created_at\":\"2020-07-13T09:28:39+09:00\",\"group\":null,\"id\":\"dbd6b12ea500178168b5\",\"likes_count\":5,\"private\":false,\"reactions_count\":0,\"tags\":[{\"name\":\"PHP\",\"versions\":[]},{\"name\":\"JavaScript\",\"versions\":[]},{\"name\":\"Node.js\",\"versions\":[]},{\"name\":\"Composer\",\"versions\":[]},{\"name\":\"npm\",\"versions\":[]}],\"title\":\"\u305D\u308D\u305D\u308Dlock\u30D5\u30A1\u30A4\u30EB\u3092\u7406\u89E3\u3059\u308B\u305F\u3081\u306E\u6700\u521D\u306E\u30DA\u30FC\u30B8\u3010composer.lock/package-lock.json\u3011\",\"updated_at\":\"2020-07-13T09:28:39+09:00\",\"url\":\"https://qiita.com/ykhirao/items/dbd6b12ea500178168b5\",\"user\":{\"description\":\"Web Developer For 6 years.\\r\\nPHP/Laravel && (React OR Vue.js)\\r\\nTypeScript/node.js\\r\\n\\r\\n\u696D\u52D9\u59D4\u8A17\u306E\u4F9D\u983C\u3068\u304B\u306FWantedly\u3068\u304B\u304B\u3089\u3067\u304A\u9858\u3044\u3057\u307E\u3059\uFF01\",\"facebook_id\":\"\",\"followees_count\":39,\"followers_count\":94,\"github_login_name\":\"ykhirao\",\"id\":\"ykhirao\",\"items_count\":57,\"linkedin_id\":\"\",\"location\":\"Tokyo, Japan\",\"name\":\"yk\",\"organization\":\"\",\"permanent_id\":112929,\"profile_image_url\":\"https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/112929/profile-images/1639030792\",\"team_only\":false,\"twitter_screen_name\":\"yk_hirao\",\"website_url\":\"https://www.wantedly.com/id/ykhirao\"},\"page_views_count\":null,\"team_membership\":null}},\"path\":\"posts/dbd6b12ea500178168b5\",\"sharedData\":{},\"siteData\":{}}");</script><script defer="" type="text/javascript" src="/templates/styles.eff7551f.js"></script><script defer="" type="text/javascript" src="/templates/vendors~main.572a3c6d.js"></script><script defer="" type="text/javascript" src="/main.aadafa90.js"></script></body></html>

@@ -4,7 +4,7 @@ import { Link } from "@reach/router";
 const Navbar: React.FC = () => {
   return (
     <nav
-      className="navbar is-dark"
+      className="navbar is-dark is-fixed-top"
       role="navigation"
       aria-label="main navigation"
     >

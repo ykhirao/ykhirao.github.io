@@ -4,7 +4,9 @@ on:
   push:
     branches:
       - master
-  pull_request:
+  schedule:
+    # 月曜日 09:00 (JST)
+    - cron: '0 0 * * 1'
 
 jobs:
   deploy:

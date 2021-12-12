@@ -1,9 +1,9 @@
-import React from 'react'
+import React, {Suspense} from 'react'
 import { Root, Routes, addPrefetchExcludes } from 'react-static'
 import { Link, Router } from '@reach/router'
 
 import Container from 'components/Container'
-import Dynamic from 'containers/Dynamic'
+import Dynamic from 'components/Dynamic'
 
 import './styles/app.css'
 import 'bulma/css/bulma.css'
@@ -21,12 +21,12 @@ function App() {
         <Link to="/events">Events</Link>
       </nav>
       <Container>
-        <React.Suspense fallback={<em>Loading...</em>}>
+        <Suspense fallback={<em>Loading...</em>}>
           <Router>
             <Dynamic path="dynamic" />
             <Routes path="*" />
           </Router>
-        </React.Suspense>
+        </Suspense>
       </Container>
     </Root>
   )

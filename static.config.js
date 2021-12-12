@@ -26,7 +26,7 @@ export default {
         }),
         children: posts.map((post /* : Post */) => ({
           path: `/${post.id}`,
-          template: 'src/containers/QiitaPost',
+          template: 'src/components/QiitaPost',
           getData: () => ({
             post,
           }),

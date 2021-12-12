@@ -77,3 +77,8 @@ export interface ConnpassEvent {
   lon: null;
   series: ConnpassSeries;
 }
+
+export interface CountDict {
+  key: string;
+  count: number;
+}

@@ -2,10 +2,11 @@ import React from 'react'
 import { Root, Routes, addPrefetchExcludes } from 'react-static'
 import { Link, Router } from '@reach/router'
 
-import FancyDiv from 'components/FancyDiv'
+import Container from 'components/Container'
 import Dynamic from 'containers/Dynamic'
 
 import './styles/app.css'
+import 'bulma/css/bulma.css'
 import './styles/github-markdown-light.css'
 
 addPrefetchExcludes(['dynamic'])
@@ -19,16 +20,14 @@ function App() {
         <Link to="/posts">Posts</Link>
         <Link to="/events">Events</Link>
       </nav>
-      <div className="content">
-        <FancyDiv>
-          <React.Suspense fallback={<em>Loading...</em>}>
-            <Router>
-              <Dynamic path="dynamic" />
-              <Routes path="*" />
-            </Router>
-          </React.Suspense>
-        </FancyDiv>
-      </div>
+      <Container>
+        <React.Suspense fallback={<em>Loading...</em>}>
+          <Router>
+            <Dynamic path="dynamic" />
+            <Routes path="*" />
+          </Router>
+        </React.Suspense>
+      </Container>
     </Root>
   )
 }

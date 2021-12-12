@@ -1,1 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[3],{55:function(e,a,n){"use strict";n.r(a);var t=n(0),r=n.n(t),u=n(14),c=n(174),o=n(158);a.default=function(){var e=Object(u.useRouteData)().about;return r.a.createElement(r.a.Fragment,null,r.a.createElement(c.a,{children:e,className:"md-body",remarkPlugins:[o.a]}),",")}}}]);

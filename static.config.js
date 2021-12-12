@@ -1,6 +1,8 @@
 import axios from 'axios'
 import path from 'path'
-const fs = require("fs").promises;
+
+// const fs = require("fs").promises;
+import {promises as fs} from "fs";
 
 // import { Post } from './types'
 
@@ -9,12 +11,11 @@ const fs = require("fs").promises;
 export default {
   entry: path.join(__dirname, 'src', 'index.tsx'),
   getRoutes: async () => {
+    console.log('#################')
     const posts = await getQiitaPosts();
     const about = await getAboutData();
     const events = await getConnpassEvents();
-    // const events = [];
     console.log('#################')
-    // console.log(events)
 
     const routes = [];
     if (posts) {
@@ -78,7 +79,7 @@ export default {
 }
 
 async function getQiitaPosts() {
-  const cachePath = 'cache.qiita.json';
+  const cachePath = path.resolve('tmp/cache.qiita.json');
   if (await fileExists(cachePath)) {
     console.log('[getQiitaPosts] GET Cache Data')
     return JSON.parse((await fs.readFile(cachePath, "utf-8")));
@@ -97,7 +98,7 @@ async function getConnpassEvents() {
   const connpassUsers = 'yk-hirao';
   const connpassAPI = "https://connpass.com/api/v1/event/?order=2&count=40&nickname=" + connpassUsers + "&owner_nickname=" + connpassUsers
 
-  const cachePath = 'cache.connpass.json';
+  const cachePath = path.resolve('tmp/cache.connpass.json');
   if (await fileExists(cachePath)) {
     console.log('[getConnpassEvents] GET Cache Data')
     return JSON.parse((await fs.readFile(cachePath, "utf-8")));

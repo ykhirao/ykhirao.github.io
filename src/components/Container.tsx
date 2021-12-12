@@ -1,15 +1,11 @@
 import React from 'react'
-import styled from "styled-components"
 
 const Container: React.FC = ({ children }) => {
-  const ContainerInner = styled.h1`
-  padding: 3rem;
-`;
   return (
     <div className="container">
-      <ContainerInner className="is-primary">
+      <div className="is-primary" style={{padding: "3rem"}}>
         {children}
-      </ContainerInner>
+      </div>
     </div>
   )
 }

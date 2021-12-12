@@ -9,7 +9,6 @@ export default () => {
   // console.log(posts)
   return (
     <div>
-      <br />
       All Posts:
       <ul>
         {posts && posts.map(post => (

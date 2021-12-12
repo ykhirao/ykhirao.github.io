@@ -9,8 +9,9 @@ export default () => {
   console.log(events)
   return (
     <div>
-      <br />
-      All events:
+      <p>
+        All events:
+      </p>
       <ul>
         {events && events.map && events.map(event => (
           <li key={event.event_id}>

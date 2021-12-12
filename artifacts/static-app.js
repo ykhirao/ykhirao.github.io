@@ -110,7 +110,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 29);
+/******/ 	return __webpack_require__(__webpack_require__.s = 30);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -189,7 +189,7 @@ var _createClass = function () {
   };
 }();
 
-var _requireUniversalModule = __webpack_require__(35);
+var _requireUniversalModule = __webpack_require__(36);
 
 Object.defineProperty(exports, 'CHUNK_NAMES', {
   enumerable: true,
@@ -204,7 +204,7 @@ Object.defineProperty(exports, 'MODULE_IDS', {
   }
 });
 
-var _reportChunks = __webpack_require__(37);
+var _reportChunks = __webpack_require__(38);
 
 Object.defineProperty(exports, 'ReportChunks', {
   enumerable: true,
@@ -218,23 +218,23 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(14);
+var _propTypes = __webpack_require__(15);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _hoistNonReactStatics = __webpack_require__(16);
+var _hoistNonReactStatics = __webpack_require__(17);
 
 var _hoistNonReactStatics2 = _interopRequireDefault(_hoistNonReactStatics);
 
 var _requireUniversalModule2 = _interopRequireDefault(_requireUniversalModule);
 
-var _context = __webpack_require__(15);
+var _context = __webpack_require__(16);
 
 var _context2 = _interopRequireDefault(_context);
 
 var _utils = __webpack_require__(11);
 
-var _helpers = __webpack_require__(38);
+var _helpers = __webpack_require__(39);
 
 function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : {
@@ -618,7 +618,7 @@ function universal(asyncModule) {
     return UniversalComponent;
   }(_react2["default"].Component), _class.contextType = _context2["default"], _temp;
 }
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(34)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(35)(module)))
 
 /***/ }),
 /* 6 */
@@ -635,7 +635,7 @@ var _utils = __webpack_require__(11);
 
 var requireById = function requireById(id) {
   if (!(0, _utils.isWebpack)() && typeof id === 'string') {
-    return __webpack_require__(36)("" + id);
+    return __webpack_require__(37)("" + id);
   }
 
   return __webpack_require__('' + id);
@@ -671,30 +671,89 @@ var external_react_static_ = __webpack_require__(1);
 // EXTERNAL MODULE: external "@reach/router"
 var router_ = __webpack_require__(4);
 
-// CONCATENATED MODULE: /Users/yk/workspace/ykhirao.github.io/src/components/FancyDiv.tsx
+// CONCATENATED MODULE: /Users/yk/workspace/ykhirao.github.io/src/components/Container.tsx
 
 
-var FancyDiv_FancyDiv = function FancyDiv(_ref) {
+var Container_Container = function Container(_ref) {
   var children = _ref.children;
-  // return <div style={{ border: '1px solid red' }}>{children}</div>
-  return /*#__PURE__*/external_react_default.a.createElement("div", null, children);
+  return /*#__PURE__*/external_react_default.a.createElement("div", {
+    className: "container"
+  }, /*#__PURE__*/external_react_default.a.createElement("div", {
+    className: "is-primary",
+    style: {
+      padding: "2rem 0.5rem"
+    }
+  }, children));
 };
 
-/* harmony default export */ var components_FancyDiv = (FancyDiv_FancyDiv);
-// CONCATENATED MODULE: /Users/yk/workspace/ykhirao.github.io/src/containers/Dynamic.tsx
+/* harmony default export */ var components_Container = (Container_Container);
+// CONCATENATED MODULE: /Users/yk/workspace/ykhirao.github.io/src/components/Dynamic.tsx
 
 
 var Dynamic_Dynamic = function Dynamic() {
   return /*#__PURE__*/external_react_default.a.createElement("div", null, "This is a dynamic page! It will not be statically exported, but is available at runtime");
 };
 
-/* harmony default export */ var containers_Dynamic = (Dynamic_Dynamic);
-// EXTERNAL MODULE: /Users/yk/workspace/ykhirao.github.io/src/styles/app.css
-var app = __webpack_require__(46);
+/* harmony default export */ var components_Dynamic = (Dynamic_Dynamic);
+// EXTERNAL MODULE: external "bulma/css/bulma.css"
+var bulma_css_ = __webpack_require__(47);
 
-// EXTERNAL MODULE: /Users/yk/workspace/ykhirao.github.io/src/styles/github-markdown-light.css
-var github_markdown_light = __webpack_require__(47);
+// EXTERNAL MODULE: /Users/yk/workspace/ykhirao.github.io/src/assets/github-markdown-light.css
+var github_markdown_light = __webpack_require__(48);
 
+// EXTERNAL MODULE: /Users/yk/workspace/ykhirao.github.io/src/assets/top.png
+var assets_top = __webpack_require__(29);
+var top_default = /*#__PURE__*/__webpack_require__.n(assets_top);
+
+// EXTERNAL MODULE: /Users/yk/workspace/ykhirao.github.io/src/assets/linkedin.png
+var linkedin = __webpack_require__(13);
+var linkedin_default = /*#__PURE__*/__webpack_require__.n(linkedin);
+
+// CONCATENATED MODULE: /Users/yk/workspace/ykhirao.github.io/src/components/Navbar.tsx
+
+
+
+
+top_default.a;
+linkedin_default.a;
+
+var Navbar_Navbar = function Navbar() {
+  return /*#__PURE__*/external_react_default.a.createElement("nav", {
+    className: "navbar",
+    role: "navigation",
+    "aria-label": "main navigation"
+  }, /*#__PURE__*/external_react_default.a.createElement("div", {
+    className: "navbar-brand"
+  }, /*#__PURE__*/external_react_default.a.createElement(router_["Link"], {
+    to: "/",
+    className: "navbar-item"
+  }, /*#__PURE__*/external_react_default.a.createElement("img", {
+    src: linkedin_default.a // src="https://bulma.io/images/bulma-logo.png"
+    // width="112"
+    // height="50"
+    ,
+    style: {
+      width: '100%',
+      height: 'auto'
+    }
+  }))), /*#__PURE__*/external_react_default.a.createElement("div", {
+    id: "navbarBasicExample",
+    className: "navbar-menu"
+  }, /*#__PURE__*/external_react_default.a.createElement("div", {
+    className: "navbar-start"
+  }, /*#__PURE__*/external_react_default.a.createElement(router_["Link"], {
+    to: "/",
+    className: "navbar-item"
+  }, "Home"), /*#__PURE__*/external_react_default.a.createElement(router_["Link"], {
+    to: "/posts",
+    className: "navbar-item"
+  }, "Posts"), /*#__PURE__*/external_react_default.a.createElement(router_["Link"], {
+    to: "/events",
+    className: "navbar-item"
+  }, "Events"))));
+};
+
+/* harmony default export */ var components_Navbar = (Navbar_Navbar);
 // CONCATENATED MODULE: /Users/yk/workspace/ykhirao.github.io/src/App.tsx
 
 
@@ -702,25 +761,19 @@ var github_markdown_light = __webpack_require__(47);
 
 
 
+ // import './assets/app.css'
+
 
 Object(external_react_static_["addPrefetchExcludes"])(['dynamic']);
 
 function App() {
-  return /*#__PURE__*/external_react_default.a.createElement(external_react_static_["Root"], null, /*#__PURE__*/external_react_default.a.createElement("nav", null, /*#__PURE__*/external_react_default.a.createElement(router_["Link"], {
-    to: "/"
-  }, "Home"), /*#__PURE__*/external_react_default.a.createElement(router_["Link"], {
-    to: "/posts"
-  }, "Posts"), /*#__PURE__*/external_react_default.a.createElement(router_["Link"], {
-    to: "/events"
-  }, "Events")), /*#__PURE__*/external_react_default.a.createElement("div", {
-    className: "content"
-  }, /*#__PURE__*/external_react_default.a.createElement(components_FancyDiv, null, /*#__PURE__*/external_react_default.a.createElement(external_react_default.a.Suspense, {
+  return /*#__PURE__*/external_react_default.a.createElement(external_react_static_["Root"], null, /*#__PURE__*/external_react_default.a.createElement(components_Navbar, null), /*#__PURE__*/external_react_default.a.createElement(components_Container, null, /*#__PURE__*/external_react_default.a.createElement(external_react_["Suspense"], {
     fallback: /*#__PURE__*/external_react_default.a.createElement("em", null, "Loading...")
-  }, /*#__PURE__*/external_react_default.a.createElement(router_["Router"], null, /*#__PURE__*/external_react_default.a.createElement(containers_Dynamic, {
+  }, /*#__PURE__*/external_react_default.a.createElement(router_["Router"], null, /*#__PURE__*/external_react_default.a.createElement(components_Dynamic, {
     path: "dynamic"
   }), /*#__PURE__*/external_react_default.a.createElement(external_react_static_["Routes"], {
     path: "*"
-  }))))));
+  })))));
 }
 
 /* harmony default export */ var src_App = __webpack_exports__["a"] = (App);
@@ -907,16 +960,22 @@ module.exports = require("react-dom");
 /* 13 */
 /***/ (function(module, exports) {
 
-module.exports = require("/Users/yk/workspace/ykhirao.github.io/node_modules/react-static/lib/browser");
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABgAAAAMABAMAAAAQ+LH/AAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAPUExURfb29vc/UveAjPedp/fL0Dkdn7QAABagSURBVHja7N1tVhNJGIZhPnoBRLMAo7MAnbCAMLj/NY2Q6PCRAVJVXXnf6uv6M0dGPfHQNw8h6e6LCwAAAAAAAAAAAAAAAAAAAAAAAAAAgFh+DsPnkgKb1SA++VwiABAACAAEAAIAAYAAQADwMoBtcgKgKoDs/wgBIACfSwQAAgABgABAACAAEAAIAAQAAgABIAABIAABIAABIAABIAABIAABIAABIAABIAABIAABIAABIAABIAABIAABIAABIAABIAABIAABIAABIAABIAABIAABIAABIAABIAABIAABIAABIAABIAABIAABIAABIAABIAABIAABIAABIAABIAABIAABIAABIAABIAAQAAgABAACAAGAAEAAIAAQAAgAAQgAAQgAAQgAAQgAAbxt+vmcAFhUAHer5wSAAASAAASAAASAAASAAASAAATAIAFcb/c2LwI4fPhWAAwdwOXqTZ8FgAAEgAAEgAAEgAAEgAAEgAAEwAABrH8edS8AFhHAzfH/NQkAAQgAAQgAAQgAAQgAAQgAAQiAwQL48faLYjdVj2kSAAsOYFoJgAUHcLlaC4DFBjCdfpqxABgngMe3HAmAhQYwFVxpQgAME8D+TddrAbDIAKaSkwsEwBkC2L3/20oHYPVdACwxgMMAnHg0C4BBAigaAAEwSABlAyAABgngMABfBMASA5gKry8hAIYIoHAABMA5Arh9vEHq4Uap05//3hUHUPgMQACcJYD9BhyOvevDty5XFS+ElQ6AABghgKn4CnMCYIAAigdAAAwQQPEzAAEwQgDlAyAA8gcwVVxjWgCkD6BiAATAOQL4tn0I4OEOqQ9fwA83Sr3e/igKoOIZgAA4SwC7939bnwEQANkDmKruMiMAkgdQNQACIHkAVc8ABED2AOoGQADkDmCqvM+kAEgdQOUACIDUAVQ+AxAAuQOoHQABkDmAqfpO8wIgcQBl1wISAGMEUD8AAiBxAPUDIADyBtBgAARA3gAaDIAAOEcATU6IaTEAAiBtAC0GQABkDaDJAAiArAE0GQABkDSANgMgAJIG0GYABEDOABoNgADIGUCjARAA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"
 
 /***/ }),
 /* 14 */
 /***/ (function(module, exports) {
 
-module.exports = require("prop-types");
+module.exports = require("/Users/yk/workspace/ykhirao.github.io/node_modules/react-static/lib/browser");
 
 /***/ }),
 /* 15 */
+/***/ (function(module, exports) {
+
+module.exports = require("prop-types");
+
+/***/ }),
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -943,113 +1002,22 @@ var ReportContext = _react2["default"].createContext({
 exports["default"] = ReportContext;
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports) {
 
 module.exports = require("hoist-non-react-statics");
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports) {
 
 module.exports = require("@babel/runtime/helpers/interopRequireDefault");
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports) {
 
 module.exports = require("@babel/runtime/helpers/interopRequireWildcard");
-
-/***/ }),
-/* 19 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-/*
-  MIT License http://www.opensource.org/licenses/mit-license.php
-  Author Tobias Koppers @sokra
-*/
-// css base code, injected by the css-loader
-
-module.exports = function (useSourceMap) {
-  var list = []; // return the list of modules as css string
-
-  list.toString = function toString() {
-    return this.map(function (item) {
-      var content = cssWithMappingToString(item, useSourceMap);
-
-      if (item[2]) {
-        return '@media ' + item[2] + '{' + content + '}';
-      } else {
-        return content;
-      }
-    }).join('');
-  }; // import a list of modules into the list
-
-
-  list.i = function (modules, mediaQuery) {
-    if (typeof modules === 'string') {
-      modules = [[null, modules, '']];
-    }
-
-    var alreadyImportedModules = {};
-
-    for (var i = 0; i < this.length; i++) {
-      var id = this[i][0];
-
-      if (id != null) {
-        alreadyImportedModules[id] = true;
-      }
-    }
-
-    for (i = 0; i < modules.length; i++) {
-      var item = modules[i]; // skip already imported module
-      // this implementation is not 100% perfect for weird media query combinations
-      // when a module is imported multiple times with different media queries.
-      // I hope this will never occur (Hey this way we have smaller bundles)
-
-      if (item[0] == null || !alreadyImportedModules[item[0]]) {
-        if (mediaQuery && !item[2]) {
-          item[2] = mediaQuery;
-        } else if (mediaQuery) {
-          item[2] = '(' + item[2] + ') and (' + mediaQuery + ')';
-        }
-
-        list.push(item);
-      }
-    }
-  };
-
-  return list;
-};
-
-function cssWithMappingToString(item, useSourceMap) {
-  var content = item[1] || '';
-  var cssMapping = item[3];
-
-  if (!cssMapping) {
-    return content;
-  }
-
-  if (useSourceMap && typeof btoa === 'function') {
-    var sourceMapping = toComment(cssMapping);
-    var sourceURLs = cssMapping.sources.map(function (source) {
-      return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */';
-    });
-    return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
-  }
-
-  return [content].join('\n');
-} // Adapted from convert-source-map (MIT)
-
-
-function toComment(sourceMap) {
-  // eslint-disable-next-line no-undef
-  var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
-  var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
-  return '/*# ' + data + ' */';
-}
 
 /***/ }),
 /* 20 */
@@ -1111,7 +1079,7 @@ __webpack_require__.r(__webpack_exports__);
       events = _useRouteData.events;
 
   console.log(events);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "All events:", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, events && events.map && events.map(function (event) {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "All events:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, events && events.map && events.map(function (event) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
       key: event.event_id
     }, event.started_at, ' ', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
@@ -1130,36 +1098,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_static__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
 /* harmony import */ var react_static__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_static__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react_markdown__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(7);
-/* harmony import */ var react_markdown__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_markdown__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var remark_gfm__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(8);
-/* harmony import */ var remark_gfm__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(remark_gfm__WEBPACK_IMPORTED_MODULE_3__);
-
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = (function () {
-  var _useRouteData = Object(react_static__WEBPACK_IMPORTED_MODULE_1__["useRouteData"])(),
-      about = _useRouteData.about; // console.log(about);
-
-
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_markdown__WEBPACK_IMPORTED_MODULE_2___default.a, {
-    children: about,
-    className: 'md-body',
-    remarkPlugins: [remark_gfm__WEBPACK_IMPORTED_MODULE_3___default.a]
-  }));
-});
-
-/***/ }),
-/* 24 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_static__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
-/* harmony import */ var react_static__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_static__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _reach_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4);
 /* harmony import */ var _reach_router__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_reach_router__WEBPACK_IMPORTED_MODULE_2__);
 
@@ -1170,7 +1108,7 @@ __webpack_require__.r(__webpack_exports__);
       posts = _useRouteData.posts; // console.log(posts)
 
 
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "All Posts:", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, posts && posts.map(function (post) {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "All Posts:", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, posts && posts.map(function (post) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
       key: post.id
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_reach_router__WEBPACK_IMPORTED_MODULE_2__["Link"], {
@@ -1180,7 +1118,7 @@ __webpack_require__.r(__webpack_exports__);
 });
 
 /***/ }),
-/* 25 */
+/* 24 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1208,7 +1146,7 @@ __webpack_require__.r(__webpack_exports__);
 });
 
 /***/ }),
-/* 26 */
+/* 25 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1234,6 +1172,55 @@ __webpack_require__.r(__webpack_exports__);
     dangerouslySetInnerHTML: {
       __html: post.rendered_body
     }
+  }));
+});
+
+/***/ }),
+/* 26 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+// ESM COMPAT FLAG
+__webpack_require__.r(__webpack_exports__);
+
+// EXTERNAL MODULE: external "react"
+var external_react_ = __webpack_require__(0);
+var external_react_default = /*#__PURE__*/__webpack_require__.n(external_react_);
+
+// EXTERNAL MODULE: external "react-static"
+var external_react_static_ = __webpack_require__(1);
+
+// EXTERNAL MODULE: external "react-markdown"
+var external_react_markdown_ = __webpack_require__(7);
+var external_react_markdown_default = /*#__PURE__*/__webpack_require__.n(external_react_markdown_);
+
+// EXTERNAL MODULE: external "remark-gfm"
+var external_remark_gfm_ = __webpack_require__(8);
+var external_remark_gfm_default = /*#__PURE__*/__webpack_require__.n(external_remark_gfm_);
+
+// CONCATENATED MODULE: /Users/yk/workspace/ykhirao.github.io/src/components/Profile.tsx
+
+
+var Profile_Profile = function Profile() {
+  return /*#__PURE__*/external_react_default.a.createElement("div", null);
+};
+
+/* harmony default export */ var components_Profile = (Profile_Profile);
+// CONCATENATED MODULE: /Users/yk/workspace/ykhirao.github.io/src/pages/index.tsx
+
+
+
+
+
+/* harmony default export */ var pages = __webpack_exports__["default"] = (function () {
+  var _useRouteData = Object(external_react_static_["useRouteData"])(),
+      about = _useRouteData.about; // console.log(about);
+
+
+  return /*#__PURE__*/external_react_default.a.createElement(external_react_default.a.Fragment, null, /*#__PURE__*/external_react_default.a.createElement(components_Profile, null), /*#__PURE__*/external_react_default.a.createElement(external_react_markdown_default.a, {
+    children: about,
+    className: 'md-body',
+    remarkPlugins: [external_remark_gfm_default.a]
   }));
 });
 
@@ -1377,22 +1364,28 @@ module.exports = require("react-hot-loader");
 /* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(30);
-__webpack_require__(32);
-module.exports = __webpack_require__(39);
-
+module.exports = __webpack_require__.p + "static/top.ea8f3fce.png";
 
 /***/ }),
 /* 30 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(31);
+__webpack_require__(33);
+module.exports = __webpack_require__(40);
+
+
+/***/ }),
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /* eslint-disable import/no-dynamic-require */
 
-var plugins = __webpack_require__(31)["default"];
+var plugins = __webpack_require__(32)["default"];
 
-var _require = __webpack_require__(13),
+var _require = __webpack_require__(14),
     registerPlugins = _require.registerPlugins;
 
 registerPlugins(plugins);
@@ -1400,7 +1393,7 @@ registerPlugins(plugins);
 if (false) {}
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1439,17 +1432,17 @@ var plugins = [{
 /* harmony default export */ __webpack_exports__["default"] = (plugins);
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /* eslint-disable import/no-dynamic-require */
 
-var _require = __webpack_require__(13),
+var _require = __webpack_require__(14),
     registerTemplates = _require.registerTemplates;
 
-var _require2 = __webpack_require__(33),
+var _require2 = __webpack_require__(34),
     templates = _require2["default"],
     notFoundTemplate = _require2.notFoundTemplate;
 
@@ -1458,7 +1451,7 @@ registerTemplates(templates, notFoundTemplate);
 if (false) {}
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1556,7 +1549,7 @@ t_2.template = '__react_static_root__/src/pages/events.tsx';
 var t_3 = react_universal_component__WEBPACK_IMPORTED_MODULE_3___default()(babel_plugin_universal_import_universalImport__WEBPACK_IMPORTED_MODULE_1___default()({
   id: "__react_static_root__/src/pages/index.tsx",
   load: function load() {
-    return Promise.all([Promise.resolve(/* import() | __react_static_root__/src/pages/index.tsx */).then(__webpack_require__.bind(null, 23))]).then(function (proms) {
+    return Promise.all([Promise.resolve(/* import() | __react_static_root__/src/pages/index.tsx */).then(__webpack_require__.bind(null, 26))]).then(function (proms) {
       return proms[0];
     });
   },
@@ -1564,7 +1557,7 @@ var t_3 = react_universal_component__WEBPACK_IMPORTED_MODULE_3___default()(babel
     return path__WEBPACK_IMPORTED_MODULE_0___default.a.join(__dirname, '__react_static_root__/src/pages/index.tsx');
   },
   resolve: function resolve() {
-    return /*require.resolve*/(23);
+    return /*require.resolve*/(26);
   },
   chunkName: function chunkName() {
     return "__react_static_root__/src/pages/index.tsx";
@@ -1574,7 +1567,7 @@ t_3.template = '__react_static_root__/src/pages/index.tsx';
 var t_4 = react_universal_component__WEBPACK_IMPORTED_MODULE_3___default()(babel_plugin_universal_import_universalImport__WEBPACK_IMPORTED_MODULE_1___default()({
   id: "__react_static_root__/src/pages/posts.tsx",
   load: function load() {
-    return Promise.all([Promise.resolve(/* import() | __react_static_root__/src/pages/posts.tsx */).then(__webpack_require__.bind(null, 24))]).then(function (proms) {
+    return Promise.all([Promise.resolve(/* import() | __react_static_root__/src/pages/posts.tsx */).then(__webpack_require__.bind(null, 23))]).then(function (proms) {
       return proms[0];
     });
   },
@@ -1582,7 +1575,7 @@ var t_4 = react_universal_component__WEBPACK_IMPORTED_MODULE_3___default()(babel
     return path__WEBPACK_IMPORTED_MODULE_0___default.a.join(__dirname, '__react_static_root__/src/pages/posts.tsx');
   },
   resolve: function resolve() {
-    return /*require.resolve*/(24);
+    return /*require.resolve*/(23);
   },
   chunkName: function chunkName() {
     return "__react_static_root__/src/pages/posts.tsx";
@@ -1592,7 +1585,7 @@ t_4.template = '__react_static_root__/src/pages/posts.tsx';
 var t_5 = react_universal_component__WEBPACK_IMPORTED_MODULE_3___default()(babel_plugin_universal_import_universalImport__WEBPACK_IMPORTED_MODULE_1___default()({
   id: "__react_static_root__/src/pages/qiita.tsx",
   load: function load() {
-    return Promise.all([Promise.resolve(/* import() | __react_static_root__/src/pages/qiita.tsx */).then(__webpack_require__.bind(null, 25))]).then(function (proms) {
+    return Promise.all([Promise.resolve(/* import() | __react_static_root__/src/pages/qiita.tsx */).then(__webpack_require__.bind(null, 24))]).then(function (proms) {
       return proms[0];
     });
   },
@@ -1600,7 +1593,7 @@ var t_5 = react_universal_component__WEBPACK_IMPORTED_MODULE_3___default()(babel
     return path__WEBPACK_IMPORTED_MODULE_0___default.a.join(__dirname, '__react_static_root__/src/pages/qiita.tsx');
   },
   resolve: function resolve() {
-    return /*require.resolve*/(25);
+    return /*require.resolve*/(24);
   },
   chunkName: function chunkName() {
     return "__react_static_root__/src/pages/qiita.tsx";
@@ -1608,23 +1601,23 @@ var t_5 = react_universal_component__WEBPACK_IMPORTED_MODULE_3___default()(babel
 }), universalOptions);
 t_5.template = '__react_static_root__/src/pages/qiita.tsx';
 var t_6 = react_universal_component__WEBPACK_IMPORTED_MODULE_3___default()(babel_plugin_universal_import_universalImport__WEBPACK_IMPORTED_MODULE_1___default()({
-  id: "__react_static_root__/src/containers/QiitaPost",
+  id: "__react_static_root__/src/components/QiitaPost",
   load: function load() {
-    return Promise.all([Promise.resolve(/* import() | __react_static_root__/src/containers/QiitaPost */).then(__webpack_require__.bind(null, 26))]).then(function (proms) {
+    return Promise.all([Promise.resolve(/* import() | __react_static_root__/src/components/QiitaPost */).then(__webpack_require__.bind(null, 25))]).then(function (proms) {
       return proms[0];
     });
   },
   path: function path() {
-    return path__WEBPACK_IMPORTED_MODULE_0___default.a.join(__dirname, '__react_static_root__/src/containers/QiitaPost');
+    return path__WEBPACK_IMPORTED_MODULE_0___default.a.join(__dirname, '__react_static_root__/src/components/QiitaPost');
   },
   resolve: function resolve() {
-    return /*require.resolve*/(26);
+    return /*require.resolve*/(25);
   },
   chunkName: function chunkName() {
-    return "__react_static_root__/src/containers/QiitaPost";
+    return "__react_static_root__/src/components/QiitaPost";
   }
 }), universalOptions);
-t_6.template = '__react_static_root__/src/containers/QiitaPost'; // Template Map
+t_6.template = '__react_static_root__/src/components/QiitaPost'; // Template Map
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   '__react_static_root__/src/pages/404.tsx': t_0,
@@ -1633,14 +1626,14 @@ t_6.template = '__react_static_root__/src/containers/QiitaPost'; // Template Map
   '__react_static_root__/src/pages/index.tsx': t_3,
   '__react_static_root__/src/pages/posts.tsx': t_4,
   '__react_static_root__/src/pages/qiita.tsx': t_5,
-  '__react_static_root__/src/containers/QiitaPost': t_6
+  '__react_static_root__/src/components/QiitaPost': t_6
 }); // Not Found Template
 
 var notFoundTemplate = "__react_static_root__/src/pages/404.tsx";
 /* WEBPACK VAR INJECTION */}.call(this, "/"))
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports) {
 
 module.exports = function (module) {
@@ -1669,7 +1662,7 @@ module.exports = function (module) {
 };
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1880,7 +1873,7 @@ var getConfig = function getConfig(isDynamic, universalConfig, options, props) {
 };
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
@@ -1908,10 +1901,10 @@ webpackContext.keys = function webpackContextKeys() {
 };
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
-webpackContext.id = 36;
+webpackContext.id = 37;
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1945,11 +1938,11 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(14);
+var _propTypes = __webpack_require__(15);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _context = __webpack_require__(15);
+var _context = __webpack_require__(16);
 
 var _context2 = _interopRequireDefault(_context);
 
@@ -2021,7 +2014,7 @@ ReportChunks.propTypes = {
 exports["default"] = ReportChunks;
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2032,7 +2025,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.__handleAfter = exports.__update = undefined;
 
-var _hoistNonReactStatics = __webpack_require__(16);
+var _hoistNonReactStatics = __webpack_require__(17);
 
 var _hoistNonReactStatics2 = _interopRequireDefault(_hoistNonReactStatics);
 
@@ -2088,15 +2081,15 @@ var __handleAfter = exports.__handleAfter = function __handleAfter(props, state,
 };
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _interopRequireDefault = __webpack_require__(17);
+var _interopRequireDefault = __webpack_require__(18);
 
-var _interopRequireWildcard = __webpack_require__(18);
+var _interopRequireWildcard = __webpack_require__(19);
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -2105,9 +2098,9 @@ exports["default"] = void 0;
 
 var React = _interopRequireWildcard(__webpack_require__(0));
 
-var _useStaticInfo = __webpack_require__(40);
+var _useStaticInfo = __webpack_require__(41);
 
-var _Suspense = _interopRequireDefault(__webpack_require__(41));
+var _Suspense = _interopRequireDefault(__webpack_require__(42));
 /* eslint-disable import/no-dynamic-require */
 // Override the suspense module to be our own
 // This is expected to break when using preact
@@ -2118,7 +2111,7 @@ var _Suspense = _interopRequireDefault(__webpack_require__(41));
 React.Suspense = _Suspense["default"];
 React["default"].Suspense = _Suspense["default"];
 
-var App = __webpack_require__(44)["default"];
+var App = __webpack_require__(45)["default"];
 
 var _default = function _default(staticInfo) {
   return function (props) {
@@ -2131,30 +2124,30 @@ var _default = function _default(staticInfo) {
 exports["default"] = _default;
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports) {
 
 module.exports = require("/Users/yk/workspace/ykhirao.github.io/node_modules/react-static/lib/browser/hooks/useStaticInfo");
 
 /***/ }),
-/* 41 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _interopRequireWildcard = __webpack_require__(18);
+var _interopRequireWildcard = __webpack_require__(19);
 
-var _interopRequireDefault = __webpack_require__(17);
+var _interopRequireDefault = __webpack_require__(18);
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 
-var _extends2 = _interopRequireDefault(__webpack_require__(42));
+var _extends2 = _interopRequireDefault(__webpack_require__(43));
 
-var _objectWithoutProperties2 = _interopRequireDefault(__webpack_require__(43));
+var _objectWithoutProperties2 = _interopRequireDefault(__webpack_require__(44));
 
 var React = _interopRequireWildcard(__webpack_require__(0));
 
@@ -2175,19 +2168,19 @@ var _default = Suspense;
 exports["default"] = _default;
 
 /***/ }),
-/* 42 */
+/* 43 */
 /***/ (function(module, exports) {
 
 module.exports = require("@babel/runtime/helpers/extends");
 
 /***/ }),
-/* 43 */
+/* 44 */
 /***/ (function(module, exports) {
 
 module.exports = require("@babel/runtime/helpers/objectWithoutProperties");
 
 /***/ }),
-/* 44 */
+/* 45 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2224,10 +2217,10 @@ if (typeof document !== 'undefined') {
     });
   }
 }
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(45)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(46)(module)))
 
 /***/ }),
-/* 45 */
+/* 46 */
 /***/ (function(module, exports) {
 
 module.exports = function (originalModule) {
@@ -2257,24 +2250,111 @@ module.exports = function (originalModule) {
 };
 
 /***/ }),
-/* 46 */
-/***/ (function(module, exports, __webpack_require__) {
+/* 47 */
+/***/ (function(module, exports) {
 
-exports = module.exports = __webpack_require__(19)(false);
-// Module
-exports.push([module.i, "body {\n  font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial,\n    'Lucida Grande', sans-serif;\n  font-weight: 300;\n  font-size: 16px;\n  margin: 0;\n  padding: 0;\n}\n\na {\n  text-decoration: none;\n  color: #108db8;\n  font-weight: bold;\n}\n\nimg {\n  max-width: 100%;\n}\n\nnav {\n  width: 100%;\n  background: #108db8;\n}\n\nnav a {\n  color: white;\n  padding: 1rem;\n  display: inline-block;\n}\n\n.content {\n  padding: 3rem;\n}\n\n.App-logo {\n  -webkit-animation: App-logo-spin infinite 20s linear;\n          animation: App-logo-spin infinite 20s linear;\n  height: 40vmin;\n  pointer-events: none;\n}\n\n@-webkit-keyframes App-logo-spin {\n  from {\n    transform: rotate(0deg);\n  }\n  to {\n    transform: rotate(360deg);\n  }\n}\n\n@keyframes App-logo-spin {\n  from {\n    transform: rotate(0deg);\n  }\n  to {\n    transform: rotate(360deg);\n  }\n}\n", ""]);
-
-
+module.exports = require("bulma/css/bulma.css");
 
 /***/ }),
-/* 47 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(19)(false);
+exports = module.exports = __webpack_require__(49)(false);
 // Module
 exports.push([module.i, ".md-body {\n    -ms-text-size-adjust: 100%;\n    -webkit-text-size-adjust: 100%;\n    margin: 0;\n    color: #24292f;\n    background-color: #ffffff;\n    font-family: -apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\";\n    font-size: 16px;\n    line-height: 1.5;\n    word-wrap: break-word;\n  }\n  \n  .md-body .octicon {\n    display: inline-block;\n    fill: currentColor;\n    vertical-align: text-bottom;\n  }\n  \n  .md-body h1:hover .anchor .octicon-link:before,\n  .md-body h2:hover .anchor .octicon-link:before,\n  .md-body h3:hover .anchor .octicon-link:before,\n  .md-body h4:hover .anchor .octicon-link:before,\n  .md-body h5:hover .anchor .octicon-link:before,\n  .md-body h6:hover .anchor .octicon-link:before {\n    width: 16px;\n    height: 16px;\n    content: ' ';\n    display: inline-block;\n    background-color: currentColor;\n    -webkit-mask-image: url(\"data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' version='1.1' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg>\");\n    mask-image: url(\"data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' version='1.1' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg>\");\n  }\n  \n  .md-body details,\n  .md-body figcaption,\n  .md-body figure {\n    display: block;\n  }\n  \n  .md-body summary {\n    display: list-item;\n  }\n  \n  .md-body [hidden] {\n    display: none !important;\n  }\n  \n  .md-body a {\n    background-color: transparent;\n    color: #0969da;\n    text-decoration: none;\n  }\n  \n  .md-body a:active,\n  .md-body a:hover {\n    outline-width: 0;\n  }\n  \n  .md-body abbr[title] {\n    border-bottom: none;\n    -webkit-text-decoration: underline dotted;\n            text-decoration: underline dotted;\n  }\n  \n  .md-body b,\n  .md-body strong {\n    font-weight: 600;\n  }\n  \n  .md-body dfn {\n    font-style: italic;\n  }\n  \n  .md-body h1 {\n    margin: .67em 0;\n    font-weight: 600;\n    padding-bottom: .3em;\n    font-size: 2em;\n    border-bottom: 1px solid hsla(210,18%,87%,1);\n  }\n  \n  .md-body mark {\n    background-color: #fff8c5;\n    color: #24292f;\n  }\n  \n  .md-body small {\n    font-size: 90%;\n  }\n  \n  .md-body sub,\n  .md-body sup {\n    font-size: 75%;\n    line-height: 0;\n    position: relative;\n    vertical-align: baseline;\n  }\n  \n  .md-body sub {\n    bottom: -0.25em;\n  }\n  \n  .md-body sup {\n    top: -0.5em;\n  }\n  \n  .md-body img {\n    border-style: none;\n    max-width: 100%;\n    box-sizing: content-box;\n    background-color: #ffffff;\n  }\n  \n  .md-body code,\n  .md-body kbd,\n  .md-body pre,\n  .md-body samp {\n    font-family: monospace,monospace;\n    font-size: 1em;\n  }\n  \n  .md-body figure {\n    margin: 1em 40px;\n  }\n  \n  .md-body hr {\n    box-sizing: content-box;\n    overflow: hidden;\n    background: transparent;\n    border-bottom: 1px solid hsla(210,18%,87%,1);\n    height: .25em;\n    padding: 0;\n    margin: 24px 0;\n    background-color: #d0d7de;\n    border: 0;\n  }\n  \n  .md-body input {\n    font: inherit;\n    margin: 0;\n    overflow: visible;\n    font-family: inherit;\n    font-size: inherit;\n    line-height: inherit;\n  }\n  \n  .md-body [type=button],\n  .md-body [type=reset],\n  .md-body [type=submit] {\n    -webkit-appearance: button;\n  }\n  \n  .md-body [type=button]::-moz-focus-inner,\n  .md-body [type=reset]::-moz-focus-inner,\n  .md-body [type=submit]::-moz-focus-inner {\n    border-style: none;\n    padding: 0;\n  }\n  \n  .md-body [type=button]:-moz-focusring,\n  .md-body [type=reset]:-moz-focusring,\n  .md-body [type=submit]:-moz-focusring {\n    outline: 1px dotted ButtonText;\n  }\n  \n  .md-body [type=checkbox],\n  .md-body [type=radio] {\n    box-sizing: border-box;\n    padding: 0;\n  }\n  \n  .md-body [type=number]::-webkit-inner-spin-button,\n  .md-body [type=number]::-webkit-outer-spin-button {\n    height: auto;\n  }\n  \n  .md-body [type=search] {\n    -webkit-appearance: textfield;\n    outline-offset: -2px;\n  }\n  \n  .md-body [type=search]::-webkit-search-cancel-button,\n  .md-body [type=search]::-webkit-search-decoration {\n    -webkit-appearance: none;\n  }\n  \n  .md-body ::-webkit-input-placeholder {\n    color: inherit;\n    opacity: .54;\n  }\n  \n  .md-body ::-webkit-file-upload-button {\n    -webkit-appearance: button;\n    font: inherit;\n  }\n  \n  .md-body a:hover {\n    text-decoration: underline;\n  }\n  \n  .md-body hr::before {\n    display: table;\n    content: \"\";\n  }\n  \n  .md-body hr::after {\n    display: table;\n    clear: both;\n    content: \"\";\n  }\n  \n  .md-body table {\n    border-spacing: 0;\n    border-collapse: collapse;\n    display: block;\n    width: -webkit-max-content;\n    width: -moz-max-content;\n    width: max-content;\n    max-width: 100%;\n    overflow: auto;\n  }\n  \n  .md-body td,\n  .md-body th {\n    padding: 0;\n  }\n  \n  .md-body details summary {\n    cursor: pointer;\n  }\n  \n  .md-body details:not([open])>*:not(summary) {\n    display: none !important;\n  }\n  \n  .md-body kbd {\n    display: inline-block;\n    padding: 3px 5px;\n    font: 11px ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace;\n    line-height: 10px;\n    color: #24292f;\n    vertical-align: middle;\n    background-color: #f6f8fa;\n    border: solid 1px rgba(175,184,193,0.2);\n    border-bottom-color: rgba(175,184,193,0.2);\n    border-radius: 6px;\n    box-shadow: inset 0 -1px 0 rgba(175,184,193,0.2);\n  }\n  \n  .md-body h1,\n  .md-body h2,\n  .md-body h3,\n  .md-body h4,\n  .md-body h5,\n  .md-body h6 {\n    margin-top: 24px;\n    margin-bottom: 16px;\n    font-weight: 600;\n    line-height: 1.25;\n  }\n  \n  .md-body h2 {\n    font-weight: 600;\n    padding-bottom: .3em;\n    font-size: 1.5em;\n    border-bottom: 1px solid hsla(210,18%,87%,1);\n  }\n  \n  .md-body h3 {\n    font-weight: 600;\n    font-size: 1.25em;\n  }\n  \n  .md-body h4 {\n    font-weight: 600;\n    font-size: 1em;\n  }\n  \n  .md-body h5 {\n    font-weight: 600;\n    font-size: .875em;\n  }\n  \n  .md-body h6 {\n    font-weight: 600;\n    font-size: .85em;\n    color: #57606a;\n  }\n  \n  .md-body p {\n    margin-top: 0;\n    margin-bottom: 10px;\n  }\n  \n  .md-body blockquote {\n    margin: 0;\n    padding: 0 1em;\n    color: #57606a;\n    border-left: .25em solid #d0d7de;\n  }\n  \n  .md-body ul,\n  .md-body ol {\n    margin-top: 0;\n    margin-bottom: 0;\n    padding-left: 2em;\n  }\n  \n  .md-body ol ol,\n  .md-body ul ol {\n    list-style-type: lower-roman;\n  }\n  \n  .md-body ul ul ol,\n  .md-body ul ol ol,\n  .md-body ol ul ol,\n  .md-body ol ol ol {\n    list-style-type: lower-alpha;\n  }\n  \n  .md-body dd {\n    margin-left: 0;\n  }\n  \n  .md-body tt,\n  .md-body code {\n    font-family: ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace;\n    font-size: 12px;\n  }\n  \n  .md-body pre {\n    margin-top: 0;\n    margin-bottom: 0;\n    font-family: ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace;\n    font-size: 12px;\n    word-wrap: normal;\n  }\n  \n  .md-body .octicon {\n    display: inline-block;\n    overflow: visible !important;\n    vertical-align: text-bottom;\n    fill: currentColor;\n  }\n  \n  .md-body ::-moz-placeholder {\n    color: #6e7781;\n    opacity: 1;\n  }\n  \n  .md-body :-ms-input-placeholder {\n    color: #6e7781;\n    opacity: 1;\n  }\n  \n  .md-body ::placeholder {\n    color: #6e7781;\n    opacity: 1;\n  }\n  \n  .md-body input::-webkit-outer-spin-button,\n  .md-body input::-webkit-inner-spin-button {\n    margin: 0;\n    -webkit-appearance: none;\n    appearance: none;\n  }\n  \n  .md-body .pl-c {\n    color: #6e7781;\n  }\n  \n  .md-body .pl-c1,\n  .md-body .pl-s .pl-v {\n    color: #0550ae;\n  }\n  \n  .md-body .pl-e,\n  .md-body .pl-en {\n    color: #8250df;\n  }\n  \n  .md-body .pl-smi,\n  .md-body .pl-s .pl-s1 {\n    color: #24292f;\n  }\n  \n  .md-body .pl-ent {\n    color: #116329;\n  }\n  \n  .md-body .pl-k {\n    color: #cf222e;\n  }\n  \n  .md-body .pl-s,\n  .md-body .pl-pds,\n  .md-body .pl-s .pl-pse .pl-s1,\n  .md-body .pl-sr,\n  .md-body .pl-sr .pl-cce,\n  .md-body .pl-sr .pl-sre,\n  .md-body .pl-sr .pl-sra {\n    color: #0a3069;\n  }\n  \n  .md-body .pl-v,\n  .md-body .pl-smw {\n    color: #953800;\n  }\n  \n  .md-body .pl-bu {\n    color: #82071e;\n  }\n  \n  .md-body .pl-ii {\n    color: #f6f8fa;\n    background-color: #82071e;\n  }\n  \n  .md-body .pl-c2 {\n    color: #f6f8fa;\n    background-color: #cf222e;\n  }\n  \n  .md-body .pl-sr .pl-cce {\n    font-weight: bold;\n    color: #116329;\n  }\n  \n  .md-body .pl-ml {\n    color: #3b2300;\n  }\n  \n  .md-body .pl-mh,\n  .md-body .pl-mh .pl-en,\n  .md-body .pl-ms {\n    font-weight: bold;\n    color: #0550ae;\n  }\n  \n  .md-body .pl-mi {\n    font-style: italic;\n    color: #24292f;\n  }\n  \n  .md-body .pl-mb {\n    font-weight: bold;\n    color: #24292f;\n  }\n  \n  .md-body .pl-md {\n    color: #82071e;\n    background-color: #FFEBE9;\n  }\n  \n  .md-body .pl-mi1 {\n    color: #116329;\n    background-color: #dafbe1;\n  }\n  \n  .md-body .pl-mc {\n    color: #953800;\n    background-color: #ffd8b5;\n  }\n  \n  .md-body .pl-mi2 {\n    color: #eaeef2;\n    background-color: #0550ae;\n  }\n  \n  .md-body .pl-mdr {\n    font-weight: bold;\n    color: #8250df;\n  }\n  \n  .md-body .pl-ba {\n    color: #57606a;\n  }\n  \n  .md-body .pl-sg {\n    color: #8c959f;\n  }\n  \n  .md-body .pl-corl {\n    text-decoration: underline;\n    color: #0a3069;\n  }\n  \n  .md-body [data-catalyst] {\n    display: block;\n  }\n  \n  .md-body g-emoji {\n    font-family: \"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\";\n    font-size: 1em;\n    font-style: normal !important;\n    font-weight: 400;\n    line-height: 1;\n    vertical-align: -0.075em;\n  }\n  \n  .md-body g-emoji img {\n    width: 1em;\n    height: 1em;\n  }\n  \n  .md-body::before {\n    display: table;\n    content: \"\";\n  }\n  \n  .md-body::after {\n    display: table;\n    clear: both;\n    content: \"\";\n  }\n  \n  .md-body>*:first-child {\n    margin-top: 0 !important;\n  }\n  \n  .md-body>*:last-child {\n    margin-bottom: 0 !important;\n  }\n  \n  .md-body a:not([href]) {\n    color: inherit;\n    text-decoration: none;\n  }\n  \n  .md-body .absent {\n    color: #cf222e;\n  }\n  \n  .md-body .anchor {\n    float: left;\n    padding-right: 4px;\n    margin-left: -20px;\n    line-height: 1;\n  }\n  \n  .md-body .anchor:focus {\n    outline: none;\n  }\n  \n  .md-body p,\n  .md-body blockquote,\n  .md-body ul,\n  .md-body ol,\n  .md-body dl,\n  .md-body table,\n  .md-body pre,\n  .md-body details {\n    margin-top: 0;\n    margin-bottom: 16px;\n  }\n  \n  .md-body blockquote>:first-child {\n    margin-top: 0;\n  }\n  \n  .md-body blockquote>:last-child {\n    margin-bottom: 0;\n  }\n  \n  .md-body sup>a::before {\n    content: \"[\";\n  }\n  \n  .md-body sup>a::after {\n    content: \"]\";\n  }\n  \n  .md-body h1 .octicon-link,\n  .md-body h2 .octicon-link,\n  .md-body h3 .octicon-link,\n  .md-body h4 .octicon-link,\n  .md-body h5 .octicon-link,\n  .md-body h6 .octicon-link {\n    color: #24292f;\n    vertical-align: middle;\n    visibility: hidden;\n  }\n  \n  .md-body h1:hover .anchor,\n  .md-body h2:hover .anchor,\n  .md-body h3:hover .anchor,\n  .md-body h4:hover .anchor,\n  .md-body h5:hover .anchor,\n  .md-body h6:hover .anchor {\n    text-decoration: none;\n  }\n  \n  .md-body h1:hover .anchor .octicon-link,\n  .md-body h2:hover .anchor .octicon-link,\n  .md-body h3:hover .anchor .octicon-link,\n  .md-body h4:hover .anchor .octicon-link,\n  .md-body h5:hover .anchor .octicon-link,\n  .md-body h6:hover .anchor .octicon-link {\n    visibility: visible;\n  }\n  \n  .md-body h1 tt,\n  .md-body h1 code,\n  .md-body h2 tt,\n  .md-body h2 code,\n  .md-body h3 tt,\n  .md-body h3 code,\n  .md-body h4 tt,\n  .md-body h4 code,\n  .md-body h5 tt,\n  .md-body h5 code,\n  .md-body h6 tt,\n  .md-body h6 code {\n    padding: 0 .2em;\n    font-size: inherit;\n  }\n  \n  .md-body ul.no-list,\n  .md-body ol.no-list {\n    padding: 0;\n    list-style-type: none;\n  }\n  \n  .md-body ol[type=\"1\"] {\n    list-style-type: decimal;\n  }\n  \n  .md-body ol[type=a] {\n    list-style-type: lower-alpha;\n  }\n  \n  .md-body ol[type=i] {\n    list-style-type: lower-roman;\n  }\n  \n  .md-body div>ol:not([type]) {\n    list-style-type: decimal;\n  }\n  \n  .md-body ul ul,\n  .md-body ul ol,\n  .md-body ol ol,\n  .md-body ol ul {\n    margin-top: 0;\n    margin-bottom: 0;\n  }\n  \n  .md-body li>p {\n    margin-top: 16px;\n  }\n  \n  .md-body li+li {\n    margin-top: .25em;\n  }\n  \n  .md-body dl {\n    padding: 0;\n  }\n  \n  .md-body dl dt {\n    padding: 0;\n    margin-top: 16px;\n    font-size: 1em;\n    font-style: italic;\n    font-weight: 600;\n  }\n  \n  .md-body dl dd {\n    padding: 0 16px;\n    margin-bottom: 16px;\n  }\n  \n  .md-body table th {\n    font-weight: 600;\n  }\n  \n  .md-body table th,\n  .md-body table td {\n    padding: 6px 13px;\n    border: 1px solid #d0d7de;\n  }\n  \n  .md-body table tr {\n    background-color: #ffffff;\n    border-top: 1px solid hsla(210,18%,87%,1);\n  }\n  \n  .md-body table tr:nth-child(2n) {\n    background-color: #f6f8fa;\n  }\n  \n  .md-body table img {\n    background-color: transparent;\n  }\n  \n  .md-body img[align=right] {\n    padding-left: 20px;\n  }\n  \n  .md-body img[align=left] {\n    padding-right: 20px;\n  }\n  \n  .md-body .emoji {\n    max-width: none;\n    vertical-align: text-top;\n    background-color: transparent;\n  }\n  \n  .md-body span.frame {\n    display: block;\n    overflow: hidden;\n  }\n  \n  .md-body span.frame>span {\n    display: block;\n    float: left;\n    width: auto;\n    padding: 7px;\n    margin: 13px 0 0;\n    overflow: hidden;\n    border: 1px solid #d0d7de;\n  }\n  \n  .md-body span.frame span img {\n    display: block;\n    float: left;\n  }\n  \n  .md-body span.frame span span {\n    display: block;\n    padding: 5px 0 0;\n    clear: both;\n    color: #24292f;\n  }\n  \n  .md-body span.align-center {\n    display: block;\n    overflow: hidden;\n    clear: both;\n  }\n  \n  .md-body span.align-center>span {\n    display: block;\n    margin: 13px auto 0;\n    overflow: hidden;\n    text-align: center;\n  }\n  \n  .md-body span.align-center span img {\n    margin: 0 auto;\n    text-align: center;\n  }\n  \n  .md-body span.align-right {\n    display: block;\n    overflow: hidden;\n    clear: both;\n  }\n  \n  .md-body span.align-right>span {\n    display: block;\n    margin: 13px 0 0;\n    overflow: hidden;\n    text-align: right;\n  }\n  \n  .md-body span.align-right span img {\n    margin: 0;\n    text-align: right;\n  }\n  \n  .md-body span.float-left {\n    display: block;\n    float: left;\n    margin-right: 13px;\n    overflow: hidden;\n  }\n  \n  .md-body span.float-left span {\n    margin: 13px 0 0;\n  }\n  \n  .md-body span.float-right {\n    display: block;\n    float: right;\n    margin-left: 13px;\n    overflow: hidden;\n  }\n  \n  .md-body span.float-right>span {\n    display: block;\n    margin: 13px auto 0;\n    overflow: hidden;\n    text-align: right;\n  }\n  \n  .md-body code,\n  .md-body tt {\n    padding: .2em .4em;\n    margin: 0;\n    font-size: 85%;\n    background-color: rgba(175,184,193,0.2);\n    border-radius: 6px;\n  }\n  \n  .md-body code br,\n  .md-body tt br {\n    display: none;\n  }\n  \n  .md-body del code {\n    text-decoration: inherit;\n  }\n  \n  .md-body pre code {\n    font-size: 100%;\n  }\n  \n  .md-body pre>code {\n    padding: 0;\n    margin: 0;\n    word-break: normal;\n    white-space: pre;\n    background: transparent;\n    border: 0;\n  }\n  \n  .md-body .highlight {\n    margin-bottom: 16px;\n  }\n  \n  .md-body .highlight pre {\n    margin-bottom: 0;\n    word-break: normal;\n  }\n  \n  .md-body .highlight pre,\n  .md-body pre {\n    padding: 16px;\n    overflow: auto;\n    font-size: 85%;\n    line-height: 1.45;\n    background-color: #f6f8fa;\n    border-radius: 6px;\n  }\n  \n  .md-body pre code,\n  .md-body pre tt {\n    display: inline;\n    max-width: auto;\n    padding: 0;\n    margin: 0;\n    overflow: visible;\n    line-height: inherit;\n    word-wrap: normal;\n    background-color: transparent;\n    border: 0;\n  }\n  \n  .md-body .csv-data td,\n  .md-body .csv-data th {\n    padding: 5px;\n    overflow: hidden;\n    font-size: 12px;\n    line-height: 1;\n    text-align: left;\n    white-space: nowrap;\n  }\n  \n  .md-body .csv-data .blob-num {\n    padding: 10px 8px 9px;\n    text-align: right;\n    background: #ffffff;\n    border: 0;\n  }\n  \n  .md-body .csv-data tr {\n    border-top: 0;\n  }\n  \n  .md-body .csv-data th {\n    font-weight: 600;\n    background: #f6f8fa;\n    border-top: 0;\n  }\n  \n  .md-body .footnotes {\n    font-size: 12px;\n    color: #57606a;\n    border-top: 1px solid #d0d7de;\n  }\n  \n  .md-body .footnotes ol {\n    padding-left: 16px;\n  }\n  \n  .md-body .footnotes li {\n    position: relative;\n  }\n  \n  .md-body .footnotes li:target::before {\n    position: absolute;\n    top: -8px;\n    right: -8px;\n    bottom: -8px;\n    left: -24px;\n    pointer-events: none;\n    content: \"\";\n    border: 2px solid #0969da;\n    border-radius: 6px;\n  }\n  \n  .md-body .footnotes li:target {\n    color: #24292f;\n  }\n  \n  .md-body .footnotes .data-footnote-backref g-emoji {\n    font-family: monospace;\n  }\n  \n  .md-body .task-list-item {\n    list-style-type: none;\n  }\n  \n  .md-body .task-list-item label {\n    font-weight: 400;\n  }\n  \n  .md-body .task-list-item.enabled label {\n    cursor: pointer;\n  }\n  \n  .md-body .task-list-item+.task-list-item {\n    margin-top: 3px;\n  }\n  \n  .md-body .task-list-item .handle {\n    display: none;\n  }\n  \n  .md-body .task-list-item-checkbox {\n    margin: 0 .2em .25em -1.6em;\n    vertical-align: middle;\n  }\n  \n  .md-body .contains-task-list:dir(rtl) .task-list-item-checkbox {\n    margin: 0 -1.6em .25em .2em;\n  }\n  \n  .md-body ::-webkit-calendar-picker-indicator {\n    filter: invert(50%);\n  }", ""]);
 
 
+
+/***/ }),
+/* 49 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+/*
+  MIT License http://www.opensource.org/licenses/mit-license.php
+  Author Tobias Koppers @sokra
+*/
+// css base code, injected by the css-loader
+
+module.exports = function (useSourceMap) {
+  var list = []; // return the list of modules as css string
+
+  list.toString = function toString() {
+    return this.map(function (item) {
+      var content = cssWithMappingToString(item, useSourceMap);
+
+      if (item[2]) {
+        return '@media ' + item[2] + '{' + content + '}';
+      } else {
+        return content;
+      }
+    }).join('');
+  }; // import a list of modules into the list
+
+
+  list.i = function (modules, mediaQuery) {
+    if (typeof modules === 'string') {
+      modules = [[null, modules, '']];
+    }
+
+    var alreadyImportedModules = {};
+
+    for (var i = 0; i < this.length; i++) {
+      var id = this[i][0];
+
+      if (id != null) {
+        alreadyImportedModules[id] = true;
+      }
+    }
+
+    for (i = 0; i < modules.length; i++) {
+      var item = modules[i]; // skip already imported module
+      // this implementation is not 100% perfect for weird media query combinations
+      // when a module is imported multiple times with different media queries.
+      // I hope this will never occur (Hey this way we have smaller bundles)
+
+      if (item[0] == null || !alreadyImportedModules[item[0]]) {
+        if (mediaQuery && !item[2]) {
+          item[2] = mediaQuery;
+        } else if (mediaQuery) {
+          item[2] = '(' + item[2] + ') and (' + mediaQuery + ')';
+        }
+
+        list.push(item);
+      }
+    }
+  };
+
+  return list;
+};
+
+function cssWithMappingToString(item, useSourceMap) {
+  var content = item[1] || '';
+  var cssMapping = item[3];
+
+  if (!cssMapping) {
+    return content;
+  }
+
+  if (useSourceMap && typeof btoa === 'function') {
+    var sourceMapping = toComment(cssMapping);
+    var sourceURLs = cssMapping.sources.map(function (source) {
+      return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */';
+    });
+    return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
+  }
+
+  return [content].join('\n');
+} // Adapted from convert-source-map (MIT)
+
+
+function toComment(sourceMap) {
+  // eslint-disable-next-line no-undef
+  var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
+  var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
+  return '/*# ' + data + ' */';
+}
 
 /***/ })
 /******/ ]);

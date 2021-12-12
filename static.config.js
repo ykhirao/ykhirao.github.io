@@ -72,7 +72,7 @@ export default {
     require.resolve('react-static-plugin-sitemap'),
     [
       'react-static-plugin-favicons',
-      { inputFile: path.resolve(__dirname, './src/logo.png') },
+      { inputFile: path.resolve(__dirname, './src/assets/icon.png') },
     ],
   ],
 }

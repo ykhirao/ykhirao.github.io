@@ -29,7 +29,7 @@
     [
       "react-static-plugin-favicons",
       {
-        "inputFile": "/Users/yk/workspace/ykhirao.github.io/src/logo.png"
+        "inputFile": "/Users/yk/workspace/ykhirao.github.io/src/assets/icon.png"
       }
     ],
     "/Users/yk/workspace/ykhirao.github.io"

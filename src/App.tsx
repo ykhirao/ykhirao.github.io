@@ -5,9 +5,9 @@ import { Router } from '@reach/router'
 import Container from 'components/Container'
 import Dynamic from 'components/Dynamic'
 
-import './styles/app.css'
 import 'bulma/css/bulma.css'
-import './styles/github-markdown-light.css'
+import './assets/github-markdown-light.css'
+// import './assets/app.css'
 import Navbar from 'components/Navbar'
 
 addPrefetchExcludes(['dynamic'])

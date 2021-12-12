@@ -9,6 +9,7 @@ import 'bulma/css/bulma.css'
 import './assets/github-markdown-light.css'
 // import './assets/app.css'
 import Navbar from 'components/Navbar'
+import Footer from 'components/Footer'
 
 addPrefetchExcludes(['dynamic'])
 
@@ -24,6 +25,7 @@ function App() {
           </Router>
         </Suspense>
       </Container>
+      <Footer />
     </Root>
   )
 }

@@ -17,10 +17,9 @@ function App() {
         <Link to="/">Home</Link>
         {/* <Link to="/about">About</Link> */}
         <Link to="/posts">Posts</Link>
-        <Link to="/events">events</Link>
+        <Link to="/events">Events</Link>
       </nav>
       <div className="content">
-        {/* <img src={logo} className="App-logo" alt="logo" /> */}
         <FancyDiv>
           <React.Suspense fallback={<em>Loading...</em>}>
             <Router>

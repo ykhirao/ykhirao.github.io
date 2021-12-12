@@ -10,7 +10,7 @@
     "build": "react-static build",
     "bundle": "react-static bundle",
     "export": "react-static export",
-    "serve": "serve dist -p 3000 -s"
+    "serve": "serve dist -p 3030 -s"
   },
   "dependencies": {
     "@reach/router": "^1.3.4",
@@ -20,6 +20,7 @@
     "react-hot-loader": "^4.13.0",
     "react-markdown": "^7.1.1",
     "react-static": "^7.5.1",
+    "react-static-plugin-favicons": "^2.0.0",
     "react-static-plugin-reach-router": "^7.5.1",
     "react-static-plugin-sitemap": "^7.5.1",
     "react-static-plugin-source-filesystem": "^7.5.1",

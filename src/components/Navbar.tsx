@@ -20,6 +20,9 @@ const Navbar: React.FC = () => {
             <Link to="/events" className="navbar-item">
               Events
             </Link>
+            <Link to="/github" className="navbar-item">
+              GitHub
+            </Link>
         </div>
         {/* <div id="navbarBasicExample" className="navbar-menu">
           <div className="navbar-start">

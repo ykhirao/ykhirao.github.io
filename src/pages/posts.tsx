@@ -5,7 +5,8 @@ import { Link } from '@reach/router'
 import { QiitaPost } from 'types'
 
 export default () => {
-  const { posts }: { posts: QiitaPost[] } = useRouteData()
+  const posts: undefined | QiitaPost[]  = useRouteData()?.posts;
+
   // console.log(posts)
   return (
     <div>

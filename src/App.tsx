@@ -8,7 +8,7 @@ import Dynamic from 'components/Dynamic'
 import 'bulma/css/bulma.css'
 import './assets/github-markdown-light.css'
 // import './assets/app.css'
-import Navbar from 'components/Navbar'
+import Header from 'components/Header'
 import Footer from 'components/Footer'
 
 addPrefetchExcludes(['dynamic'])
@@ -16,7 +16,7 @@ addPrefetchExcludes(['dynamic'])
 function App() {
   return (
     <Root>
-      <Navbar />
+      <Header />
       <Container>
         <Suspense fallback={<em>Loading...</em>}>
           <Router>

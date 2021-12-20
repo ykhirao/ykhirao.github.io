@@ -1,19 +1,18 @@
 import React from "react";
-import { CountDict, QiitaTag } from "types";
+import { CountedTags, QiitaTag } from "types";
 
 interface T {
-  tags: CountDict[];
+  tags: CountedTags[];
+  setTags: any;
   showCount?: boolean; // タグの数を表示するかどうか
   minCount?: number; // タグのカウントの下限で表示出し分け
-  selectedTags: any[];
-  setSelectedTags: any;
 }
 interface QT {
   qiitaTags: QiitaTag[];
 }
 
 export const Tags = (props: T) => {
-  const { tags, showCount, minCount, selectedTags, setSelectedTags } = props;
+  const { tags, showCount, minCount, setTags } = props;
   if (!tags?.map) return undefined;
 
   const filterdTags = tags.filter((v) => v.count >= (minCount || 1));
@@ -21,15 +20,22 @@ export const Tags = (props: T) => {
   const onTagClick = (tagName: string) => {
     return () => {
       console.log(tagName);
-      let data = [...selectedTags]
-      const index = data.indexOf(tagName);
-
-      if (index === -1) {
-        data.push(tagName);
-      } else {
+      let data = [...tags];
+      const selectedTag = tags.find(v => v.key === tagName)
+      if (selectedTag) {
+        const index = data.indexOf(selectedTag);
         data.splice(index, 1);
+        data.push({...selectedTag, selected: !selectedTag.selected})
+        data.sort((a, b) => {
+          if (b.count === a.count) {
+            if(a.key < b.key) { return -1; }
+            if(a.key > b.key) { return 1; }
+            return 0;
+          }
+          return b.count - a.count
+        }); 
       }
-      setSelectedTags([...data]);
+      setTags([...data]);
     };
   };
 
@@ -38,7 +44,7 @@ export const Tags = (props: T) => {
       {filterdTags.map((tag) => (
         <div className="control" key={tag.key}>
           <div className="tags has-addons">
-            <a className="tag is-link" onClick={onTagClick(tag.key)}>
+            <a className={`tag is-link ${tag.selected ? "" : "is-light"}`} onClick={onTagClick(tag.key)}>
               {tag.key}
             </a>
             {showCount && (

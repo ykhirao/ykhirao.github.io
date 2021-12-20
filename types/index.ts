@@ -1,7 +1,7 @@
 export interface Post {
-  body: string
-  id: number
-  title: string
+  body: string;
+  id: number;
+  title: string;
 }
 
 export interface QiitaUser {
@@ -78,7 +78,8 @@ export interface ConnpassEvent {
   series: ConnpassSeries;
 }
 
-export interface CountDict {
+export interface CountedTags {
   key: string;
   count: number;
+  selected: boolean;
 }

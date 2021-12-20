@@ -5,23 +5,25 @@ import { Link } from "@reach/router";
 import { QiitaPost } from "types";
 import { Tags, QiitaTags } from "components/Tags";
 import { toCountDict } from "utils";
+import { CountedTags } from "types";
+
 
 export default () => {
   const allPosts: QiitaPost[] = useRouteData()?.posts || [];
-  const allTags = toCountDict(
-    allPosts
+  const [posts, setPosts] = useState(allPosts);
+
+  const allTags: CountedTags[] = toCountDict(
+    posts
       .filter((v) => !!v)
       .flatMap((post) => post.tags)
       .map((v) => v.name)
   ) || [];
-  const [posts, setPosts] = useState(allPosts);
-  const [selectedTags, setSelectedTags] = useState([] as string[]);
+  const [tags, setTags] = useState(allTags);
   useEffect(() => {
-    // console.log("selected: ", selectedTags);
-    // console.log('posts', posts);
+    const selectedTags = tags.filter(v => v.selected).map(v => v.key )
     if (selectedTags.length) {
       setPosts(
-        allPosts.filter((post) => {
+        posts.filter((post) => {
           return post.tags.some((postTag) => {
             return selectedTags.includes(postTag.name);
           });
@@ -30,16 +32,17 @@ export default () => {
     } else {
       setPosts(allPosts);
     }
-  }, [selectedTags]);
+  }, [tags]);
 
   return (
     <div>
       <Tags
-        tags={allTags}
+        tags={tags}
+        setTags={setTags}
         showCount={true}
         minCount={3}
-        selectedTags={selectedTags}
-        setSelectedTags={setSelectedTags}
+        // selectedTags={allTags.filter(v => v.selected)}
+        // setSelectedTags={setSelectedTags}
       />
       <p>All Posts:</p>
       <ul>

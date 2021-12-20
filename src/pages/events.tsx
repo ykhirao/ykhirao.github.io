@@ -50,7 +50,10 @@ export default () => {
                     </small>
                     <small>~ {dayjs(event.ended_at).format("HH:mm")}</small>
                     <br />
-                    <strong>{event.title}</strong> / {event.catch}
+                    <a href={event.event_url} target="_blank" rel="noopener noreferrer">
+                      <strong>{event.title}</strong>
+                    </a>{" "}
+                    / {event.catch}
                   </p>
                 </div>
               </div>

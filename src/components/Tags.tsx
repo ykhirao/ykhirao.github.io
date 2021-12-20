@@ -21,22 +21,34 @@ export const Tags = (props: T) => {
     return () => {
       console.log(tagName);
       let data = [...tags];
-      const selectedTag = tags.find(v => v.key === tagName)
+      const selectedTag = tags.find((v) => v.key === tagName);
       if (selectedTag) {
         const index = data.indexOf(selectedTag);
         data.splice(index, 1);
-        data.push({...selectedTag, selected: !selectedTag.selected})
+        data.push({ ...selectedTag, selected: !selectedTag.selected });
         data.sort((a, b) => {
           if (b.count === a.count) {
-            if(a.key < b.key) { return -1; }
-            if(a.key > b.key) { return 1; }
+            if (a.key < b.key) {
+              return -1;
+            }
+            if (a.key > b.key) {
+              return 1;
+            }
             return 0;
           }
-          return b.count - a.count
-        }); 
+          return b.count - a.count;
+        });
       }
       setTags([...data]);
     };
+  };
+  const onDleteTagClick = () => {
+    console.log("onDleteTagClick");
+    setTags(
+      tags.map((tag) => {
+        return { ...tag, selected: false };
+      })
+    );
   };
 
   return (
@@ -44,16 +56,19 @@ export const Tags = (props: T) => {
       {filterdTags.map((tag) => (
         <div className="control" key={tag.key}>
           <div className="tags has-addons">
-            <a className={`tag is-link ${tag.selected ? "" : "is-light"}`} onClick={onTagClick(tag.key)}>
+            <a
+              className={`tag is-link ${tag.selected ? "" : "is-light"}`}
+              onClick={onTagClick(tag.key)}
+            >
               {tag.key}
             </a>
             {showCount && (
               <span className="tag is-link is-light">{tag.count}</span>
             )}
-            {/* <a className="tag is-delete"></a> */}
           </div>
         </div>
       ))}
+      <a className="tag is-delete" onClick={onDleteTagClick}></a>
     </div>
   );
 };

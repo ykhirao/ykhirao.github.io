@@ -22,13 +22,12 @@ export default () => {
   useEffect(() => {
     const selectedTags = tags.filter(v => v.selected).map(v => v.key )
     if (selectedTags.length) {
-      setPosts(
-        posts.filter((post) => {
-          return post.tags.some((postTag) => {
-            return selectedTags.includes(postTag.name);
-          });
+      const filteredPosts = allPosts.filter((post) => {
+        return selectedTags.every(selectedTag => {
+          return post.tags.map(tag => tag.name).includes(selectedTag);
         })
-      );  
+      })
+      setPosts(filteredPosts);  
     } else {
       setPosts(allPosts);
     }
@@ -41,8 +40,6 @@ export default () => {
         setTags={setTags}
         showCount={true}
         minCount={3}
-        // selectedTags={allTags.filter(v => v.selected)}
-        // setSelectedTags={setSelectedTags}
       />
       <p>All Posts:</p>
       <ul>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "@reach/router";
 
-const Header: React.FC = () => {
+const Header = () => {
   const [active, setActive] = useState(false);
 
   return (

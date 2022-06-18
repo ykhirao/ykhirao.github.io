@@ -17,7 +17,7 @@ function App() {
   return (
     <Root>
       <Header />
-      <Container>
+       <Container>
         <Suspense fallback={<em>Loading...</em>}>
           <Router>
             <Dynamic path="dynamic" />

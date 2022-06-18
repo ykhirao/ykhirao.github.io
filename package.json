@@ -20,12 +20,6 @@
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
     "react-markdown": "^8.0.3",
-    "react-static": "^7.5.1",
-    "react-static-plugin-favicons": "^2.0.0",
-    "react-static-plugin-reach-router": "^7.5.1",
-    "react-static-plugin-sitemap": "^7.5.1",
-    "react-static-plugin-source-filesystem": "^7.5.1",
-    "react-static-plugin-typescript": "^7.5.1",
     "remark-gfm": "^3.0.1"
   },
   "devDependencies": {
@@ -36,7 +30,13 @@
     "@types/webpack-env": "^1.17.0",
     "react-hot-loader": "^4.13.0",
     "serve": "^13.0.2",
-    "typescript": "^4.7.4"
+    "typescript": "^4.7.4",
+    "react-static": "^7.5.1",
+    "react-static-plugin-favicons": "^2.0.0",
+    "react-static-plugin-reach-router": "^7.5.1",
+    "react-static-plugin-sitemap": "^7.5.1",
+    "react-static-plugin-source-filesystem": "^7.5.1",
+    "react-static-plugin-typescript": "^7.5.1"
   },
   "browserslist": {
     "production": [

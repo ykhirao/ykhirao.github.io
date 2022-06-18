@@ -1,4 +1,4 @@
-import { CountedTags } from "types";
+import { CountedTags } from 'types'
 
 /**
  * タグを降順に並び替える
@@ -10,20 +10,22 @@ import { CountedTags } from "types";
  * @param array
  * @returns
  */
- export function toCountDict(array: string[]): CountedTags[] {
-    let tmp = {} as any;
-    for (const key of array) {
-      tmp[key] = array.filter(function (x) {
-        return x == key;
-      }).length;
-    }
-    return Object.keys(tmp)
-      .map((key) => {
-        return {
-          key,
-          count: tmp[key],
-          selected: false,
-        } as CountedTags;
-      })
-      .sort((a, b) => b.count - a.count);
+export function toCountDict(
+  array: string[],
+): CountedTags[] {
+  let tmp = {} as any
+  for (const key of array) {
+    tmp[key] = array.filter(function (x) {
+      return x == key
+    }).length
   }
+  return Object.keys(tmp)
+    .map(key => {
+      return {
+        key,
+        count: tmp[key],
+        selected: false,
+      } as CountedTags
+    })
+    .sort((a, b) => b.count - a.count)
+}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import { useRouteData } from 'react-static'
 import { Link } from '@reach/router'
 
@@ -13,8 +13,10 @@ export default () => {
       <br />
       <h3>{post.title}</h3>
       <article
-        className={"md-body"}
-        dangerouslySetInnerHTML={{ __html: post.rendered_body }}
+        className={'md-body'}
+        dangerouslySetInnerHTML={{
+          __html: post.rendered_body,
+        }}
       />
     </div>
   )

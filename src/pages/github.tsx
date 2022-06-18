@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 // import { useRouteData } from "react-static";
 
 export default () => {
@@ -10,5 +10,5 @@ export default () => {
         <img src="https://grass-graph.appspot.com/images/ykhirao.png" />
       </div>
     </>
-  );
-};
+  )
+}

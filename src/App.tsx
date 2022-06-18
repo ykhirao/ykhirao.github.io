@@ -1,5 +1,9 @@
-import React, {Suspense} from 'react'
-import { Root, Routes, addPrefetchExcludes } from 'react-static'
+import React, { Suspense } from 'react'
+import {
+  Root,
+  Routes,
+  addPrefetchExcludes,
+} from 'react-static'
 import { Router } from '@reach/router'
 
 import Container from 'components/Container'
@@ -17,7 +21,7 @@ function App() {
   return (
     <Root>
       <Header />
-       <Container>
+      <Container>
         <Suspense fallback={<em>Loading...</em>}>
           <Router>
             <Dynamic path="dynamic" />

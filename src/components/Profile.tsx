@@ -2,11 +2,11 @@ import React from 'react'
 
 const Profile = () => {
   return (
-      <div>
-        {/*
+    <div>
+      {/*
             @todo いい感じのプロフィール画面
         */}
-      </div>
+    </div>
   )
 }
-export default Profile;
+export default Profile

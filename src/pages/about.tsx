@@ -5,10 +5,15 @@ import remarkGfm from 'remark-gfm'
 
 export default () => {
   const { about }: { about: string } = useRouteData()
-  
+
   return (
     <>
-      <ReactMarkdown children={about} className={'md-body'} remarkPlugins={[remarkGfm]} />,
+      <ReactMarkdown
+        children={about}
+        className={'md-body'}
+        remarkPlugins={[remarkGfm]}
+      />
+      ,
     </>
-  )  
+  )
 }

@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[5],{62:function(e,t,a){"use strict";a.r(t);var n=a(0),r=a.n(n);t.default=function(){return r.a.createElement(r.a.Fragment,null,r.a.createElement("div",{className:"content has-text-centered"},r.a.createElement("img",{src:"https://grass-graph.appspot.com/images/ykhirao.png"})))}}}]);

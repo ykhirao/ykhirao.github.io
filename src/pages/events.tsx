@@ -1,7 +1,6 @@
 import dayjs from 'dayjs'
 import React, { useMemo, useState } from 'react'
 import { useRouteData } from 'react-static'
-
 import { ConnpassEvent } from 'types'
 
 export default () => {
@@ -13,7 +12,6 @@ export default () => {
   }
 
   const filteredEvents = useMemo(() => {
-    console.log('use memo filteredEvents')
     return (events || []).filter(event => {
       const isIncludeTitle = (event.title || '')
         .toLocaleLowerCase()

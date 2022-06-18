@@ -65,9 +65,7 @@ export const Tags = (props: T) => {
             >
               {tag.key}
             </a>
-            {showCount && (
-              <span className="tag is-link is-light">{tag.count}</span>
-            )}
+            {showCount && <span className="tag is-link is-light">{tag.count}</span>}
           </div>
         </div>
       ))}

@@ -10,11 +10,7 @@ export default () => {
   return (
     <>
       <Profile />
-      <ReactMarkdown
-        children={about}
-        className={'md-body'}
-        remarkPlugins={[remarkGfm]}
-      />
+      <ReactMarkdown children={about} className={'md-body'} remarkPlugins={[remarkGfm]} />
     </>
   )
 }

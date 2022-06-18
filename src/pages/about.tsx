@@ -8,12 +8,7 @@ export default () => {
 
   return (
     <>
-      <ReactMarkdown
-        children={about}
-        className={'md-body'}
-        remarkPlugins={[remarkGfm]}
-      />
-      ,
+      <ReactMarkdown children={about} className={'md-body'} remarkPlugins={[remarkGfm]} />,
     </>
   )
 }

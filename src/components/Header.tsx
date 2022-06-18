@@ -5,11 +5,7 @@ const Header = () => {
   const [active, setActive] = useState(false)
 
   return (
-    <nav
-      className="navbar is-dark is-fixed-top"
-      role="navigation"
-      aria-label="main navigation"
-    >
+    <nav className="navbar is-dark is-fixed-top" role="navigation" aria-label="main navigation">
       <div className="container">
         <div className="navbar-brand">
           <Link to="/" className="navbar-item">
@@ -27,10 +23,7 @@ const Header = () => {
             <span aria-hidden="true"></span>
           </a>
         </div>
-        <div
-          id="navbarBasicExample"
-          className={`navbar-menu ${active ? 'is-active' : ''}`}
-        >
+        <div id="navbarBasicExample" className={`navbar-menu ${active ? 'is-active' : ''}`}>
           <div className="navbar-start">
             {/* <Link to="/about">About</Link> */}
             <Link to="/posts" className="navbar-item">

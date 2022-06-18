@@ -40,19 +40,10 @@ export default () => {
                 <div className="content">
                   <p>
                     <strong>{event.hash_tag}</strong>
-                    <small>
-                      {' '}
-                      in {dayjs(event.started_at).format(
-                        'YYYY/MM/DD HH:mm',
-                      )}{' '}
-                    </small>
+                    <small> in {dayjs(event.started_at).format('YYYY/MM/DD HH:mm')} </small>
                     <small>~ {dayjs(event.ended_at).format('HH:mm')}</small>
                     <br />
-                    <a
-                      href={event.event_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
+                    <a href={event.event_url} target="_blank" rel="noopener noreferrer">
                       <strong>{event.title}</strong>
                     </a>{' '}
                     / {event.catch}

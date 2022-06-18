@@ -10,7 +10,9 @@
     "build": "react-static build",
     "bundle": "react-static bundle",
     "export": "react-static export",
-    "serve": "serve dist -p 3030 -s"
+    "serve": "serve dist -p 3030 -s",
+    "lint:prettier": "prettier --check src",
+    "fix:prettier": "prettier --write src"
   },
   "dependencies": {
     "@reach/router": "^1.3.4",

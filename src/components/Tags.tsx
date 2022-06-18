@@ -15,9 +15,7 @@ export const Tags = (props: T) => {
   const { tags, showCount, minCount, setTags } = props
   if (!tags?.map) return undefined
 
-  const filterdTags = tags.filter(
-    v => v.count >= (minCount || 1),
-  )
+  const filterdTags = tags.filter(v => v.count >= (minCount || 1))
 
   const onTagClick = (tagName: string) => {
     return () => {
@@ -62,23 +60,18 @@ export const Tags = (props: T) => {
         <div className="control" key={tag.key}>
           <div className="tags has-addons">
             <a
-              className={`tag is-link ${
-                tag.selected ? '' : 'is-light'
-              }`}
-              onClick={onTagClick(tag.key)}>
+              className={`tag is-link ${tag.selected ? '' : 'is-light'}`}
+              onClick={onTagClick(tag.key)}
+            >
               {tag.key}
             </a>
             {showCount && (
-              <span className="tag is-link is-light">
-                {tag.count}
-              </span>
+              <span className="tag is-link is-light">{tag.count}</span>
             )}
           </div>
         </div>
       ))}
-      <a
-        className="tag is-delete"
-        onClick={onDleteTagClick}></a>
+      <a className="tag is-delete" onClick={onDleteTagClick}></a>
     </div>
   )
 }

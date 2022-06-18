@@ -5,8 +5,7 @@ import { useRouteData } from 'react-static'
 import { ConnpassEvent } from 'types'
 
 export default () => {
-  const { events }: { events: ConnpassEvent[] } =
-    useRouteData()
+  const { events }: { events: ConnpassEvent[] } = useRouteData()
 
   const [text, setText] = useState('')
   const onChange = (e: any) => {
@@ -45,22 +44,17 @@ export default () => {
                     <strong>{event.hash_tag}</strong>
                     <small>
                       {' '}
-                      in{' '}
-                      {dayjs(event.started_at).format(
+                      in {dayjs(event.started_at).format(
                         'YYYY/MM/DD HH:mm',
                       )}{' '}
                     </small>
-                    <small>
-                      ~{' '}
-                      {dayjs(event.ended_at).format(
-                        'HH:mm',
-                      )}
-                    </small>
+                    <small>~ {dayjs(event.ended_at).format('HH:mm')}</small>
                     <br />
                     <a
                       href={event.event_url}
                       target="_blank"
-                      rel="noopener noreferrer">
+                      rel="noopener noreferrer"
+                    >
                       <strong>{event.title}</strong>
                     </a>{' '}
                     / {event.catch}

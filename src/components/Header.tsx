@@ -8,7 +8,8 @@ const Header = () => {
     <nav
       className="navbar is-dark is-fixed-top"
       role="navigation"
-      aria-label="main navigation">
+      aria-label="main navigation"
+    >
       <div className="container">
         <div className="navbar-brand">
           <Link to="/" className="navbar-item">
@@ -19,7 +20,8 @@ const Header = () => {
             className="navbar-burger"
             aria-label="menu"
             aria-expanded="false"
-            onClick={() => setActive(!active)}>
+            onClick={() => setActive(!active)}
+          >
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
@@ -27,9 +29,8 @@ const Header = () => {
         </div>
         <div
           id="navbarBasicExample"
-          className={`navbar-menu ${
-            active ? 'is-active' : ''
-          }`}>
+          className={`navbar-menu ${active ? 'is-active' : ''}`}
+        >
           <div className="navbar-start">
             {/* <Link to="/about">About</Link> */}
             <Link to="/posts" className="navbar-item">

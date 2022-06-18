@@ -1,9 +1,5 @@
 import React, { Suspense } from 'react'
-import {
-  Root,
-  Routes,
-  addPrefetchExcludes,
-} from 'react-static'
+import { Root, Routes, addPrefetchExcludes } from 'react-static'
 import { Router } from '@reach/router'
 
 import Container from 'components/Container'

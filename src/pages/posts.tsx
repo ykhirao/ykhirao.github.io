@@ -20,15 +20,11 @@ export default () => {
     ) || []
   const [tags, setTags] = useState(allTags)
   useEffect(() => {
-    const selectedTags = tags
-      .filter(v => v.selected)
-      .map(v => v.key)
+    const selectedTags = tags.filter(v => v.selected).map(v => v.key)
     if (selectedTags.length) {
       const filteredPosts = allPosts.filter(post => {
         return selectedTags.every(selectedTag => {
-          return post.tags
-            .map(tag => tag.name)
-            .includes(selectedTag)
+          return post.tags.map(tag => tag.name).includes(selectedTag)
         })
       })
       setPosts(filteredPosts)
@@ -39,19 +35,12 @@ export default () => {
 
   return (
     <div>
-      <Tags
-        tags={tags}
-        setTags={setTags}
-        showCount={true}
-        minCount={3}
-      />
+      <Tags tags={tags} setTags={setTags} showCount={true} minCount={3} />
       <p>All Posts:</p>
       <ul>
         {posts.map(post => (
           <li key={post.id}>
-            <Link to={`/posts/${post.id}/`}>
-              {post.title}
-            </Link>
+            <Link to={`/posts/${post.id}/`}>{post.title}</Link>
             👍 {post.likes_count}
             <QiitaTags qiitaTags={post.tags} />
           </li>

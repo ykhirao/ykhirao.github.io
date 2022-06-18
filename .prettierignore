@@ -1,0 +1,6 @@
+.next/
+build/
+*.html
+*.md
+artifacts/
+*.log

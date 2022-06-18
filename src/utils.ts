@@ -10,9 +10,7 @@ import { CountedTags } from 'types'
  * @param array
  * @returns
  */
-export function toCountDict(
-  array: string[],
-): CountedTags[] {
+export function toCountDict(array: string[]): CountedTags[] {
   let tmp = {} as any
   for (const key of array) {
     tmp[key] = array.filter(function (x) {

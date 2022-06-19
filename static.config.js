@@ -3,10 +3,15 @@ import path from 'path'
 import { promises as fs } from 'fs'
 import dayjs from 'dayjs'
 
-// import { Post } from './types'
+console.log(`[static.config.js] is loaded`)
 
-// Typescript support in static.config.js is not yet supported, but is coming in a future update!
-// @ts-ignore
+// const now = dayjs().format('YYYYMMDD-HHmm') // 毎分キャッシュ
+const now = dayjs().format('YYYYMMDD-HH') // 毎時キャッシュ
+console.log(`[static.config.js] Time is ${now}`)
+const user = 'yk-hirao'
+const connpassAPI =
+  `https://connpass.com/api/v1/event/?order=2&count=40&nickname=${user}&owner_nickname=${user}`
+
 export default {
   entry: path.join(__dirname, 'src', 'index.tsx'),
   getRoutes: async () => {
@@ -17,50 +22,49 @@ export default {
     console.log('#################')
 
     if (!posts || !about || !events) {
-      console.log(posts)
-      console.log(about)
-      console.log(events)
+      console.log(`posts: ${!!posts}, about: ${!!about}, events: ${!!events}`)
       throw new Error('一部データの取得に失敗したので更新を行いません')
     }
 
-    const routes = []
-
-    routes.push({
-      path: '/posts',
-      getData: () => ({
-        posts,
-      }),
-      children: posts.map((post /* : Post */) => ({
-        path: `/${post.id}`,
-        template: 'src/components/QiitaPost',
+    return [
+      {
+        path: '/posts',
         getData: () => ({
-          post,
+          posts,
         }),
-      })),
-    })
-
-    routes.push({
-      path: '/about',
-      getData: () => ({
-        about,
-      }),
-    })
-
-    routes.push({
-      path: '/',
-      getData: () => ({
-        about,
-      }),
-    })
-
-    routes.push({
-      path: '/events',
-      getData: () => ({
-        events: events.events,
-      }),
-    })
-
-    return routes
+        children: posts.map((post /* : Post */) => ({
+          path: `/${post.id}`,
+          template: 'src/components/QiitaPost',
+          getData: () => ({
+            post,
+          }),
+        })),
+      },
+      {
+        path: '/about',
+        getData: () => ({
+          about,
+        }),
+      },
+      {
+        path: '/about',
+        getData: () => ({
+          about,
+        }),
+      },
+      {
+        path: '/',
+        getData: () => ({
+          about,
+        }),
+      },
+      {
+        path: '/events',
+        getData: () => ({
+          events: events.events,
+        }),
+      },
+    ]
   },
   plugins: [
     'react-static-plugin-typescript',
@@ -80,45 +84,46 @@ export default {
 }
 
 async function getQiitaPosts() {
-  const cachePath = path.resolve('tmp/cache.qiita.json')
-  if (await fileExists(cachePath)) {
-    console.log('[getQiitaPosts] GET Cache Data')
-    return JSON.parse(await fs.readFile(cachePath, 'utf-8'))
-  }
+  const cache = await getCacheData('qiita')
+  if (cache) return cache
+
   const { data } /* :{ data: QiitaPost[] } */ = await axios.get(
     'https://qiita.com/api/v2/users/ykhirao/items?page=1&per_page=100',
   )
-  if (process.env.DEBUG === 'TRUE') {
-    await fs.writeFile(cachePath, JSON.stringify(data, null, 4), 'utf-8')
-  }
+
+  await writeCacheData('qiita', data)
 
   return data
 }
 
 async function getConnpassEvents() {
-  const connpassUsers = 'yk-hirao'
-  const connpassAPI =
-    'https://connpass.com/api/v1/event/?order=2&count=40&nickname=' +
-    connpassUsers +
-    '&owner_nickname=' +
-    connpassUsers
+  const cache = await getCacheData('connpass')
+  if (cache) return cache
 
-  const cachePath = path.resolve('tmp/cache.connpass.json')
-  if (await fileExists(cachePath)) {
-    console.log('[getConnpassEvents] GET Cache Data')
-    return JSON.parse(await fs.readFile(cachePath, 'utf-8'))
-  }
-
-  console.log('[getConnpassEvents] DEBUG FALSE')
-  const { data } /* :{ data: QiitaPost[] } */ = await axios.get(connpassAPI).catch(e => {
+  const { data } = await axios.get(connpassAPI).catch(e => {
     console.log(e)
     throw new Error(e.message)
   })
 
-  if (process.env.DEBUG === 'TRUE') {
-    await fs.writeFile(cachePath, JSON.stringify(data, null, 4), 'utf-8')
-  }
+  await writeCacheData('connpass', data)
+
   return data
+}
+
+async function getCacheData(name) {
+  console.log(`[getCacheData] name: ${name}, DEBUG: ${process.env.DEBUG}`)
+  if (process.env.DEBUG !== 'TRUE') return undefined
+  const cachePath = path.resolve(`tmp/cache.${name}.${now}.json`)
+  if (await fileExists(cachePath)) {
+    return JSON.parse(await fs.readFile(cachePath, 'utf-8'))
+  }
+}
+
+async function writeCacheData(name, data) {
+  console.log(`[writeCacheData] name: ${name}, DEBUG: ${process.env.DEBUG}`)
+  const cachePath = path.resolve(`tmp/cache.${name}.${now}.json`)
+  if (process.env.DEBUG !== 'TRUE') return
+  await fs.writeFile(cachePath, JSON.stringify(data, null, 4), 'utf-8')
 }
 
 async function getAboutData() {

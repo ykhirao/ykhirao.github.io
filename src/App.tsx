@@ -7,7 +7,6 @@ import Dynamic from 'components/Dynamic'
 
 import 'bulma/css/bulma.css'
 import './assets/github-markdown-light.css'
-// import './assets/app.css'
 import Header from 'components/Header'
 import Footer from 'components/Footer'
 

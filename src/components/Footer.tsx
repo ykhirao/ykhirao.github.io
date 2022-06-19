@@ -1,6 +1,9 @@
 import React from 'react'
+import { useSiteData } from 'react-static'
 
 const Footer = () => {
+  const { updatedAt } = useSiteData()
+
   return (
     <footer className="footer">
       <div className="content has-text-centered">
@@ -13,7 +16,10 @@ const Footer = () => {
           >
             Here
           </a>{' '}
-          is the link to the GitHub repository.
+          is the link to the GitHub repository
+        </p>
+        <p>
+         & last uploaded at {updatedAt}
         </p>
         <p>{'© 2021 ykhirao'}</p>
       </div>

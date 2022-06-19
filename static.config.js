@@ -14,6 +14,9 @@ const connpassAPI =
 
 export default {
   entry: path.join(__dirname, 'src', 'index.tsx'),
+  getSiteData: () => ({
+    updatedAt: dayjs().format('YYYY/MM/DD'),
+  }),
   getRoutes: async () => {
     console.log('#################')
     const posts = await getQiitaPosts()

@@ -15,16 +15,16 @@ addPrefetchExcludes(['dynamic'])
 function App() {
   return (
     <Root>
-      <Header />
-      <Container>
-        <Suspense fallback={<em>Loading...</em>}>
+      <Suspense fallback={<em>Loading...</em>}>
+        <Header />
+        <Container>
           <Router>
             <Dynamic path="dynamic" />
             <Routes path="*" />
           </Router>
-        </Suspense>
-      </Container>
-      <Footer />
+        </Container>
+        <Footer />
+      </Suspense>
     </Root>
   )
 }

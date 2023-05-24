@@ -40,7 +40,7 @@ export default () => {
       <ul>
         {posts.map(post => (
           <li key={post.id}>
-            <Link to={`/posts/${post.id}/`}>{post.title}</Link>
+            <Link to={`/posts/${post.id}/`}>{post.title}</Link> {post.updated_at.substring(0, 10)}{' '}
             👍 {post.likes_count}
             <QiitaTags qiitaTags={post.tags} />
           </li>

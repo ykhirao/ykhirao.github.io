@@ -6,6 +6,7 @@
   "private": true,
   "scripts": {
     "start": "env DEBUG=TRUE react-static start",
+    "dev": "npm run start",
     "stage": "react-static build --staging",
     "build": "react-static build",
     "bundle": "react-static bundle",

@@ -9,8 +9,7 @@ console.log(`[static.config.js] is loaded`)
 const now = dayjs().format('YYYYMMDD-HH') // 毎時キャッシュ
 console.log(`[static.config.js] Time is ${now}`)
 const user = 'yk-hirao'
-const connpassAPI =
-  `https://connpass.com/api/v1/event/?order=2&count=40&nickname=${user}&owner_nickname=${user}`
+const connpassAPI = `https://connpass.com/api/v1/event/?order=2&count=40&nickname=${user}&owner_nickname=${user}`
 
 export default {
   entry: path.join(__dirname, 'src', 'index.tsx'),
@@ -113,6 +112,12 @@ async function getConnpassEvents() {
   return data
 }
 
+/**
+ * APIから取得したデータはキャッシュ。1時間に1度のみAPI叩く。
+ * ./tmp/cache.${name}.${now}.json に保存しているのでファイルを消せば再度フェッチされる
+ * @param {*} name
+ * @returns
+ */
 async function getCacheData(name) {
   console.log(`[getCacheData] name: ${name}, DEBUG: ${process.env.DEBUG}`)
   if (process.env.DEBUG !== 'TRUE') return undefined
